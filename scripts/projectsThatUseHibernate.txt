@@ -1,0 +1,5 @@
+michaelisvy/hibernate-4-spring-3.1-samples
+sxyx2008/maven-framework-project
+vladmihalcea/hibernate-master-class
+oregami/dropwizard-guice-jpa-seed
+bogus/Java-Spring-Examples
