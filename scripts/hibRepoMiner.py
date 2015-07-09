@@ -1,8 +1,11 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import sys
 import argparse
 import urllib
 import os
+import os.path
 import getpass
 import codecs
 import shutil
@@ -13,6 +16,7 @@ import github
 
 VERBOSE = True
 DEFAULT_OUTPUT_PATH = 'repos'
+MAVEN_BIN = '~/dev/apache-maven-3.3.3/bin'
 
 def parseArgs():
     parser = argparse.ArgumentParser(
@@ -62,7 +66,7 @@ def cloneGitRepo(project, downloadPath, forceRedownload):
     if os.path.isdir(project.localPath):
         print >>sys.stderr, 'Repo %s already exists. Not downloading it again...' % project.full_name
         return
-
+    print 'Clone URL %s <<<<<' % project.clone_url
     run('git clone --depth 1 %s %s' % (project.clone_url, project.localPath))
 
 
@@ -83,6 +87,30 @@ def isProjectThatUsesHibernate(project):
                     return True
     return False
 
+def isMavenProject(project):
+    print "Verificando a existencia de um arquivo pom.xml no projeto: %s ..." % (project)
+
+    diretorio = "/" + DEFAULT_OUTPUT_PATH + "/" + project + "/"
+
+    if os.path.isfile(diretorio + 'pom.xml'):
+        print 'isMavenProject True'
+        return True
+    print 'isMavenProject False'
+    return False
+
+def runMavenCompile(projetos):
+    print 'Run Maven Compile ...'
+    workspace = os.getcwd()
+    for p in projetos:
+        if isMavenProject(p):
+            print 'Run Maven Compile %s' % p
+            proj_dir = workspace + "/" + DEFAULT_OUTPUT_PATH + "/" + p
+            os.chdir(proj_dir)
+            run('%s/mvn compiler:compile' % (MAVEN_BIN))
+            run('%s/mvn jar:jar' % (MAVEN_BIN))
+            os.chdir(workspace)
+        else:
+            print 'Não é um projeto Maven: %s' % p
 
 def getProjectsThatUseHibernate(args, gh):
     hibernateProjects = []
@@ -94,6 +122,7 @@ def getProjectsThatUseHibernate(args, gh):
         cloneGitRepo(p, args.outputPath, args.forceRedownload)
         if isProjectThatUsesHibernate(p):
             print ">>>>>>>>>>>>>> %s" % p.full_name
+            print ">>>>>>>>>>>>>> %s" % p
             hibernateProjects.append(p.full_name)
             print "Project %s uses hibernate. Need to find %d more projects that use hibernate..." % (p.full_name, args.numHibernateReposDesired - len(hibernateProjects))
 
@@ -120,6 +149,7 @@ def main():
 
     hibernateProjects = getProjectsThatUseHibernate(args, gh)
     writeListOfProjectsThatUseHibernate(hibernateProjects)
+    runMavenCompile(hibernateProjects)
 
 
 if __name__ == '__main__':
