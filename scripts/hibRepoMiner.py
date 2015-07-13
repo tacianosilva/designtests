@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 import sys
 import argparse
@@ -90,7 +90,7 @@ def isProjectThatUsesHibernate(project):
 def isMavenProject(project):
     print "Verificando a existencia de um arquivo pom.xml no projeto: %s ..." % (project)
 
-    diretorio = "/" + DEFAULT_OUTPUT_PATH + "/" + project + "/"
+    diretorio = DEFAULT_OUTPUT_PATH + "/" + project + "/"
 
     if os.path.isfile(diretorio + 'pom.xml'):
         print 'isMavenProject True'
@@ -107,10 +107,10 @@ def runMavenCompile(projetos):
             proj_dir = workspace + "/" + DEFAULT_OUTPUT_PATH + "/" + p
             os.chdir(proj_dir)
             run('%s/mvn compiler:compile' % (MAVEN_BIN))
-            run('%s/mvn jar:jar' % (MAVEN_BIN))
+            #run('%s/mvn jar:jar' % (MAVEN_BIN))
             os.chdir(workspace)
         else:
-            print 'Não é um projeto Maven: %s' % p
+            print 'Nao eh um projeto Maven: %s' % p
 
 def getProjectsThatUseHibernate(args, gh):
     hibernateProjects = []
@@ -140,7 +140,7 @@ def writeListOfProjectsThatUseHibernate(hibernateProjects):
 
 
 def getMostPopularJavaRepositories(gh):
-    return gh.search_repositories("jpa hibernate stars:>10 language:java", sort="stars", order="desc")
+    return gh.search_repositories("jpa hibernate stars:>5 language:java", sort="stars", order="desc")
 
 
 def main():
