@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.designwizard.design.AnnotationNode;
 import org.designwizard.design.ClassNode;
 import org.designwizard.exception.InexistentEntityException;
 import org.designwizard.main.DesignWizard;
@@ -33,7 +32,7 @@ public class DesignWizardDecorator {
     public Set<ClassNode> getClassesByAnnotation(String annotationName) throws IOException, InexistentEntityException {
 
         Set<ClassNode> allClasses = dw.getAllClasses();
-        AnnotationNode annotationNode = dw.getAnnotation(annotationName);
+        ClassNode annotationNode = dw.getAnnotation(annotationName);
 
         Set<ClassNode> classes = new HashSet<ClassNode>();
 
@@ -45,8 +44,8 @@ public class DesignWizardDecorator {
         return classes;
     }
 
-    public Boolean hasAnnotation(ClassNode aClass, AnnotationNode annotation) {
-        Set<AnnotationNode> annotations = aClass.getAllAnnotations();
+    public Boolean hasAnnotation(ClassNode aClass, ClassNode annotation) {
+        Set<ClassNode> annotations = aClass.getAllAnnotations();
 
         if (annotations.contains(annotation)) {
                 return true;
@@ -60,8 +59,8 @@ public class DesignWizardDecorator {
         return classes;
     }
 
-    public Set<AnnotationNode> getAllAnnotations() {
-        Set<AnnotationNode> annotations = dw.getAllAnnotations();
+    public Set<ClassNode> getAllAnnotations() {
+        Set<ClassNode> annotations = dw.getAllAnnotations();
         return annotations;
     }
 
@@ -69,7 +68,12 @@ public class DesignWizardDecorator {
         return dw.getClass(className);
     }
 
-    public AnnotationNode getAnnotation(String annotationName) throws InexistentEntityException {
+    public ClassNode getAnnotation(String annotationName) throws InexistentEntityException {
         return dw.getAnnotation(annotationName);
+    }
+
+    public Set<ClassNode> getClassesFromCode() {
+        // TODO Para testar a conversão de annotações quando temos annotações definidas no projeto.
+        return dw.getAllClasses();
     }
 }
