@@ -11,12 +11,15 @@ import codecs
 import shutil
 import time
 import re
+from datetime import date
 
 import github
 
 VERBOSE = True
 DEFAULT_OUTPUT_PATH = 'repos'
 MAVEN_BIN = '~/dev/apache-maven-3.3.3/bin'
+tamanhoPopulacao = -1
+STRING_BUSCA = "jpa hibernate language:java"
 
 def parseArgs():
     parser = argparse.ArgumentParser(
@@ -73,7 +76,7 @@ def cloneGitRepo(project, downloadPath, forceRedownload):
 def javaCodeHasHibernateReferences(path):
     with open(path) as fin:
         for line in fin.readlines():
-            if re.match(".*@Entity.*", line):
+            if re.match(".*javax.persistence.Entity.*", line):
                 return True
     return False
 
@@ -113,7 +116,16 @@ def runMavenCompile(projetos):
             print 'Nao eh um projeto Maven: %s' % p
 
 def getProjectsThatUseHibernate(args, gh):
+    informacoes = []
     hibernateProjects = []
+
+    informacoes.append("Lista de Projetos com Hibernate/JPA")
+    agora = date.today()
+    informacoes.append("Data: " + agora.isoformat())
+    informacoes.append("String de Busca: " + STRING_BUSCA)
+    informacoes.append("Total de Resultados da Busca: %d" % tamanhoPopulacao)
+    informacoes.append("Número de Repositorios com Hibernate/JPA: %d" % args.numHibernateReposDesired)
+
     for p in getMostPopularJavaRepositories(gh):
         if len(hibernateProjects) >= args.numHibernateReposDesired:
             break
@@ -121,13 +133,19 @@ def getProjectsThatUseHibernate(args, gh):
         print "Analyzing project", p.full_name
         cloneGitRepo(p, args.outputPath, args.forceRedownload)
         if isProjectThatUsesHibernate(p):
-            print ">>>>>>>>>>>>>> %s" % p.full_name
-            print ">>>>>>>>>>>>>> %s" % p
-            hibernateProjects.append(p.full_name)
-            print "Project %s uses hibernate. Need to find %d more projects that use hibernate..." % (p.full_name, args.numHibernateReposDesired - len(hibernateProjects))
+            isMavenProj = "isMavenProject:False"
 
-        print "HPs <<<<<< %s" % hibernateProjects
-    return hibernateProjects
+            if isMavenProject(p.full_name):
+                isMavenProj = "isMavenProject:True"
+                hibernateProjects.append(p.full_name)
+            informacoes.append(p.full_name + ", " + isMavenProj)
+            print "Project %s uses hibernate. Need to find %d more projects that use hibernate..." % (p.full_name, args.numHibernateReposDesired - len(hibernateProjects))
+            print "Is Maven Project %s" % isMavenProject(p.full_name)
+
+    dados = []
+    dados.append(informacoes)
+    dados.append(hibernateProjects)
+    return dados
 
 
 def writeListOfProjectsThatUseHibernate(hibernateProjects):
@@ -138,18 +156,28 @@ def writeListOfProjectsThatUseHibernate(hibernateProjects):
             fout.write(os.linesep)
     fout.close()
 
+def writeInformations(informacoes):
+    with open('projectsInformations.txt', 'w') as fout:
+        for hp in informacoes:
+            print hp
+            fout.write(hp)
+            fout.write(os.linesep)
+    fout.close()
 
 def getMostPopularJavaRepositories(gh):
-    return gh.search_repositories("jpa hibernate stars:>5 language:java", sort="stars", order="desc")
+    repositorios = gh.search_repositories(STRING_BUSCA, sort="stars", order="desc")
+    tamanhoPopulacao = repositorios.totalCount
+    return repositorios
 
 
 def main():
     args = parseArgs()
     gh = initGithub(args.authenticate)
 
-    hibernateProjects = getProjectsThatUseHibernate(args, gh)
-    writeListOfProjectsThatUseHibernate(hibernateProjects)
-    runMavenCompile(hibernateProjects)
+    dados = getProjectsThatUseHibernate(args, gh)
+    writeInformations(dados[0])
+    writeListOfProjectsThatUseHibernate(dados[1])
+    runMavenCompile(dados[1])
 
 
 if __name__ == '__main__':
