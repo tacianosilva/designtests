@@ -14,11 +14,14 @@ import re
 from datetime import date
 
 import github
+from random import randint
+from Crypto.Random.random import randrange
 
 VERBOSE = True
 DEFAULT_OUTPUT_PATH = 'repos'
 MAVEN_BIN = '~/dev/apache-maven-3.3.3/bin'
 tamanhoPopulacao = -1
+tamanhoAmostra = 38
 STRING_BUSCA = "jpa hibernate language:java"
 
 def parseArgs():
@@ -118,35 +121,69 @@ def runMavenCompile(projetos):
 def getProjectsThatUseHibernate(args, gh):
     informacoes = []
     hibernateProjects = []
+    total = 0
+    totalMaven = 0
+    totalEntity = 0
+    indice = 0
+    numProj = 1
+
+    repositorios = getMostPopularJavaRepositories(gh)
+    tamanhoPopulacao = repositorios.totalCount
 
     informacoes.append("Lista de Projetos com Hibernate/JPA")
     agora = date.today()
     informacoes.append("Data: " + agora.isoformat())
     informacoes.append("String de Busca: " + STRING_BUSCA)
     informacoes.append("Total de Resultados da Busca: %d" % tamanhoPopulacao)
-    informacoes.append("Número de Repositorios com Hibernate/JPA: %d" % args.numHibernateReposDesired)
+    informacoes.append("Número de Repositorios com Hibernate/JPA: %d\n" % args.numHibernateReposDesired)
 
-    for p in getMostPopularJavaRepositories(gh):
-        if len(hibernateProjects) >= args.numHibernateReposDesired:
+    amostras = sortearAmostra(tamanhoPopulacao, tamanhoAmostra);
+    amostras.sort()
+
+    for p in repositorios:
+
+        if len(hibernateProjects) >= args.numHibernateReposDesired or indice == tamanhoAmostra:
+            print "Finalizando Seleção dos Projetos: ", len(hibernateProjects)
+            print "Indice: ", indice
             break
 
-        print "Analyzing project", p.full_name
-        cloneGitRepo(p, args.outputPath, args.forceRedownload)
-        if isProjectThatUsesHibernate(p):
+        # Verifica se o número deste projeto foi sorteado na amostra
+        if (numProj == amostras[indice]):
+            total += 1
+            indice +=1
+            print "Analyzing project", p.full_name
+            #Modificar, o método cloneGit só utiliza o p.full_name e o p.clone_url
+            cloneGitRepo(p, args.outputPath, args.forceRedownload)
+            hasEntity = "hasEntity:False"
             isMavenProj = "isMavenProject:False"
+            if isProjectThatUsesHibernate(p):
+                totalEntity += 1
+                hasEntity = "hasEntity:True"
+                if isMavenProject(p.full_name):
+                    totalMaven += 1
+                    isMavenProj = "isMavenProject:True"
+                    hibernateProjects.append(p.full_name)
 
-            if isMavenProject(p.full_name):
-                isMavenProj = "isMavenProject:True"
-                hibernateProjects.append(p.full_name)
-            informacoes.append(p.full_name + ", " + isMavenProj)
-            print "Project %s uses hibernate. Need to find %d more projects that use hibernate..." % (p.full_name, args.numHibernateReposDesired - len(hibernateProjects))
-            print "Is Maven Project %s" % isMavenProject(p.full_name)
+                print "Project %s uses hibernate. Need to find %d more projects that use hibernate..." % (p.full_name, args.numHibernateReposDesired - len(hibernateProjects))
+                print "Is Maven Project %s" % isMavenProject(p.full_name)
+            informacoes.append(p.full_name + ", " + isMavenProj + ", " + hasEntity)
+
+        numProj += 1 #Número do Projeto é incrementado até encontrar o número nos projetos sorteados na amostra
+
+    informacoes.append("\nTotal Projetos Download: " + str(total) + " Maven: " + str(totalMaven) + " Entity: " + str(totalEntity))
 
     dados = []
     dados.append(informacoes)
     dados.append(hibernateProjects)
     return dados
 
+def sortearAmostra(tamanhoPopulacao, tamanhoAmostra):
+    conjunto = set()
+    while len(conjunto) < tamanhoAmostra:
+        rand = randint(1, tamanhoPopulacao)
+        conjunto.add(rand)
+    amostra = list(conjunto)
+    return amostra
 
 def writeListOfProjectsThatUseHibernate(hibernateProjects):
     with open('projectsThatUseHibernate.txt', 'w') as fout:
@@ -165,10 +202,9 @@ def writeInformations(informacoes):
     fout.close()
 
 def getMostPopularJavaRepositories(gh):
+    #Adicionar uma forma de salvar as informações necessárias dos projetos para não exceder o limite do github.
     repositorios = gh.search_repositories(STRING_BUSCA, sort="stars", order="desc")
-    tamanhoPopulacao = repositorios.totalCount
     return repositorios
-
 
 def main():
     args = parseArgs()
