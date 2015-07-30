@@ -11,6 +11,7 @@ import codecs
 import shutil
 import time
 import re
+import json
 from datetime import date
 
 import github
@@ -22,6 +23,7 @@ DEFAULT_OUTPUT_PATH = 'repos'
 MAVEN_BIN = '~/dev/apache-maven-3.3.3/bin'
 tamanhoPopulacao = -1
 tamanhoAmostra = 38
+buscarRepositorios = False
 STRING_BUSCA = "jpa hibernate language:java"
 
 def parseArgs():
@@ -60,33 +62,34 @@ def run(cmd):
 
 
 def getLocalPath(project, downloadPath):
-    return os.path.join(downloadPath, project.full_name)
+    return os.path.join(downloadPath, project[0])
 
 
 def cloneGitRepo(project, downloadPath, forceRedownload):
-    project.localPath = getLocalPath(project, downloadPath)
+    localPath = getLocalPath(project, downloadPath)
 
     if forceRedownload:
-        shutil.rmtree(project.localPath, True)
+        shutil.rmtree(localPath, True)
 
-    if os.path.isdir(project.localPath):
-        print >>sys.stderr, 'Repo %s already exists. Not downloading it again...' % project.full_name
+    if os.path.isdir(localPath):
+        print >>sys.stderr, 'Repo %s already exists. Not downloading it again...' % project[0]
         return
-    print 'Clone URL %s <<<<<' % project.clone_url
-    run('git clone --depth 1 %s %s' % (project.clone_url, project.localPath))
+
+    run('git clone --depth 1 %s %s' % (project[1], localPath))
 
 
 def javaCodeHasHibernateReferences(path):
     with open(path) as fin:
         for line in fin.readlines():
-            if re.match(".*javax.persistence.Entity.*", line):
+            if re.match(".*@Entity.*", line):
                 return True
     return False
 
 
-def isProjectThatUsesHibernate(project):
-    print "Parsing java source code of %s..." % (project.full_name)
-    for root, dirs, files in os.walk(project.localPath):
+def isProjectThatUsesHibernate(project, downloadPath):
+    print "Parsing java source code of %s..." % (project[0])
+    localPath = getLocalPath(project, downloadPath)
+    for root, dirs, files in os.walk(localPath):
         for f in files:
             if f.lower().endswith('.java'):
                 if javaCodeHasHibernateReferences(os.path.join(root, f)):
@@ -97,11 +100,8 @@ def isMavenProject(project):
     print "Verificando a existencia de um arquivo pom.xml no projeto: %s ..." % (project)
 
     diretorio = DEFAULT_OUTPUT_PATH + "/" + project + "/"
-
     if os.path.isfile(diretorio + 'pom.xml'):
-        print 'isMavenProject True'
         return True
-    print 'isMavenProject False'
     return False
 
 def runMavenCompile(projetos):
@@ -128,7 +128,7 @@ def getProjectsThatUseHibernate(args, gh):
     numProj = 1
 
     repositorios = getMostPopularJavaRepositories(gh)
-    tamanhoPopulacao = repositorios.totalCount
+    tamanhoPopulacao = len(repositorios)
 
     informacoes.append("Lista de Projetos com Hibernate/JPA")
     agora = date.today()
@@ -151,22 +151,22 @@ def getProjectsThatUseHibernate(args, gh):
         if (numProj == amostras[indice]):
             total += 1
             indice +=1
-            print "Analyzing project", p.full_name
+            print "\n Analyzing project", p[0]
             #Modificar, o método cloneGit só utiliza o p.full_name e o p.clone_url
             cloneGitRepo(p, args.outputPath, args.forceRedownload)
             hasEntity = "hasEntity:False"
             isMavenProj = "isMavenProject:False"
-            if isProjectThatUsesHibernate(p):
+            if isProjectThatUsesHibernate(p, args.outputPath):
                 totalEntity += 1
                 hasEntity = "hasEntity:True"
-                if isMavenProject(p.full_name):
+                if isMavenProject(p[0]):
                     totalMaven += 1
                     isMavenProj = "isMavenProject:True"
-                    hibernateProjects.append(p.full_name)
+                    hibernateProjects.append(p[0])
 
-                print "Project %s uses hibernate. Need to find %d more projects that use hibernate..." % (p.full_name, args.numHibernateReposDesired - len(hibernateProjects))
-                print "Is Maven Project %s" % isMavenProject(p.full_name)
-            informacoes.append(p.full_name + ", " + isMavenProj + ", " + hasEntity)
+                print "Project %s uses hibernate. Need to find %d more projects that use hibernate..." % (p[0], args.numHibernateReposDesired - len(hibernateProjects))
+            print p[0] + ", " + isMavenProj + ", " + hasEntity
+            informacoes.append(p[0] + ", " + isMavenProj + ", " + hasEntity)
 
         numProj += 1 #Número do Projeto é incrementado até encontrar o número nos projetos sorteados na amostra
 
@@ -193,8 +193,8 @@ def writeListOfProjectsThatUseHibernate(hibernateProjects):
             fout.write(os.linesep)
     fout.close()
 
-def writeInformations(informacoes):
-    with open('projectsInformations.txt', 'w') as fout:
+def writeInformations(nomeArq, informacoes):
+    with open(nomeArq, 'w') as fout:
         for hp in informacoes:
             print hp
             fout.write(hp)
@@ -202,8 +202,25 @@ def writeInformations(informacoes):
     fout.close()
 
 def getMostPopularJavaRepositories(gh):
-    #Adicionar uma forma de salvar as informações necessárias dos projetos para não exceder o limite do github.
-    repositorios = gh.search_repositories(STRING_BUSCA, sort="stars", order="desc")
+    repositorios = []
+    agora = date.today()
+    fileName = "repositorios_" + agora.isoformat() + ".txt"
+
+    if (buscarRepositorios):
+        file = open(fileName, 'w')
+        #busca no repositório github apenas se for necessário
+        reps_busca = gh.search_repositories(STRING_BUSCA, sort="stars", order="desc")
+
+        for p in reps_busca:
+            repositorios.append([p.full_name, p.clone_url])
+
+        json.dump(repositorios, file)
+        file.close()
+    else:
+        file = open(fileName, 'r')
+        repositorios = json.load(file)
+        file.close()
+
     return repositorios
 
 def main():
@@ -211,7 +228,7 @@ def main():
     gh = initGithub(args.authenticate)
 
     dados = getProjectsThatUseHibernate(args, gh)
-    writeInformations(dados[0])
+    writeInformations('projectsInformations.txt', dados[0])
     writeListOfProjectsThatUseHibernate(dados[1])
     runMavenCompile(dados[1])
 
