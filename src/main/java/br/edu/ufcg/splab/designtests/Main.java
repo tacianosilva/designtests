@@ -13,7 +13,7 @@ import org.designwizard.exception.InexistentEntityException;
 import br.edu.ufcg.splab.designtests.designrules.AbstractDesignRule;
 import br.edu.ufcg.splab.designtests.designrules.HashCodeAndEqualsRule;
 import br.edu.ufcg.splab.designtests.designrules.ImplementsSerializableModelRule;
-import br.edu.ufcg.splab.designtests.designrules.UseSetCollectionModelRule;
+import br.edu.ufcg.splab.designtests.designrules.UseSetCollectionRule;
 
 public class Main {
 
@@ -98,9 +98,9 @@ public class Main {
             System.out.println(rule2.getReport());
         }
 
-        UseSetCollectionModelRule rule3 = new UseSetCollectionModelRule(dwd);
-        //rule3.setClassNodes(models);
-        System.out.println("Report Rule UseSetCollectionModelRule");
+        UseSetCollectionRule rule3 = new UseSetCollectionRule(dwd);
+        rule3.setClassNodes(models);
+        System.out.println("Report Rule UseSetCollectionRule");
         if (!rule3.checkRule()) {
             System.out.println(rule3.getReport());
         }
