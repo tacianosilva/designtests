@@ -6,7 +6,6 @@ import java.util.Set;
 import org.designwizard.design.ClassNode;
 import org.designwizard.design.MethodNode;
 import org.designwizard.designrules.Rule;
-import org.designwizard.exception.InexistentEntityException;
 
 import br.edu.ufcg.splab.designtests.DesignWizardDecorator;
 
@@ -16,23 +15,14 @@ import br.edu.ufcg.splab.designtests.DesignWizardDecorator;
  *
  * @author Taciano
  */
-public class HashCodeAndEqualsRule implements Rule {
-
-    private DesignWizardDecorator dwd;
-    /**
-     * The set of classnodes that the rule will be executing
-     */
-    private Set<ClassNode> classNodes;
-    private String report;
+public class HashCodeAndEqualsRule extends AbstractDesignRule implements Rule {
 
     public HashCodeAndEqualsRule(DesignWizardDecorator dwd) {
-        this.dwd = dwd;
-        this.classNodes = null;
-        this.report = "";
+        super(dwd);
     }
 
     @Override
-    public boolean checkRule() throws InexistentEntityException {
+    public boolean checkRule() {
         // TODO Auto-generated method stub
         Collection<ClassNode> classes = getClassNodes();
 
@@ -60,39 +50,6 @@ public class HashCodeAndEqualsRule implements Rule {
             }
         }
         return this.report.equals("") ? true : false;
-    }
-
-    /**
-     *
-     * @return
-     * @throws InexistentEntityException
-     */
-    private Set<ClassNode> getClassNodes() throws InexistentEntityException {
-        if (classNodes == null) {
-            this.classNodes = dwd.getClassesFromCode();
-        }
-
-        return classNodes;
-    }
-
-    /**
-     *
-     * @param classes
-     */
-    public void setClassNodes(Set<ClassNode> classes) {
-        this.classNodes = null;
-        if (checkClassNodes(classes)) {
-            this.classNodes = classes;
-        }
-    }
-
-    /**
-     * Checks if the parameter belongs to the set of classes of the design {@link DesignWizardDecorator}.
-     * @param classes The set of classNodes to check the pertinence.
-     * @return True if all classnodes belongs to the design.
-     */
-    private boolean checkClassNodes(Set<ClassNode> classes) {
-        return dwd.getClassesFromCode().containsAll(classes);
     }
 
     @Override

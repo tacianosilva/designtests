@@ -10,6 +10,7 @@ import java.util.Set;
 import org.designwizard.design.ClassNode;
 import org.designwizard.exception.InexistentEntityException;
 
+import br.edu.ufcg.splab.designtests.designrules.AbstractDesignRule;
 import br.edu.ufcg.splab.designtests.designrules.HashCodeAndEqualsRule;
 import br.edu.ufcg.splab.designtests.designrules.ImplementsSerializableModelRule;
 import br.edu.ufcg.splab.designtests.designrules.UseSetCollectionModelRule;
@@ -83,16 +84,16 @@ public class Main {
 
         System.out.printf("\n Execution of the Rules \n\n");
 
-        HashCodeAndEqualsRule rule1 = new HashCodeAndEqualsRule(dwd);
+        AbstractDesignRule rule1 = new HashCodeAndEqualsRule(dwd);
         rule1.setClassNodes(models);
-        System.out.println("Report Rule HashCodeAndEqualsModelRule");
+        System.out.println("Report Rule HashCodeAndEqualsRule");
         if (!rule1.checkRule()) {
             System.out.println(rule1.getReport());
         }
 
         ImplementsSerializableModelRule rule2 = new ImplementsSerializableModelRule(dwd);
-        //rule2.setClassNodes(models);
-        System.out.println("Report Rule ImplementsSerializableModelRule");
+        rule2.setClassNodes(models);
+        System.out.println("Report Rule ImplementsSerializableRule");
         if (!rule2.checkRule()) {
             System.out.println(rule2.getReport());
         }
@@ -150,7 +151,7 @@ public class Main {
             Set<ClassNode> classes = dwd.getClassesByAnnotation("javax.persistence.Entity");
             numEntidades = classes.size();
 
-            HashCodeAndEqualsRule rule = new HashCodeAndEqualsRule(dwd);
+            AbstractDesignRule rule = new HashCodeAndEqualsRule(dwd);
             if (!rule.checkRule()) {
                 System.out.println("Report Rule");
                 System.out.println(rule.getReport());
