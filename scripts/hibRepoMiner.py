@@ -22,7 +22,7 @@ VERBOSE = True
 DEFAULT_OUTPUT_PATH = 'repos'
 MAVEN_BIN = '~/dev/apache-maven-3.3.3/bin'
 tamanhoPopulacao = -1
-tamanhoAmostra = 38
+tamanhoAmostra = 40
 buscarRepositorios = False
 STRING_BUSCA = "jpa hibernate language:java"
 
@@ -185,14 +185,6 @@ def sortearAmostra(tamanhoPopulacao, tamanhoAmostra):
     amostra = list(conjunto)
     return amostra
 
-def writeListOfProjectsThatUseHibernate(hibernateProjects):
-    with open('projectsThatUseHibernate.txt', 'w') as fout:
-        for hp in hibernateProjects:
-            print hp
-            fout.write(hp)
-            fout.write(os.linesep)
-    fout.close()
-
 def writeInformations(nomeArq, informacoes):
     with open(nomeArq, 'w') as fout:
         for hp in informacoes:
@@ -204,7 +196,8 @@ def writeInformations(nomeArq, informacoes):
 def getMostPopularJavaRepositories(gh):
     repositorios = []
     agora = date.today()
-    fileName = "repositorios_" + agora.isoformat() + ".txt"
+    #fileName = "repositorios_" + agora.isoformat() + ".txt"
+    fileName = "repositorios_2015-07-29.txt"
 
     if (buscarRepositorios):
         file = open(fileName, 'w')
@@ -228,8 +221,8 @@ def main():
     gh = initGithub(args.authenticate)
 
     dados = getProjectsThatUseHibernate(args, gh)
-    writeInformations('projectsInformations.txt', dados[0])
-    writeListOfProjectsThatUseHibernate(dados[1])
+    writeInformations('projectsInformations_2015-07-30.txt', dados[0])
+    writeInformations('projectsThatUseHibernate_2015-07-30.txt',dados[1])
     runMavenCompile(dados[1])
 
 

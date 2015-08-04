@@ -1,0 +1,48 @@
+Lista de Projetos com Hibernate/JPA
+Data: 2015-07-30
+String de Busca: jpa hibernate language:java
+Total de Resultados da Busca: 646
+Número de Repositorios com Hibernate/JPA: 40
+
+alexec/tutorial-hibernate-jpa, isMavenProject:True, hasEntity:True
+arey/spring-javaconfig-sample, isMavenProject:False, hasEntity:False
+rponte/jpa-issuetracker-project, isMavenProject:False, hasEntity:True
+danielme-com/Maven---JPA-2---Hibernate-4---Log4j, isMavenProject:True, hasEntity:True
+puneetjaiswal/SpringJpaHibernate-DAOs, isMavenProject:False, hasEntity:True
+dcm4che/schema-export, isMavenProject:False, hasEntity:False
+alexandregama/hibernate-validator-examples, isMavenProject:False, hasEntity:False
+CloudBees-community/tomcat7-hibernate-jpa-clickstart, isMavenProject:True, hasEntity:True
+CrocusJava/carrentals-v3, isMavenProject:False, hasEntity:True
+auskast/jpa, isMavenProject:True, hasEntity:True
+WellsCui/spring-mvc-jpa-hibernate-mysql, isMavenProject:False, hasEntity:True
+alex4u2nv/HibernateModeling, isMavenProject:True, hasEntity:True
+seasarorg/s2hibernate-jpa, isMavenProject:False, hasEntity:True
+astrapi69/spring.hibernate.jpa, isMavenProject:False, hasEntity:True
+natanielpaiva/JPA-2-and-Hibernate, isMavenProject:False, hasEntity:True
+uqbar-project/jpa-java8-extras, isMavenProject:False, hasEntity:False
+castlecodestein/spring-orm-jpa, isMavenProject:True, hasEntity:True
+fwich/hibernate4JPAConverter, isMavenProject:True, hasEntity:True
+oleg-panichev/StudentsProject, isMavenProject:True, hasEntity:True
+olivier8/ToysForBoys, isMavenProject:True, hasEntity:True
+samantang/BanqueSpringJPA2Hibernate, isMavenProject:False, hasEntity:True
+imed-pf/dojo-persistence-jpa-hibernate-example, isMavenProject:False, hasEntity:True
+lorinpa/book-site-jpa, isMavenProject:True, hasEntity:True
+andreas-schilling/hibernate-anytype, isMavenProject:True, hasEntity:True
+lukaszbudnik/hibernate-multitenant, isMavenProject:False, hasEntity:True
+franklindeoliveira/springmvc-jpa-advanced, isMavenProject:True, hasEntity:True
+sobngwi/spring-webmvc-hibernate, isMavenProject:False, hasEntity:True
+jpdigital/hibernate4-ddl-maven-plugin, isMavenProject:True, hasEntity:True
+csantos0/synchro-agenda-services, isMavenProject:False, hasEntity:True
+feliperodriguesbastos/setsoft, isMavenProject:True, hasEntity:True
+roraffer/SimpleRestHibernate, isMavenProject:True, hasEntity:True
+dsawa/FCManager, isMavenProject:True, hasEntity:True
+ethiclab/spring-boot-vaadin-template, isMavenProject:True, hasEntity:True
+FabianRojasFuentes/Webservices-REST-JAX-RS, isMavenProject:False, hasEntity:True
+lgazo/jboss-poc, isMavenProject:False, hasEntity:True
+jhong2023/rest-bootstrap, isMavenProject:True, hasEntity:True
+zhy2002/FitnessTracker, isMavenProject:True, hasEntity:True
+indvamshi/applicationlibrary-backend, isMavenProject:True, hasEntity:True
+stenman/databasefun, isMavenProject:True, hasEntity:True
+davisoski/SpringMVCTomcat5CRUD, isMavenProject:True, hasEntity:True
+
+Total Projetos Download: 40 Maven: 22 Entity: 36
