@@ -29,7 +29,7 @@ public class DesignWizardDecorator {
         return dw;
     }
 
-    public Set<ClassNode> getClassesByAnnotation(String annotationName) throws IOException, InexistentEntityException {
+    public Set<ClassNode> getClassesByAnnotation(String annotationName) throws InexistentEntityException {
 
         Set<ClassNode> allClasses = dw.getAllClasses();
         ClassNode annotationNode = dw.getAnnotation(annotationName);

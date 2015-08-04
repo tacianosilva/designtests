@@ -10,6 +10,10 @@ import java.util.Set;
 import org.designwizard.design.ClassNode;
 import org.designwizard.exception.InexistentEntityException;
 
+import br.edu.ufcg.splab.designtests.designrules.HashCodeAndEqualsRule;
+import br.edu.ufcg.splab.designtests.designrules.ImplementsSerializableModelRule;
+import br.edu.ufcg.splab.designtests.designrules.UseSetCollectionModelRule;
+
 public class Main {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, InexistentEntityException {
@@ -21,14 +25,14 @@ public class Main {
 
         dwd = new DesignWizardDecorator(arquivoJar, projectName);
 
-        Set<ClassNode> classes = dwd.getClassesByAnnotation("javax.persistence.Entity");
+        Set<ClassNode> models = dwd.getClassesByAnnotation("javax.persistence.Entity");
 
-        for (ClassNode classNode : classes) {
+        for (ClassNode classNode : models) {
             System.out.println(classNode.getClassName());
             System.out.println(classNode.getAllAnnotations());
         }
 
-        classes = dwd.getClassesFromCode();
+        Set<ClassNode> classes = dwd.getClassesFromCode();
 
         for (ClassNode classNode : classes) {
             System.out.println(classNode.getClassName());
@@ -77,12 +81,28 @@ public class Main {
         // System.out.println("All Classes: " +
         // annotation.getClassesAnnotated());
 
-        System.out.printf("\nConteúdo do arquivo projectsThatUseHibernate.txt\n\n");
+        System.out.printf("\n Execution of the Rules \n\n");
 
-        String fileName = "scripts/projectsThatUseHibernate.txt";
-        String fileResults = "scripts/resultsAnalisyProjects.txt";
-        processarArquivo(fileName, fileResults);
+        HashCodeAndEqualsRule rule1 = new HashCodeAndEqualsRule(dwd);
+        rule1.setClassNodes(models);
+        System.out.println("Report Rule HashCodeAndEqualsModelRule");
+        if (!rule1.checkRule()) {
+            System.out.println(rule1.getReport());
+        }
 
+        ImplementsSerializableModelRule rule2 = new ImplementsSerializableModelRule(dwd);
+        //rule2.setClassNodes(models);
+        System.out.println("Report Rule ImplementsSerializableModelRule");
+        if (!rule2.checkRule()) {
+            System.out.println(rule2.getReport());
+        }
+
+        UseSetCollectionModelRule rule3 = new UseSetCollectionModelRule(dwd);
+        //rule3.setClassNodes(models);
+        System.out.println("Report Rule UseSetCollectionModelRule");
+        if (!rule3.checkRule()) {
+            System.out.println(rule3.getReport());
+        }
     }
 
     public static void processarArquivo(String fileProjects, String fileResults) {
@@ -129,6 +149,12 @@ public class Main {
 
             Set<ClassNode> classes = dwd.getClassesByAnnotation("javax.persistence.Entity");
             numEntidades = classes.size();
+
+            HashCodeAndEqualsRule rule = new HashCodeAndEqualsRule(dwd);
+            if (!rule.checkRule()) {
+                System.out.println("Report Rule");
+                System.out.println(rule.getReport());
+            }
 
         } catch (IOException ioe) {
             // TODO Auto-generated catch block
