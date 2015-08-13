@@ -12,7 +12,7 @@ import org.designwizard.exception.InexistentEntityException;
 
 import br.edu.ufcg.splab.designtests.designrules.AbstractDesignRule;
 import br.edu.ufcg.splab.designtests.designrules.HashCodeAndEqualsRule;
-import br.edu.ufcg.splab.designtests.designrules.ImplementsSerializableModelRule;
+import br.edu.ufcg.splab.designtests.designrules.ImplementsSerializableRule;
 import br.edu.ufcg.splab.designtests.designrules.UseSetCollectionRule;
 
 public class Main {
@@ -90,12 +90,31 @@ public class Main {
         if (!rule1.checkRule()) {
             System.out.println(rule1.getReport());
         }
+        Set<ClassNode> falsos = rule1.getResultsFalse();
+        for (ClassNode classNode : falsos) {
+            System.out.println("Falhou: " + classNode.getName());
+        }
 
-        ImplementsSerializableModelRule rule2 = new ImplementsSerializableModelRule(dwd);
+        Set<ClassNode> verdadeiros = rule1.getResultsTrue();
+        for (ClassNode classNode : verdadeiros) {
+            System.out.println("Passou: " + classNode.getName());
+        }
+
+        ImplementsSerializableRule rule2 = new ImplementsSerializableRule(dwd);
         rule2.setClassNodes(models);
         System.out.println("Report Rule ImplementsSerializableRule");
         if (!rule2.checkRule()) {
             System.out.println(rule2.getReport());
+        }
+
+        falsos = rule2.getResultsFalse();
+        for (ClassNode classNode : falsos) {
+            System.out.println("Falhou: " + classNode.getName());
+        }
+
+        verdadeiros = rule2.getResultsTrue();
+        for (ClassNode classNode : verdadeiros) {
+            System.out.println("Passou: " + classNode.getName());
         }
 
         UseSetCollectionRule rule3 = new UseSetCollectionRule(dwd);
@@ -103,6 +122,16 @@ public class Main {
         System.out.println("Report Rule UseSetCollectionRule");
         if (!rule3.checkRule()) {
             System.out.println(rule3.getReport());
+        }
+
+        falsos = rule3.getResultsFalse();
+        for (ClassNode classNode : falsos) {
+            System.out.println("Falhou: " + classNode.getName());
+        }
+
+        verdadeiros = rule3.getResultsTrue();
+        for (ClassNode classNode : verdadeiros) {
+            System.out.println("Passou: " + classNode.getName());
         }
     }
 

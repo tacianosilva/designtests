@@ -10,16 +10,15 @@ import java.util.Set;
 import org.designwizard.design.ClassNode;
 import org.designwizard.exception.InexistentEntityException;
 
-import br.edu.ufcg.splab.designtests.designrules.HashCodeAndEqualsRule;
-import br.edu.ufcg.splab.designtests.designrules.ImplementsSerializableModelRule;
+import br.edu.ufcg.splab.designtests.designrules.ImplementsSerializableRule;
 
 public class RulesVerifier {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, InexistentEntityException {
         System.out.printf("\nConteúdo do arquivo projectsThatUseHibernate.txt\n\n");
 
-        String fileName = "scripts/projectsThatUseHibernate_2015-07-30.txt";
-        String fileResults = "scripts/resultsAnalisyProjects_2015-07-30.txt";
+        String fileName = "scripts/projectsThatUseHibernate_2015-08-10.txt";
+        String fileResults = "scripts/results_serializable_2015-08-12.txt";
         processarArquivo(fileName, fileResults);
 
     }
@@ -31,7 +30,7 @@ public class RulesVerifier {
 
             FileWriter fw = criarArquivo(fileResults);
             PrintWriter gravarArq = new PrintWriter(fw);
-            gravarArq.printf("%s, %s, %s, %s, %s, %s\n", "gitUser", "projectName", "numEntidades", "rulecheck", "ocorreuErro", "msgErro");
+            gravarArq.printf("%s, %s, %s, %s, %s, %s, %s, %s\n", "gitUser", "projectName", "numEntidades", "rulecheck", "totalPassou", "totalFalhou", "ocorreuErro", "msgErro");
             String linha = lerArq.readLine(); // lê a primeira linha
             // a variável "linha" recebe o valor "null" quando o processo
             // de repetição atingir o final do arquivo texto
@@ -60,8 +59,10 @@ public class RulesVerifier {
         String projectDir = reposDir + projeto + classDir;
         boolean rulecheck = false;
         boolean ocorreuErro = false;
-        String msgErro = "";
+        String msgErro = "Não houve erro!";
         int numEntidades = 0;
+        int totalPassou = 0;
+        int totalFalhou = 0;
 
         try {
             System.out.println("Diretório do Projeto: " + projectDir);
@@ -70,14 +71,16 @@ public class RulesVerifier {
             Set<ClassNode> classes = dwd.getClassesByAnnotation("javax.persistence.Entity");
             numEntidades = classes.size();
 
-            //TODO Colocar para as regras receberem o conjunto de classes para verificar
-            ImplementsSerializableModelRule rule = new ImplementsSerializableModelRule(dwd);
+            ImplementsSerializableRule rule = new ImplementsSerializableRule(dwd);
+            rule.setClassNodes(classes);
             if (!rule.checkRule()) {
                 System.out.println("Report Rule");
                 System.out.println(rule.getReport());
             } else {
                 rulecheck = true;
             }
+            totalPassou = rule.getResultsTrue().size();
+            totalFalhou = rule.getResultsFalse().size();
 
         } catch (IOException ioe) {
             // TODO Auto-generated catch block
@@ -100,13 +103,14 @@ public class RulesVerifier {
             e.printStackTrace();
         }
         if (!ocorreuErro) {
-            gravarLinha(gravar, gitUser, projectName, numEntidades, rulecheck, ocorreuErro, msgErro);
+            gravarLinha(gravar, gitUser, projectName, numEntidades, rulecheck, totalPassou, totalFalhou, ocorreuErro, msgErro);
         }
     }
 
     public static void gravarLinha(PrintWriter gravar, String gitUser, String projectName, int numEntidades,
-            boolean rulecheck, boolean ocorreuErro, String msgErro) {
-        gravar.printf("%s, %s, %d, %s, %s, %s\n", gitUser, projectName, numEntidades, rulecheck, ocorreuErro, msgErro);
+            boolean rulecheck, int totalPassou, int totalFalhou, boolean ocorreuErro, String msgErro) {
+        gravar.printf("%s, %s, %d, %s, %d, %d, %s, %s\n", gitUser, projectName, numEntidades, rulecheck,
+                totalPassou, totalFalhou, ocorreuErro, msgErro);
     }
 
     public static FileWriter criarArquivo(String fileResults) throws IOException {
