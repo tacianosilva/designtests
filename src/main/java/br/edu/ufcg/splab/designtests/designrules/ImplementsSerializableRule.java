@@ -12,9 +12,9 @@ import br.edu.ufcg.splab.designtests.DesignWizardDecorator;
  *
  * @author Taciano
  */
-public class ImplementsSerializableModelRule extends AbstractDesignRule {
+public class ImplementsSerializableRule extends AbstractDesignRule {
 
-    public ImplementsSerializableModelRule(DesignWizardDecorator dwd) {
+    public ImplementsSerializableRule(DesignWizardDecorator dwd) {
         super(dwd);
     }
 
@@ -27,6 +27,9 @@ public class ImplementsSerializableModelRule extends AbstractDesignRule {
             if (!entityNode.implementsInterface(serializable)) {
                 this.report += "The class <" + entityNode.getName() + "> "
                             + "doesn't implements interface Serializable.\n";
+                addResultFalse(entityNode);
+            } else {
+                addResultTrue(entityNode);
             }
         }
         return this.report.equals("") ? true : false;

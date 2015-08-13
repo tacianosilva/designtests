@@ -10,7 +10,8 @@ import br.edu.ufcg.splab.designtests.DesignWizardDecorator;
 
 /**
  *
- * Rule: Declaration of Collection of the type Set in classes of the Model Package.
+ * Rule: Declaration of Collection of the type Set in classes of the Model
+ * Package.
  *
  * @author Taciano
  */
@@ -22,28 +23,28 @@ public class UseSetCollectionRule extends AbstractDesignRule {
 
     @Override
     public boolean checkRule() {
-        // TODO Auto-generated method stub
         Collection<ClassNode> allModelClasses = getClassNodes();
 
         for (ClassNode entityNode : allModelClasses) {
 
-            Set<FieldNode> declaredFields= entityNode.getAllFields();
+            Set<FieldNode> declaredFields = entityNode.getAllFields();
+            boolean passed = true;
 
             for (FieldNode fieldNode : declaredFields) {
-                // FIXME Os dados dos tipos dos atributos não estão completos
                 ClassNode type = fieldNode.getType();
-                ClassNode collection = new ClassNode("java.util.Collection");
-                ClassNode set = new ClassNode("java.util.Set");
-                if (type.implementsInterface(collection)) {
-                    if (!type.implementsInterface(set)) {
-                        System.out.println("FieldNode: " + fieldNode.getName());
-                        System.out.println("Type FieldNode: " + type.getName());
-                        System.out.println("Implements Interfaces? " + type.getImplementedInterfaces());
 
-                        this.report += "The field <" + fieldNode.getName() + "> of the class <" + fieldNode.getName()
+                if (isCollection(type) && !isSet(type)) {
+                    this.report += "The field <" + fieldNode.getName() + "> of the class <" + fieldNode.getName()
                             + " implements interface Collection but it doesn't implements interface Set.\n";
-                    }
+                    passed = false;
+                    addResultFalse(entityNode);
                 }
+            }
+
+            if (!passed) {
+                addResultFalse(entityNode);
+            } else {
+                addResultTrue(entityNode);
             }
         }
         return this.report.equals("") ? true : false;

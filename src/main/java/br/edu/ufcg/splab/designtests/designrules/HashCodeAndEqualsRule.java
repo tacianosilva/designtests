@@ -23,7 +23,6 @@ public class HashCodeAndEqualsRule extends AbstractDesignRule implements Rule {
 
     @Override
     public boolean checkRule() {
-        // TODO Auto-generated method stub
         Collection<ClassNode> classes = getClassNodes();
 
         for (ClassNode entityNode : classes) {
@@ -38,15 +37,15 @@ public class HashCodeAndEqualsRule extends AbstractDesignRule implements Rule {
             boolean contem = declaredMethods.contains(equalsMethod) && declaredMethods.contains(hashCodeMethod);
 
             if (!(contem)) {
-                System.out.println("ClassNode: " + entityNode.getName());
-                System.out.println("Equals Methods: " + declaredMethods.contains(equalsMethod));
-                System.out.println("HashCode Methods: " + declaredMethods.contains(hashCodeMethod));
                 if (!declaredMethods.contains(equalsMethod)) {
                     this.report += "The class <" + entityNode.getName() + "> doesn't contain the equals method.\n";
                 }
                 if (!declaredMethods.contains(hashCodeMethod)) {
                     this.report += "The class <" + entityNode.getName() + "> doesn't contain the hashCode method.\n";
                 }
+                addResultFalse(entityNode);
+            } else {
+                addResultTrue(entityNode);
             }
         }
         return this.report.equals("") ? true : false;
