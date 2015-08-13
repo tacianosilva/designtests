@@ -17,36 +17,7 @@
         <dependency>
             <groupId>org.designwizard</groupId>
             <artifactId>designwizard</artifactId>
-            <version>1.4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>javax.persistence</artifactId>
-            <version>2.0.3</version>
+            <version>1.4.2-SNAPSHOT</version>
         </dependency>
     </dependencies>
-
-        <repositories>
-        <repository>
-            <id>EclipseLink</id>
-            <url>http://download.eclipse.org/rt/eclipselink/maven.repo</url>
-        </repository>
-        <repository>
-            <id>prime-repo</id>
-            <name>PrimeFaces Maven Repository</name>
-            <url>http://repository.primefaces.org</url>
-            <layout>default</layout>
-        </repository>
-        <repository>
-            <id>mvn</id>
-            <name>MVN Repository</name>
-            <url>http://mvnrepository.com</url>
-        </repository>
-        <repository>
-            <id>Maven2</id>
-            <name>Maven 2</name>
-            <url>http://repo1.maven.org/maven2/</url>
-        </repository>
-    </repositories>
-
 </project>
