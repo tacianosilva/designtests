@@ -13,6 +13,7 @@ import org.designwizard.exception.InexistentEntityException;
 import br.edu.ufcg.splab.designtests.designrules.AbstractDesignRule;
 import br.edu.ufcg.splab.designtests.designrules.HashCodeAndEqualsRule;
 import br.edu.ufcg.splab.designtests.designrules.ImplementsSerializableRule;
+import br.edu.ufcg.splab.designtests.designrules.ProvideIdentifierPropertyRule;
 import br.edu.ufcg.splab.designtests.designrules.UseSetCollectionRule;
 
 public class Main {
@@ -84,18 +85,33 @@ public class Main {
 
         System.out.printf("\n Execution of the Rules \n\n");
 
+        AbstractDesignRule rule0 = new ProvideIdentifierPropertyRule(dwd);
+        rule0.setClassNodes(models);
+        System.out.println("Report Rule ProvideIdentifierPropertyRule");
+        if (!rule0.checkRule()) {
+            System.out.println(rule0.getReport());
+        }
+        Set<ClassNode> falsos = rule0.getResultsFalse();
+        for (ClassNode classNode : falsos) {
+            System.out.println("Falhou: " + classNode.getName());
+        }
+        Set<ClassNode> verdadeiros = rule0.getResultsTrue();
+        for (ClassNode classNode : verdadeiros) {
+            System.out.println("Passou: " + classNode.getName());
+        }
+
         AbstractDesignRule rule1 = new HashCodeAndEqualsRule(dwd);
         rule1.setClassNodes(models);
         System.out.println("Report Rule HashCodeAndEqualsRule");
         if (!rule1.checkRule()) {
             System.out.println(rule1.getReport());
         }
-        Set<ClassNode> falsos = rule1.getResultsFalse();
+        falsos = rule1.getResultsFalse();
         for (ClassNode classNode : falsos) {
             System.out.println("Falhou: " + classNode.getName());
         }
 
-        Set<ClassNode> verdadeiros = rule1.getResultsTrue();
+        verdadeiros = rule1.getResultsTrue();
         for (ClassNode classNode : verdadeiros) {
             System.out.println("Passou: " + classNode.getName());
         }
