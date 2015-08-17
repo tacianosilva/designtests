@@ -1,7 +1,6 @@
 package br.edu.ufcg.splab.designtests.designrules;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.designwizard.design.ClassNode;
@@ -32,7 +31,7 @@ public class ProvideIdentifierPropertyRule extends AbstractDesignRule implements
             boolean passed = false;
 
             for (FieldNode fieldNode : declaredFields) {
-                Set<ClassNode> annotations = new HashSet<ClassNode>(); //TODO Modificar para fieldNode.getAnnotations();
+                Set<ClassNode> annotations = fieldNode.getAnnotations();
                 ClassNode id = new ClassNode("javax.persistence.Id");
                 if (annotations.contains(id)) {
                     passed = true;
