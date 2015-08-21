@@ -16,6 +16,7 @@ public abstract class AbstractDesignRule implements Rule {
 
     protected DesignWizardDecorator dwd;
     protected TypesOfCollections collections;
+    protected String name;
 
     /**
      * The set of classnodes that the rule will be executing
@@ -26,6 +27,7 @@ public abstract class AbstractDesignRule implements Rule {
     protected String report;
 
     public AbstractDesignRule(DesignWizardDecorator dwd) {
+        this.name = this.getClass().getSimpleName();
         this.dwd = dwd;
         this.classNodes = null;
         this.report = "";
@@ -37,6 +39,10 @@ public abstract class AbstractDesignRule implements Rule {
     public AbstractDesignRule(DesignWizardDecorator dwd, Set<ClassNode> classes) {
         this(dwd);
         this.setClassNodes(classes);
+    }
+
+    public String getName() {
+        return this.name;
     }
 
     public abstract boolean checkRule();
@@ -73,9 +79,6 @@ public abstract class AbstractDesignRule implements Rule {
      * @throws InexistentEntityException
      */
     protected Set<ClassNode> getClassNodes() {
-        if (classNodes == null) {
-            this.classNodes = dwd.getClassesFromCode();
-        }
         return classNodes;
     }
 
@@ -84,11 +87,31 @@ public abstract class AbstractDesignRule implements Rule {
      * @param classes
      */
     public void setClassNodes(Set<ClassNode> classes) {
-        this.classNodes = null;
+        resetCollections();
         if (checkClassNodes(classes)) {
             this.classNodes = classes;
         }
     }
+
+    private void resetCollections() {
+        this.classNodes = new HashSet<ClassNode>();
+        this.resultTrue = new HashSet<ClassNode>();
+        this.resultFalse = new HashSet<ClassNode>();
+        this.report = "";
+    }
+
+    /**
+    *
+    * @param classes
+    */
+   public void setClassNode(ClassNode classe) {
+       resetCollections();
+       Set<ClassNode> classes = new HashSet<ClassNode>();
+       classes.add(classe);
+       if (checkClassNodes(classes)) {
+           this.classNodes = classes;
+       }
+   }
 
     /**
      * Checks if the parameter belongs to the set of classes of the design {@link DesignWizardDecorator}.
