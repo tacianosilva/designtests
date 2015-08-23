@@ -22,7 +22,7 @@ public class DesignWizardDecorator {
 
     public Architecture getArchitecture() {
         Architecture arch = new Architecture(projectName);
-        return null;
+        return arch;
     }
 
     public DesignWizard getDesignWizard() {
@@ -45,7 +45,7 @@ public class DesignWizardDecorator {
     }
 
     public Boolean hasAnnotation(ClassNode aClass, ClassNode annotation) {
-        Set<ClassNode> annotations = aClass.getAllAnnotations();
+        Set<ClassNode> annotations = aClass.getAnnotations();
 
         if (annotations.contains(annotation)) {
                 return true;
