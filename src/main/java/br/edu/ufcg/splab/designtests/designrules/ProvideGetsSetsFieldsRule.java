@@ -5,7 +5,6 @@ import java.util.Set;
 
 import org.designwizard.design.ClassNode;
 import org.designwizard.design.FieldNode;
-import org.designwizard.design.MethodNode;
 import org.designwizard.designrules.Rule;
 
 import br.edu.ufcg.splab.designtests.DesignWizardDecorator;
@@ -29,18 +28,21 @@ public class ProvideGetsSetsFieldsRule extends AbstractDesignRule implements Rul
         for (ClassNode entityNode : classes) {
 
             Set<FieldNode> declaredFields = entityNode.getAllFields();
-            Set<MethodNode> declaredMethods = entityNode.getDeclaredMethods();
 
             boolean passed = true;
 
             for (FieldNode fieldNode : declaredFields) {
 
-                if (!hasGetMethod(fieldNode, declaredMethods)) {
+                if (fieldNode.isStatic()) {
+                    continue;
+                }
+
+                if (!hasGetMethod(fieldNode, entityNode)) {
                     this.report += "The field <" + fieldNode.getName() + "> of the class <" + fieldNode.getName()
                     + " doesn't implement the get method.\n";
                     passed = false;
                 }
-                if (hasSetMethod(fieldNode, declaredMethods)) {
+                if (!hasSetMethod(fieldNode, entityNode)) {
                     this.report += "The field <" + fieldNode.getName() + "> of the class <" + fieldNode.getName()
                     + " doesn't implement the set method.\n";
                     passed = false;
