@@ -8,7 +8,7 @@ import org.designwizard.design.ClassNode;
 import org.designwizard.design.MethodNode;
 import org.designwizard.design.PackageNode;
 import org.designwizard.exception.InexistentEntityException;
-import org.designwizard.main.DesignWizard;
+import org.designwizard.api.DesignWizard;
 
 import junit.framework.TestCase;
 

@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Set;
 
 import org.designwizard.design.PackageNode;
-import org.designwizard.main.DesignWizard;
+import org.designwizard.api.DesignWizard;
 
 import junit.framework.TestCase;
 

@@ -6,7 +6,7 @@ import java.util.Set;
 
 import org.designwizard.design.ClassNode;
 import org.designwizard.exception.InexistentEntityException;
-import org.designwizard.main.DesignWizard;
+import org.designwizard.api.DesignWizard;
 
 import br.edu.ufcg.splab.designtests.design.Architecture;
 

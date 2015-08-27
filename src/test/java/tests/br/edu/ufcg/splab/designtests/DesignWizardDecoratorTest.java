@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import java.util.Set;
 
 import org.designwizard.design.PackageNode;
-import org.designwizard.main.DesignWizard;
+import org.designwizard.api.DesignWizard;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
