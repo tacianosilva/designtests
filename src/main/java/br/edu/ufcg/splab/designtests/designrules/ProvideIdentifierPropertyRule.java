@@ -1,7 +1,6 @@
 package br.edu.ufcg.splab.designtests.designrules;
 
 import java.util.Collection;
-import java.util.Set;
 
 import org.designwizard.design.ClassNode;
 import org.designwizard.design.FieldNode;
@@ -27,19 +26,9 @@ public class ProvideIdentifierPropertyRule extends AbstractDesignRule implements
 
         for (ClassNode entityNode : classes) {
 
-            Set<FieldNode> declaredFields = entityNode.getAllFields();
-            boolean passed = false;
+            FieldNode field = getIdentifierProperty(entityNode);
 
-            for (FieldNode fieldNode : declaredFields) {
-                Set<ClassNode> annotations = fieldNode.getAnnotations();
-                ClassNode id = new ClassNode("javax.persistence.Id");
-                if (annotations.contains(id)) {
-                    passed = true;
-                    break;
-                }
-            }
-
-            if (!passed) {
+            if (field == null) {
                 this.report += "The class <" + entityNode.getName()
                 + " doesn't provide identifier property.\n";
                 addResultFalse(entityNode);

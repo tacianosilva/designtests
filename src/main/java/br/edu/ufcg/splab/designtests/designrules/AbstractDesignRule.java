@@ -63,13 +63,41 @@ public abstract class AbstractDesignRule implements Rule {
         resultFalse.add(node);
     }
 
-    protected boolean hasSetMethod(FieldNode fieldNode, Set<MethodNode> declaredMethods) {
-        // TODO Auto-generated method stub
+    protected boolean hasSetMethod(FieldNode fieldNode, ClassNode entityNode) {
+        String name = fieldNode.getShortName();
+        ClassNode type = fieldNode.getType();
+        ClassNode voidType = new ClassNode("void");
+        String getName = "set" + name.substring(0, 1).toUpperCase() + name.substring(1)+"("+type.getName()+")";
+
+        MethodNode methodNode = entityNode.getDeclaredMethod(getName);
+
+        if (methodNode == null) return false;
+
+        String methodName = methodNode.getShortName();
+        ClassNode methodType = methodNode.getReturnType();
+
+        if (methodName.equals(getName) && methodType.equals(voidType)) {
+            return true;
+        }
         return false;
     }
 
-    protected boolean hasGetMethod(FieldNode fieldNode, Set<MethodNode> declaredMethods) {
-        // TODO Auto-generated method stub
+    protected boolean hasGetMethod(FieldNode fieldNode, ClassNode entityNode) {
+        String name = fieldNode.getShortName();
+        ClassNode type = fieldNode.getType();
+        String getName = "get" + name.substring(0, 1).toUpperCase() + name.substring(1)+"()";
+
+        MethodNode methodNode = entityNode.getDeclaredMethod(getName);
+
+        if (methodNode == null) return false;
+
+        String methodName = methodNode.getShortName();
+        ClassNode methodType = methodNode.getReturnType();
+
+        if (methodName.equals(getName) && methodType.equals(type)) {
+            return true;
+        }
+
         return false;
     }
 
@@ -136,5 +164,17 @@ public abstract class AbstractDesignRule implements Rule {
             return true;
         }
         return false;
+    }
+
+    public FieldNode getIdentifierProperty(ClassNode entity) {
+        Set<FieldNode> declaredFields = entity.getAllFields();
+        for (FieldNode fieldNode : declaredFields) {
+            Set<ClassNode> annotations = fieldNode.getAnnotations();
+            ClassNode id = new ClassNode("javax.persistence.Id");
+            if (annotations.contains(id)) {
+                return fieldNode;
+            }
+        }
+        return null;
     }
 }
