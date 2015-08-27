@@ -1,18 +1,16 @@
 package br.edu.ufcg.splab.designtests;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Set;
 
 import org.designwizard.design.ClassNode;
 import org.designwizard.exception.InexistentEntityException;
 
 import br.edu.ufcg.splab.designtests.designrules.AbstractDesignRule;
+import br.edu.ufcg.splab.designtests.designrules.HashCodeAndEqualsNotUseIdentifierPropertyRule;
 import br.edu.ufcg.splab.designtests.designrules.HashCodeAndEqualsRule;
 import br.edu.ufcg.splab.designtests.designrules.ImplementsSerializableRule;
+import br.edu.ufcg.splab.designtests.designrules.ProvideGetsSetsFieldsRule;
 import br.edu.ufcg.splab.designtests.designrules.ProvideIdentifierPropertyRule;
 import br.edu.ufcg.splab.designtests.designrules.UseSetCollectionRule;
 
@@ -31,14 +29,14 @@ public class Main {
 
         for (ClassNode classNode : models) {
             System.out.println(classNode.getClassName());
-            System.out.println(classNode.getAllAnnotations());
+            System.out.println(classNode.getAnnotations());
         }
 
         Set<ClassNode> classes = dwd.getClassesFromCode();
 
         for (ClassNode classNode : classes) {
             System.out.println(classNode.getClassName());
-            System.out.println(classNode.getAllAnnotations());
+            System.out.println(classNode.getAnnotations());
         }
 
         Set<ClassNode> annotations = dwd.getAllAnnotations();
@@ -48,7 +46,7 @@ public class Main {
             System.out.println("Name: " + annotationNode.getName());
             // System.out.println("Annotations: " +
             // annotationNode.getClassesAnnotated());
-            System.out.println("Is Annotation: " + annotationNode.isAnnotationClass());
+            System.out.println("Is Annotation: " + annotationNode.isAnnotation());
         }
 
         ClassNode curso = dwd.getClass("br.ufrn.cerescaico.bsi.sigest.model.Curso");
@@ -56,11 +54,11 @@ public class Main {
         System.out.println("Name: " + curso.getName());
         System.out.println("ClassName: " + curso.getClassName());
         System.out.println("All Annotations:");
-        annotations = curso.getAllAnnotations();
+        annotations = curso.getAnnotations();
         for (ClassNode annotationNode : annotations) {
             System.out.println("Annotations");
             System.out.println("Name: " + annotationNode.getName());
-            System.out.println("Is Annotation: " + annotationNode.isAnnotationClass());
+            System.out.println("Is Annotation: " + annotationNode.isAnnotation());
         }
 
         ClassNode sigest = dwd.getClass("br.ufrn.cerescaico.bsi.sigest.Sigest");
@@ -68,18 +66,18 @@ public class Main {
         System.out.println("Name: " + sigest.getName());
         System.out.println("ClassName: " + sigest.getClassName());
         System.out.println("All Annotations:");
-        annotations = sigest.getAllAnnotations();
+        annotations = sigest.getAnnotations();
         for (ClassNode annotationNode : annotations) {
             System.out.println("Annotations");
             System.out.println("Name: " + annotationNode.getName());
-            System.out.println("Is Annotation: " + annotationNode.isAnnotationClass());
+            System.out.println("Is Annotation: " + annotationNode.isAnnotation());
         }
 
         ClassNode annotation = dwd.getAnnotation("javax.persistence.Entity");
         System.out.println("Annotations >>>> ");
         System.out.println("Name: " + annotation.getName());
         System.out.println("ClassName: " + annotation.getClassName());
-        System.out.println("is Annotation: " + annotation.isAnnotationClass());
+        System.out.println("is Annotation: " + annotation.isAnnotation());
         // System.out.println("All Classes: " +
         // annotation.getClassesAnnotated());
 
@@ -118,7 +116,7 @@ public class Main {
 
         ImplementsSerializableRule rule2 = new ImplementsSerializableRule(dwd);
         rule2.setClassNodes(models);
-        System.out.println("Report Rule ImplementsSerializableRule");
+        System.out.println("\nReport Rule ImplementsSerializableRule");
         if (!rule2.checkRule()) {
             System.out.println(rule2.getReport());
         }
@@ -149,91 +147,39 @@ public class Main {
         for (ClassNode classNode : verdadeiros) {
             System.out.println("Passou: " + classNode.getName());
         }
-    }
 
-    public static void processarArquivo(String fileProjects, String fileResults) {
-        try {
-            FileReader arq = new FileReader(fileProjects);
-            BufferedReader lerArq = new BufferedReader(arq);
-
-            FileWriter fw = criarArquivo(fileResults);
-            PrintWriter gravarArq = new PrintWriter(fw);
-
-            String linha = lerArq.readLine(); // lê a primeira linha
-            // a variável "linha" recebe o valor "null" quando o processo
-            // de repetição atingir o final do arquivo texto
-            while (linha != null) {
-                System.out.printf("%s\n", linha);
-
-                processarProjeto(linha, gravarArq);
-
-                linha = lerArq.readLine(); // lê da segunda até a última linha
-            }
-
-            arq.close();
-            fw.close();
-        } catch (IOException e) {
-            System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+        HashCodeAndEqualsNotUseIdentifierPropertyRule rule4 = new HashCodeAndEqualsNotUseIdentifierPropertyRule(dwd);
+        rule4.setClassNodes(models);
+        System.out.println("Report Rule HashCodeAndEqualsNotUseIdentifierPropertyRule");
+        if (!rule4.checkRule()) {
+            System.out.println(rule4.getReport());
         }
-    }
 
-    public static void processarProjeto(String projeto, PrintWriter gravar) {
-        String[] split = projeto.split("/");
-        String gitUser = split[0];
-        String projectName = split[1];
-        String reposDir = "scripts/repos/";
-        String classDir = "/target/classes";
-
-        String projectDir = reposDir + projeto + classDir;
-        boolean ocorreuErro = false;
-        String msgErro = "";
-        int numEntidades = 0;
-
-        try {
-            System.out.println("Diretório do Projeto: " + projectDir);
-            DesignWizardDecorator dwd = new DesignWizardDecorator(projectDir, projectName);
-
-            Set<ClassNode> classes = dwd.getClassesByAnnotation("javax.persistence.Entity");
-            numEntidades = classes.size();
-
-            AbstractDesignRule rule = new HashCodeAndEqualsRule(dwd);
-            if (!rule.checkRule()) {
-                System.out.println("Report Rule");
-                System.out.println(rule.getReport());
-            }
-
-        } catch (IOException ioe) {
-            // TODO Auto-generated catch block
-            ocorreuErro = true;
-            msgErro = ioe.getMessage();
-            ioe.printStackTrace();
-        } catch (ClassNotFoundException ce) {
-            // TODO Auto-generated catch block
-            ocorreuErro = true;
-            msgErro = ce.getMessage();
-            ce.printStackTrace();
-        } catch (InexistentEntityException e) {
-            // TODO Auto-generated catch block
-            ocorreuErro = true;
-            msgErro = e.getMessage();
-            e.printStackTrace();
-        } catch (ArrayIndexOutOfBoundsException e) {
-            ocorreuErro = true;
-            msgErro = e.getMessage();
-            e.printStackTrace();
+        falsos = rule4.getResultsFalse();
+        for (ClassNode classNode : falsos) {
+            System.out.println("Falhou: " + classNode.getName());
         }
-        if (!ocorreuErro) {
-            gravarLinha(gravar, gitUser, projectName, numEntidades, ocorreuErro, msgErro);
+
+        verdadeiros = rule4.getResultsTrue();
+        for (ClassNode classNode : verdadeiros) {
+            System.out.println("Passou: " + classNode.getName());
         }
-    }
 
-    public static void gravarLinha(PrintWriter gravar, String gitUser, String projectName, int numEntidades,
-            boolean ocorreuErro, String msgErro) {
-        gravar.printf("%s, %s, %d, %s, %s\n", gitUser, projectName, numEntidades, ocorreuErro, msgErro);
-    }
+        ProvideGetsSetsFieldsRule rule5 = new ProvideGetsSetsFieldsRule(dwd);
+        rule5.setClassNodes(models);
+        System.out.println("Report Rule ProvideGetsSetsFieldsRule");
+        if (!rule5.checkRule()) {
+            System.out.println(rule5.getReport());
+        }
 
-    public static FileWriter criarArquivo(String fileResults) throws IOException {
-        FileWriter arq = new FileWriter(fileResults);
-        return arq;
+        falsos = rule5.getResultsFalse();
+        for (ClassNode classNode : falsos) {
+            System.out.println("Falhou: " + classNode.getName());
+        }
+
+        verdadeiros = rule5.getResultsTrue();
+        for (ClassNode classNode : verdadeiros) {
+            System.out.println("Passou: " + classNode.getName());
+        }
     }
 }
