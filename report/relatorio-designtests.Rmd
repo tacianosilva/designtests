@@ -1,0 +1,206 @@
+---
+title: Detecção de violações arquiteturais em software com relação às recomendações
+  arquiteturais de utilização de frameworks
+author: "Taciano de Morais Silva"
+date: "18 de agosto de 2015"
+output: 
+  html_document:
+    toc: true
+  pdf_document:
+    toc: true
+bibliography: refs.bib
+---
+
+\newpage
+
+# Introdução
+
+A verificação de conformidade é uma prática para avaliar a evolução estrutural do software e detectar violações entre a arquitetura planejada e a arquitetura implementada. Atualmente, os frameworks são amplamente utilizados no desenvolvimento de software e, mesmo tendo impacto nas arquiteturas, não há estudos sobre a conformidade das aplicações com relação às regras para utilização do framework adotado. É preciso ter duas preocupações ao adotar um framework: como o framework acopla-se funcionalmente com a aplicação e como a aplicação irá acomodar-se estruturalmente ao framework. Para a primeira preocupação pode-se utilizar teste e verificar as funcionalidades utilizadas, já para a segunda preocupação, precisa-se utilizar a verificação de conformidade. A avaliação da conformidade, utilizando um conjunto de regras arquiteturais e testes de design, permite investigar e acompanhar a evolução arquitetural e identificar problemas decorrentes das violações às regras arquiteturais. A erosão do software, o aumento da complexidade e a dificuldade de manutenção são alguns dos problemas decorrentes do acúmulo de violações arquiteturais. No caso dos frameworks, as recomendações de utilização violadas podem causar problemas no comportamento esperado das funcionalidades e características do framework adotado, e ao passar despercebida, a inconformidade arquitetural pode problemas mais complexos no futuro. Neste estudo, pretende-se investigar a utilização de um conjunto de testes de design para detectar o estado da conformidade arquitetural de aplicações com as regras recomendadas pelo framework adotado. Isto permitirá a detecção das violações da aplicação nas práticas de utilização recomendadas do framework, e assim, verificar se é possível dizer o estado da conformidade arquitetural destas aplicações, quais regras foram mais afetadas e os motivos da ocorrência das violações. A criação de um conjunto de testes de design para um framework específico pode auxiliar na avaliação da evolução arquitetural durante o desenvolvimento e manutenção da aplicação, e assim, evitar o aparecimento de problemas. Devido ao uso amplamente difundido de frameworks e com a detecção e classificação das violações encontradas poderemos estimar que o impacto na qualidade arquitetural dos softwares é considerável.
+
+Este documento apresenta o relatório do experimento de detecção de violações arquiteturais com relação às recomendações arquiteturais de utilização do **framework JPA/Hibernate**. Para a escrita das regras de design utilizamos a **API DesignWizard** \cite{brunet2009design} ([[@brunet2011structural]], acesse <http://designwizard.org>).
+
+# Questões de Pesquisa
+
+1. É possível utilizar testes de design para a avaliação de conformidade arquitetural de um framework?
+
++ Para responder tal questão buscaremos saber qual a quantidade de regras extraídas do framework mapeadas diretamente com testes de design.
+
+2. As aplicações que adotam um dado framework estão em conformidade com as regras recomendadas por este framework? 
+
++ Taxa percentual será calculada para cada software com a razão entre o número de violações encontradas e o número total de regras arquiteturais do framework. Classificar a distribuição das violações por regras, entidades e projetos.
+
+3. Qual a distribuição das violações por regras, entidades e projetos?
+
++ Identificar a distribuição das violações por regras, entidades e projetos. Determinar se poucas regras são muito violadas, e muitas regras são pouco violadas.
+
+4. É possível dizer causas para a violação de regras utilizando a distribuição das violações?
+
+# Coleção de Dados
+
+## Determinação do Tamanho da Amostra
+
+Utilizando a função ES.h para determinar o Effect Size h, que posteriormente será utilizado para determinar o tamanho inicial da amostra. O ES.h recebe duas proporções, a primeira proporção p1 representa os 100% de conformidade e a segunda proporção p2 representa nossa hipótese de conformidade.
+
+```{r, echo=TRUE, message=FALSE}
+require(pwr)
+h = ES.h(1, 0.95)
+h
+```
+
+O Effect Size encontrado é próximo de 0.5, que é considerado “médio” de acordo com a padronização de Cohen.
+
+```{r, echo=TRUE}
+cohen.ES(test = c("p"), size = "medium")
+```
+
+Utilizando a função *pwr.p.test* para determinar o tamanho da amostra **n** com os seguintes parâmetros:
+
+* h = `r h`, Effect Size calculado.
+* sig.level = 0.05, para o grau de confiança de 95% temos a significância de 5% (probabilidade do erro tipo I). 
+* power = 0.8, para um poder do teste de 80% (1 menos a probabilidade do erro tipo II).
+
+```{r, echo=TRUE, message=FALSE}
+pwr.p.test(h=h, sig.level = 0.05, power = 0.8)
+```
+
+Desta forma, a função pwr.p.test retorna os parâmetros calculados e determina o tamanho da amostra **n** necessário para atender aos parâmetros de significância e poder do teste. Assim, temos determinado o tamanho da amostra:
+
+> n = 38.58352 
+
+## Seleção de amostra de projetos de software
+
+Para a seleção dos projetos para compor a amostra nós utilizamos os seguintes critérios:
+
+* Estarem hospedados no agregador on-line de repositórios GitHub.com;
+* Utilizarem o *Framework* de Persistência **JPA/Hibernate** objeto do estudo;
+* Contiverem classes persistentes;
+
+Foram selecionados 40 projetos para a amostra de projetos do GitHub através dos seguintes passos:
+
+1. No GitHub.com, obtemos uma lista de projetos Java em ordem decrescente de **stars** com o string de busca: **jpa hibernate language:java**;
+2. Selecionamos de forma aleatoria os 40 projetos da lista;
+3. Fazemos o clone do repositorio com a ultima revisão do código;
+4. Analizamos os projetos que utilizam Maven;
++Caso não utilizem construimos o pom.xml para o projeto;
+5. Compilamos todos os projetos;
+5. Então analizamos cada projeto na lista e selecionamos para o estudo aqueles que contenham classes persistentes;
+  + Classes persistentes são classes que seus dados serão persistidos em Banco de Dados;
+  + Identificamos essas classes pela presença da anotação **javax.persistence.Entity**.
+
+Para a obtenção da lista de projetos Java foi utilizado a ferramenta PyGitHub (script python) de acesso à API do GitHub. Contudo, a API do GitHub apresenta limitações de requisições e dependendo da busca e da necessidade de acessos a outros dados dos repositórios. Uma alternativa interessante é utilizar dados do github fornecidos por projetos como o GHTorrent. O GHTorrent fornece um dump mysql dos dados do github com um esquema relacional bem definido. Este dump é atualizado periodicamente.
+
+Podemos mapear a string de busca **jpa hibernate language:java** para SQL e utilizar a base de dados para obter a lista de projetos. Neste caso, teremos acesso a uma lista de projetos um pouco defasada no tempo, mas nada tão impactante.
+
+## Conjunto de Regras de Design
+
+Utilizando as recomendações de utilização no manual do *Framework* de Persistência **JPA/Hibernate** para as classes persistentes, identificamos as seguintes regras:
+
+* Implementar um construtor sem argumentos (Regra 1):
++ Todas as classes persistentes devem ter um construtor padrão (que não precisa ser público), então o Hibernate pode instânciar usando java.lang.reflect.Constructor.newInstance(). É recomenndado que este construtor seja definido com pelo menos a visibilidade package, permitindo a geração de *proxy runtime* funcionar corretamente.
+
+* Prover um identificador (Regra 2):
++ Prover uma propriedade de identificação. Identificador pode ser de qualquer tipo “básico” e não necessariamente precisa se referir a chaves primárias, mas apenas colunas para identificação única da linha. Deve-se usar tipos anuláveis (Classes Wrappers), não usar tipos primitivos.
+
+* Preferir Classes não finais (Regra 3):
++ Classes não finais permitem o recurso central do hibernate que é o uso de proxies para lazy loading. Isso depende da classe não ser final ou a classe deve implementar uma interface totalmente pública. O uso de classes finais não permite ao hibernate o uso de proxies para associações lazy fetching. Classes finais irá limitar suas opções para ajuste de desempenho.
+
+* Declarar os métodos de acesso e atualização para todos os atributos persistidos (Regra 4):
++ Considerado opcional e a visibilidade não precisa ser pública, podendo ser package, protected ou private. Pode-se usar o acesso direto ao atributos para propriedades particulares.
+
+* Implementar os métodos equals() e hasCode() (Regra 5):
++ Caso pretenda-se inserir classes persistentes em um conjunto e usar reconexão de instâncias dexanexadas.
+
+* Usar conjuntos para coleções (Regra 6):
++ Alternativa recomendada para representar associações multivaloradas.
+
+* Implementar a inteface java Serializable (Regra 7):
++ De acordo com a especificação: Se uma instância de entidade deve ser passada por valor (por exemplo, através de uma interface remota), a classe de entidade deve implementar a interface Serializable.
+
+## Outras Regras
+
+* Implementando Herança
++ As subclasses devem atender as regras 1 e 2. Ou seja, implementar um construtor padrão (sem argumentos) e prover um identificado. Herda as propriedades do identificador da super classe.
+
+* Não usar Modelos Dinâmicos (experimental e pode sofrer mudanças)
+
+# Descrição dos Dados
+
+O conjunto de dados é composto por arquivos obtidos a partir do processo de seleção da amostra e a partir do resultado da verificação do conjunto de regras de design descritos na seção anterior. Descrevemos os arquivos a seguir:
+
+* **projects.csv** (project name)
+* **results.csv** (project name, class name, rule name, result)
+
+Descrição das colunas dos arquivos:
+
+* *project name*: Nome do projeto é a combinação do identificador do usuário do *github* com o nome do repositório. Em alguns casos, os repositório contém vários projetos e é necessário acrescentar o nome do diretrório do projeto.
+* *class name*: Nome da classe persistente do projeto que foi analisada.
+* *rule name*: Nome da regra que foi verificada.
+* *result*: Resultado da verificação da regra: true, se a regra foi atendida; false, caso contrário.
+
+# Análise
+
+```{r}
+results = read.csv('/home/taciano/dev/workspace/designtests/scripts/results_2015-08-20.txt')
+results_rules = aggregate(results$rule, list(resultado = results$result, regra = results$rule), length)
+results_rules
+```
+
+```{r}
+results = read.csv('/home/taciano/dev/workspace/designtests/scripts/results_2015-08-20.txt')
+results_projects = aggregate(results$project, list(resultado = results$result, projeto = results$project), length)
+results_projects
+
+total_testes = aggregate(results$project, list(resultado = results$project), length)
+
+results_projects.passou <- results_projects[which(results_projects$resultado == 'true'),]
+results_projects.falhou <- results_projects[which(results_projects$resultado == 'false'),]
+
+results_projects.falhou$x / (results_projects.falhou$x + results_projects.passou$x)
+
+results_projectsByRules = aggregate(results$project, list(resultado = results$result, projeto = results$project, regra = results$rule), length)
+
+```
+
+```{r}
+results_projects.falhou["proporcao"] <- results_projects.falhou$x / (results_projects.falhou$x + results_projects.passou$x)
+results_projects.falhou["resultado"] <- NULL
+require(plyr)
+rename(results_projects.falhou, c("x"="falhas"))
+write.csv(results_projects.falhou, file = "/home/taciano/dev/workspace/designtests/scripts/results_prop_falhas.csv")
+```
+
+```{r}
+qqnorm(results_projects.falhou$proporcao)
+shapiro.test(results_projects.falhou$proporcao)
+
+require(nortest)
+ad.test(results_projects.falhou$proporcao)
+```
+
+
+```{r}
+t.test(results_projects.falhou$proporcao)
+```
+
+
+# Main findings
+
+* Non-Trivial Partitions and Trivial Partitions distributions are similar to the original study. This indicates that ClusterChanges is as effective in the context of OSS projects as in the context of closed source software project.
+* Pull requests tend to be smaller than the changesets in the original study and more cohesive
+* ClusterChanges never grouped unrelated diff-regions into the same partition, i.e. there were not any false positives.
+
+# Limitations
+
+* As of this writing, some changesets aren't being fully analyzed by our tool. This seem to be caused by limitations in ECJ. For instance, we have observed that ECJ is not detecting the use of a field when this use is inside a lambda function. As this may result in missing relationships and seem to be implementation issues unrelated to ClusterChanges, we have excluded such changesets from the dataset for now.
+* In our manual analysis of part of the pull requests, we found that some def-use and use-use relationships are apparently not being detected due to bugs in our tool. These may negatively affect the perceived efficiency of ClusterChanges.
+
+# Future work
+
+* Qualitative study investigating pull requests which have between 2 and 5 non-trivial partitions
+* Investigate whether there is a relationship between the number of non-trivial/trivial partitions and the acceptance of a pull request? If there is, ClusterChanges could be used as tool to predict the likelihood of a pull request being accepted.
+* Fix known bugs in ccjava
+* Repeat this qualitative study using commits instead of pull requests
+
+
+# References
+
