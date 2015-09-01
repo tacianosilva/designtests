@@ -3,11 +3,11 @@ title: Detecção de violações arquiteturais em software com relação às rec
   arquiteturais de utilização de frameworks
 author: "Taciano de Morais Silva"
 date: "18 de agosto de 2015"
-output: 
-  html_document:
-    toc: true
+output:
   pdf_document:
-    toc: true
+    toc: yes
+  html_document:
+    toc: yes
 bibliography: refs.bib
 ---
 
@@ -107,7 +107,7 @@ Utilizando as recomendações de utilização no manual do *Framework* de Persis
 * Declarar os métodos de acesso e atualização para todos os atributos persistidos (Regra 4):
 + Considerado opcional e a visibilidade não precisa ser pública, podendo ser package, protected ou private. Pode-se usar o acesso direto ao atributos para propriedades particulares.
 
-* Implementar os métodos equals() e hasCode() (Regra 5):
+* Implementar os métodos equals() e hashCode() (Regra 5):
 + Caso pretenda-se inserir classes persistentes em um conjunto e usar reconexão de instâncias dexanexadas.
 
 * Usar conjuntos para coleções (Regra 6):
@@ -137,70 +137,168 @@ Descrição das colunas dos arquivos:
 * *rule name*: Nome da regra que foi verificada.
 * *result*: Resultado da verificação da regra: true, se a regra foi atendida; false, caso contrário.
 
+## Dados da Amostra Aleatoria de Projetos
+
+Os dados da execução das regras para a amostra composta por projeto selecionados de forma aleatoria:
+
+```{r, echo=TRUE, message=FALSE}
+results = read.csv('/home/taciano/dev/workspace/designtests/scripts/results_2015-08-20.txt')
+```
+
+
+## Dados da Amostra de Projetos Estrelados
+
+Os dados da execução das regras para a amostra composta por projeto mais estrelados:
+
+```{r, echo=TRUE, message=FALSE}
+results_star = read.csv('/home/taciano/dev/workspace/designtests/scripts/results_star_2015-08-30.txt')
+```
+
+project name  | class name | rule name | result
+------------- | ------------- | ------------- | -------------
+mich...amples | jpa.config.java.Account | HashCodeAndEqualsRule | false
+mich...amples | jpa.config.java.Account | ProvideIdentifierPropertyRule | true
+mich...amples | jpa.config.java.Account | UseSetCollectionRule | true
+mich...amples | jpa.config.java.Account | NoFinalClassRule | true
+mich...amples | jpa.config.java.Account | NoArgumentConstructorRule | true
+mich...amples | jpa.config.java.Account | ImplementsSerializableRule | false
+sxy...project | com.fengjing.framework.springmvc.model.Dept | HashCodeAndEqualsRule | false
+sxy...project | com.fengjing.framework.springmvc.model.Dept | ProvideIdentifierPropertyRule | false
+sxy...project | com.fengjing.framework.springmvc.model.Dept | UseSetCollectionRule | false
+sxy...project | com.fengjing.framework.springmvc.model.Dept | NoFinalClassRule | true
+sxy...project | com.fengjing.framework.springmvc.model.Dept | NoArgumentConstructorRule | true
+sxy...project | com.fengjing.framework.springmvc.model.Dept | ImplementsSerializableRule | false 
+
 # Análise
 
+Para a análise utilizamos os dados da execução das regras para duas amostras de Projetos. Para cada uma das amostras os resultados foram agregados por projeto e por regras. Para cada amostra calculamos as proporções de falhas.
+
+## Proporçao de Falhas por Projeto (Seleção Aleatória)
+
 ```{r}
-results = read.csv('/home/taciano/dev/workspace/designtests/scripts/results_2015-08-20.txt')
-results_rules = aggregate(results$rule, list(resultado = results$result, regra = results$rule), length)
-results_rules
+results_proportions = read.csv('/home/taciano/dev/workspace/designtests/scripts/results_proportions.txt')
+results_proportions
 ```
 
-```{r}
-results = read.csv('/home/taciano/dev/workspace/designtests/scripts/results_2015-08-20.txt')
-results_projects = aggregate(results$project, list(resultado = results$result, projeto = results$project), length)
-results_projects
+### Teste de Normalidade
 
-total_testes = aggregate(results$project, list(resultado = results$project), length)
-
-results_projects.passou <- results_projects[which(results_projects$resultado == 'true'),]
-results_projects.falhou <- results_projects[which(results_projects$resultado == 'false'),]
-
-results_projects.falhou$x / (results_projects.falhou$x + results_projects.passou$x)
-
-results_projectsByRules = aggregate(results$project, list(resultado = results$result, projeto = results$project, regra = results$rule), length)
-
-```
+Os testes de normalidade nao rejeitam a hipotese dos dados serem normais!
 
 ```{r}
-results_projects.falhou["proporcao"] <- results_projects.falhou$x / (results_projects.falhou$x + results_projects.passou$x)
-results_projects.falhou["resultado"] <- NULL
-require(plyr)
-rename(results_projects.falhou, c("x"="falhas"))
-write.csv(results_projects.falhou, file = "/home/taciano/dev/workspace/designtests/scripts/results_prop_falhas.csv")
-```
-
-```{r}
-qqnorm(results_projects.falhou$proporcao)
-shapiro.test(results_projects.falhou$proporcao)
+qqnorm(results_proportions$proporcao)
+shapiro.test(results_proportions$proporcao)
 
 require(nortest)
-ad.test(results_projects.falhou$proporcao)
+ad.test(results_proportions$proporcao)
+```
+
+### Teste T
+
+```{r}
+t.test(results_proportions$proporcao)
+```
+
+## Proporçao de Falhas por Projeto (Seleção Estrelados)
+
+```{r}
+results_star_proportions = read.csv('/home/taciano/dev/workspace/designtests/scripts/results_star_proportions.txt')
+results_star_proportions
 ```
 
 
 ```{r}
-t.test(results_projects.falhou$proporcao)
+qqnorm(results_star_proportions$proporcao)
+shapiro.test(results_star_proportions$proporcao)
+
+require(nortest)
+ad.test(results_star_proportions$proporcao)
 ```
 
 
-# Main findings
+```{r}
+t.test(results_star_proportions$proporcao)
+```
 
-* Non-Trivial Partitions and Trivial Partitions distributions are similar to the original study. This indicates that ClusterChanges is as effective in the context of OSS projects as in the context of closed source software project.
-* Pull requests tend to be smaller than the changesets in the original study and more cohesive
-* ClusterChanges never grouped unrelated diff-regions into the same partition, i.e. there were not any false positives.
+## Proporçao de Falhas por Regras (Seleção Aleatoria)
 
-# Limitations
-
-* As of this writing, some changesets aren't being fully analyzed by our tool. This seem to be caused by limitations in ECJ. For instance, we have observed that ECJ is not detecting the use of a field when this use is inside a lambda function. As this may result in missing relationships and seem to be implementation issues unrelated to ClusterChanges, we have excluded such changesets from the dataset for now.
-* In our manual analysis of part of the pull requests, we found that some def-use and use-use relationships are apparently not being detected due to bugs in our tool. These may negatively affect the perceived efficiency of ClusterChanges.
-
-# Future work
-
-* Qualitative study investigating pull requests which have between 2 and 5 non-trivial partitions
-* Investigate whether there is a relationship between the number of non-trivial/trivial partitions and the acceptance of a pull request? If there is, ClusterChanges could be used as tool to predict the likelihood of a pull request being accepted.
-* Fix known bugs in ccjava
-* Repeat this qualitative study using commits instead of pull requests
+```{r}
+results_rules_proportions = read.csv('/home/taciano/dev/workspace/designtests/scripts/results_rules_proportions.txt')
+results_rules_proportions
+```
 
 
-# References
+```{r}
+qqnorm(results_rules_proportions$proporcao)
+shapiro.test(results_rules_proportions$proporcao)
+```
+
+
+```{r}
+t.test(results_rules_proportions$proporcao)
+```
+
+
+## Proporçao de Falhas por Regras (Seleção Estrelados)
+
+```{r}
+results_star_rules_proportions = read.csv('/home/taciano/dev/workspace/designtests/scripts/results_star_rules_proportions.txt')
+results_star_rules_proportions
+```
+
+
+```{r}
+qqnorm(results_star_rules_proportions$proporcao)
+shapiro.test(results_star_rules_proportions$proporcao)
+```
+
+
+```{r}
+t.test(results_star_rules_proportions$proporcao)
+```
+
+
+# Análise das Questões de Pesquisa
+
+## Questão de Pesquisa 1
+ 
+QP1: É possível utilizar testes de design para a avaliação de conformidade arquitetural de um framework?
+
+   No início do nosso trabalho não sabíamos da possibilidade de escrever regras de design para a recomendações de utlização do *Framework* JPA/Hibernate. A partir do manual do *framework* extraímos as recomendações para as classes persistêntes e foi possível escrever todas utilizando as ferramentas para descrever regras de design.
+   Existiam algumas recomendações relacionadas com os requisitos para os arquivos de configuração, que não eram objetivo do nosso estudo, mas não estão diretamente relacionadas com recomendações arquiteturais.
+
+## Questão de Pesquisa 2
+
+QP2. As aplicações que adotam o *framework* estão em conformidade com as regras recomendadas por este framework? 
+
+  Foi calculado as proporções de falhas de todos as regras por projeto. Para os projetos selecionados aleatoriamente tivemos uma média de 30.05% de falhas para todas as classes persistentes do projeto. Para os projetos mais estrelados tivemos uma média de 32.12% de falhas para todas as classes persistentes.
+
+```{r}
+boxplot(results_proportions$proporcao, results_star_proportions$proporcao)
+```
+
+## Questão de Pesquisa 3
+
+QP3. Qual a distribuição das violações por regras, entidades e projetos?
+
+  Ao realizar os testes de normalidade e teste T.
+
+## Questão de Pesquisa 4
+
+QP4: É possível dizer causas para a violação de regras utilizando a distribuição das violações?
+
+  A maioria das regras fazem referência à recomendações para maior eficiência e funcionamento adequado das características do framework. Condiderando as duas principais regras quebradas podemos concluir que não foram seguidas às recomendações do manual. Para a regra sobre o uso de equals e hashCode a recomendação diz que se ele for implementado deve-se usar uma solução que não utilize a chave primária utilizada pelo Hibernate. E esta relação pode causar problemas no proxie do hibernate.
+
+# Limitações
+
+* A seleção aleatória de projetos do github fornece uma viriabilidade grande de projetos, alguns deles são criados para tutorias e exemplos de aprendizado de programadores (projetos não reais);
+* Presenção de projetos incompletos na seleção aleatória;
+* A seleção de projetos com mais estrelas não garante necessariamente que estes sejam reais mas são muito seguidos/curtidos tornando-os relevantes.
+
+# Trabalhos Futuros
+
+* Investigar correlação com os bugs nas issues dos projetos relacionados com o uso;
+* Investigar a execução das regras em um projeto real (Sistema e-Pol)
+* Ampliar e validar qualitativamente o conjunto de regras de design para o Framework Hibernate
+
+# Referências
 
