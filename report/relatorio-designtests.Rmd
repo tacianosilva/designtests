@@ -2,7 +2,6 @@
 title: Detecção de violações arquiteturais em software com relação às recomendações
   arquiteturais de utilização de frameworks
 author: "Taciano de Morais Silva"
-date: "18 de agosto de 2015"
 output:
   pdf_document:
     toc: yes
@@ -15,23 +14,20 @@ bibliography: refs.bib
 
 # Introdução
 
-A verificação de conformidade é uma prática para avaliar a evolução estrutural do software e detectar violações entre a arquitetura planejada e a arquitetura implementada. Atualmente, os frameworks são amplamente utilizados no desenvolvimento de software e, mesmo tendo impacto nas arquiteturas, não há estudos sobre a conformidade das aplicações com relação às regras para utilização do framework adotado. É preciso ter duas preocupações ao adotar um framework: como o framework acopla-se funcionalmente com a aplicação e como a aplicação irá acomodar-se estruturalmente ao framework. Para a primeira preocupação pode-se utilizar teste e verificar as funcionalidades utilizadas, já para a segunda preocupação, precisa-se utilizar a verificação de conformidade. A avaliação da conformidade, utilizando um conjunto de regras arquiteturais e testes de design, permite investigar e acompanhar a evolução arquitetural e identificar problemas decorrentes das violações às regras arquiteturais. A erosão do software, o aumento da complexidade e a dificuldade de manutenção são alguns dos problemas decorrentes do acúmulo de violações arquiteturais. No caso dos frameworks, as recomendações de utilização violadas podem causar problemas no comportamento esperado das funcionalidades e características do framework adotado, e ao passar despercebida, a inconformidade arquitetural pode problemas mais complexos no futuro. Neste estudo, pretende-se investigar a utilização de um conjunto de testes de design para detectar o estado da conformidade arquitetural de aplicações com as regras recomendadas pelo framework adotado. Isto permitirá a detecção das violações da aplicação nas práticas de utilização recomendadas do framework, e assim, verificar se é possível dizer o estado da conformidade arquitetural destas aplicações, quais regras foram mais afetadas e os motivos da ocorrência das violações. A criação de um conjunto de testes de design para um framework específico pode auxiliar na avaliação da evolução arquitetural durante o desenvolvimento e manutenção da aplicação, e assim, evitar o aparecimento de problemas. Devido ao uso amplamente difundido de frameworks e com a detecção e classificação das violações encontradas poderemos estimar que o impacto na qualidade arquitetural dos softwares é considerável.
+  A verificação de conformidade é uma prática para avaliar a evolução estrutural do software e detectar violações entre a arquitetura planejada e a arquitetura implementada. Atualmente, framework são amplamente utilizados no desenvolvimento de software e, mesmo tendo impacto nas arquiteturas, não há estudos sobre a conformidade das aplicações com relação às regras para utilização do Framework adotado.Para Govoni [@govoni1999java], uma framework é uma coleção abstrata de classes, interface e padrões dedicados para resolver uma classe de problemas completamente flexível e com arquitetura extensível. 
+  É preciso ter duas preocupações ao adotar um Framework: como o Framework acopla-se funcionalmente com a aplicação e como a aplicação irá acomodar-se estruturalmente ao Framework. Para a primeira preocupação pode-se utilizar teste e verificar as funcionalidades utilizadas, já para a segunda preocupação, precisa-se utilizar a verificação de conformidade. A avaliação da conformidade, utilizando um conjunto de regras arquiteturais e testes de design, permite investigar e acompanhar a evolução arquitetural e identificar problemas decorrentes das violações às regras arquiteturais. A erosão do software, o aumento da complexidade e a dificuldade de manutenção são alguns dos problemas decorrentes do acúmulo de violações arquiteturais. 
+  No caso dos Frameworks, as recomendações de utilização violadas podem causar problemas no comportamento esperado das funcionalidades e características do Framework adotado, e ao passar despercebida, a inconformidade arquitetural pode provocar problemas mais complexos no futuro. 
+  Neste estudo, foi utilizado um conjunto de testes de design para investigar e detectar o estado da conformidade arquitetural de aplicações com as regras recomendadas pelo *framework* adotado. Isto permitirá a detecção das violações da aplicação nas práticas de utilização recomendadas do Framework, e assim, verificar se é possível dizer o estado da conformidade arquitetural destas aplicações, quais regras foram mais afetadas e os motivos da ocorrência das violações. A criação de um conjunto de testes de design para um *framework* específico pode auxiliar na avaliação da evolução arquitetural durante o desenvolvimento e manutenção da aplicação, e assim, evitar o aparecimento de problemas. Devido ao uso amplamente difundido de Frameworks e com a detecção e classificação das violações encontradas foi possível calcular a proporção de projetos que violam as regras e quais as regras foram mais violadas.
 
-Este documento apresenta o relatório do experimento de detecção de violações arquiteturais com relação às recomendações arquiteturais de utilização do **framework JPA/Hibernate**. Para a escrita das regras de design utilizamos a **API DesignWizard** \cite{brunet2009design} ([[@brunet2011structural]], acesse <http://designwizard.org>).
+  Este documento apresenta o relatório do experimento de detecção de violações arquiteturais com relação às recomendações arquiteturais de utilização do **framework JPA/Hibernate**. Para a escrita das regras de design utilizamos a **API DesignWizard** ([[@brunet2011structural], [@brunet2009design]], acesse <http://designwizard.org>).
 
 # Questões de Pesquisa
 
-1. É possível utilizar testes de design para a avaliação de conformidade arquitetural de um framework?
+1. É possível utilizar testes de design para a avaliação de conformidade arquitetural de um Framework?
 
-+ Para responder tal questão buscaremos saber qual a quantidade de regras extraídas do framework mapeadas diretamente com testes de design.
-
-2. As aplicações que adotam um dado framework estão em conformidade com as regras recomendadas por este framework? 
-
-+ Taxa percentual será calculada para cada software com a razão entre o número de violações encontradas e o número total de regras arquiteturais do framework. Classificar a distribuição das violações por regras, entidades e projetos.
+2. As aplicações que adotam um dado Framework estão em conformidade com as regras recomendadas por este Framework? 
 
 3. Qual a distribuição das violações por regras, entidades e projetos?
-
-+ Identificar a distribuição das violações por regras, entidades e projetos. Determinar se poucas regras são muito violadas, e muitas regras são pouco violadas.
 
 4. É possível dizer causas para a violação de regras utilizando a distribuição das violações?
 
@@ -39,21 +35,24 @@ Este documento apresenta o relatório do experimento de detecção de violaçõe
 
 ## Determinação do Tamanho da Amostra
 
-Utilizando a função ES.h para determinar o Effect Size h, que posteriormente será utilizado para determinar o tamanho inicial da amostra. O ES.h recebe duas proporções, a primeira proporção p1 representa os 100% de conformidade e a segunda proporção p2 representa nossa hipótese de conformidade.
+  Para determinarmos o tamanho inicial da amostra foi utilizado o pacote *pwr* da linguagem R que contém funções para cálculo de Effect Size e determinar valores para as variáveis de interesse.
 
-```{r, echo=TRUE, message=FALSE}
+  Utilizando a função ES.h para determinar o Effect Size h, que posteriormente será utilizado para determinar o tamanho inicial da amostra. O ES.h recebe duas proporções, a primeira proporção p1 representa os 100% de conformidade e a segunda proporção p2 representa nossa hipótese de conformidade.
+  
+```{r}
 require(pwr)
 h = ES.h(1, 0.95)
 h
 ```
 
-O Effect Size encontrado é próximo de 0.5, que é considerado “médio” de acordo com a padronização de Cohen.
+  O *Effect Size* encontrado é próximo de 0.5, que é considerado *médio* de acordo com a padronização de Cohen.
 
 ```{r, echo=TRUE}
+
 cohen.ES(test = c("p"), size = "medium")
 ```
 
-Utilizando a função *pwr.p.test* para determinar o tamanho da amostra **n** com os seguintes parâmetros:
+  Utilizamos a função *pwr.p.test* para determinar o tamanho da amostra **n** com os seguintes parâmetros:
 
 * h = `r h`, Effect Size calculado.
 * sig.level = 0.05, para o grau de confiança de 95% temos a significância de 5% (probabilidade do erro tipo I). 
@@ -63,62 +62,71 @@ Utilizando a função *pwr.p.test* para determinar o tamanho da amostra **n** co
 pwr.p.test(h=h, sig.level = 0.05, power = 0.8)
 ```
 
-Desta forma, a função pwr.p.test retorna os parâmetros calculados e determina o tamanho da amostra **n** necessário para atender aos parâmetros de significância e poder do teste. Assim, temos determinado o tamanho da amostra:
+  Desta forma, a função pwr.p.test retorna os parâmetros calculados e determina o tamanho da amostra **n** necessário para atender aos parâmetros de significância e poder do teste. Assim, temos determinado o tamanho da amostra:
 
 > n = 38.58352 
 
+  Aproximadamente nossa amostra deve ter 39 projetos.
+
 ## Seleção de amostra de projetos de software
 
-Para a seleção dos projetos para compor a amostra nós utilizamos os seguintes critérios:
+  Para a seleção dos projetos para compor a amostra nós utilizamos os seguintes critérios:
 
-* Estarem hospedados no agregador on-line de repositórios GitHub.com;
-* Utilizarem o *Framework* de Persistência **JPA/Hibernate** objeto do estudo;
-* Contiverem classes persistentes;
+* Estarem hospedados no agregador on-line de repositórios *GitHub.com*;
+* Utilizarem o *Framework* de Persistência **JPA/Hibernate**;
+* Contiverem classes persistentes (classes com a anotaçao Entity);
 
-Foram selecionados 40 projetos para a amostra de projetos do GitHub através dos seguintes passos:
+  Foram selecionados 40 projetos para a amostra de projetos do GitHub através dos seguintes passos:
 
-1. No GitHub.com, obtemos uma lista de projetos Java em ordem decrescente de **stars** com o string de busca: **jpa hibernate language:java**;
-2. Selecionamos de forma aleatoria os 40 projetos da lista;
-3. Fazemos o clone do repositorio com a ultima revisão do código;
-4. Analizamos os projetos que utilizam Maven;
-+Caso não utilizem construimos o pom.xml para o projeto;
+1. No GitHub.com obtemos uma lista de projetos Java em ordem decrescente de **stars** com o string de busca: **jpa hibernate language:java**;
+2. Selecionamos de forma aleatória os 40 projetos da lista;
+3. Fizemos o clone do repositório com a ultima revisão do código;
+4. Analisamos os projetos que utilizam Maven; para os que não fazem uso do Maven, construímos o pom.xml para o projeto;
 5. Compilamos todos os projetos;
-5. Então analizamos cada projeto na lista e selecionamos para o estudo aqueles que contenham classes persistentes;
-  + Classes persistentes são classes que seus dados serão persistidos em Banco de Dados;
+5. Então analisamos cada projeto na lista e selecionamos para o estudo aqueles que contenham classes persistentes;
+  + Classes persistentes são aquelas cujos os dados são persistidos em Banco de Dados;
   + Identificamos essas classes pela presença da anotação **javax.persistence.Entity**.
 
-Para a obtenção da lista de projetos Java foi utilizado a ferramenta PyGitHub (script python) de acesso à API do GitHub. Contudo, a API do GitHub apresenta limitações de requisições e dependendo da busca e da necessidade de acessos a outros dados dos repositórios. Uma alternativa interessante é utilizar dados do github fornecidos por projetos como o GHTorrent. O GHTorrent fornece um dump mysql dos dados do github com um esquema relacional bem definido. Este dump é atualizado periodicamente.
+  Para a obtenção da lista de projetos Java foi utilizado a ferramenta PyGitHub (script python) de acesso à API do GitHub. Contudo, a API do GitHub apresenta limitações de requisições e dependendo da busca e da necessidade de acessos a outros dados dos repositórios. Uma alternativa interessante é utilizar dados do github fornecidos por projetos como o GHTorrent [@Gousi13]. O GHTorrent fornece um dump mysql dos dados do github com um esquema relacional bem definido. Este dump é atualizado periodicamente.
 
-Podemos mapear a string de busca **jpa hibernate language:java** para SQL e utilizar a base de dados para obter a lista de projetos. Neste caso, teremos acesso a uma lista de projetos um pouco defasada no tempo, mas nada tão impactante.
+  Podemos mapear a string de busca **jpa hibernate language:java** para SQL e utilizar a base de dados para obter a lista de projetos. Neste caso, teremos acesso a uma lista de projetos um pouco defasada no tempo, mas nada tão impactante.
 
 ## Conjunto de Regras de Design
 
 Utilizando as recomendações de utilização no manual do *Framework* de Persistência **JPA/Hibernate** para as classes persistentes, identificamos as seguintes regras:
 
 * Implementar um construtor sem argumentos (Regra 1):
-+ Todas as classes persistentes devem ter um construtor padrão (que não precisa ser público), então o Hibernate pode instânciar usando java.lang.reflect.Constructor.newInstance(). É recomenndado que este construtor seja definido com pelo menos a visibilidade package, permitindo a geração de *proxy runtime* funcionar corretamente.
+
++ Todas as classes persistentes devem ter um construtor padrão (que não precisa ser público), então o Hibernate pode instanciar usando java.lang.reflect.Constructor.newInstance(). É recomendado que este construtor seja definido com pelo menos a visibilidade package, permitindo a geração de *proxy runtime* funcionar corretamente.
 
 * Prover um identificador (Regra 2):
+
 + Prover uma propriedade de identificação. Identificador pode ser de qualquer tipo “básico” e não necessariamente precisa se referir a chaves primárias, mas apenas colunas para identificação única da linha. Deve-se usar tipos anuláveis (Classes Wrappers), não usar tipos primitivos.
 
 * Preferir Classes não finais (Regra 3):
+
 + Classes não finais permitem o recurso central do hibernate que é o uso de proxies para lazy loading. Isso depende da classe não ser final ou a classe deve implementar uma interface totalmente pública. O uso de classes finais não permite ao hibernate o uso de proxies para associações lazy fetching. Classes finais irá limitar suas opções para ajuste de desempenho.
 
 * Declarar os métodos de acesso e atualização para todos os atributos persistidos (Regra 4):
+
 + Considerado opcional e a visibilidade não precisa ser pública, podendo ser package, protected ou private. Pode-se usar o acesso direto ao atributos para propriedades particulares.
 
 * Implementar os métodos equals() e hashCode() (Regra 5):
-+ Caso pretenda-se inserir classes persistentes em um conjunto e usar reconexão de instâncias dexanexadas.
+
++ Caso pretenda-se inserir classes persistentes em um conjunto e usar reconexão de instâncias desanexadas.
 
 * Usar conjuntos para coleções (Regra 6):
-+ Alternativa recomendada para representar associações multivaloradas.
 
-* Implementar a inteface java Serializable (Regra 7):
++ Alternativa recomendada para representar associações multi-valoradas.
+
+* Implementar a interface java Serializable (Regra 7):
+
 + De acordo com a especificação: Se uma instância de entidade deve ser passada por valor (por exemplo, através de uma interface remota), a classe de entidade deve implementar a interface Serializable.
 
 ## Outras Regras
 
 * Implementando Herança
+
 + As subclasses devem atender as regras 1 e 2. Ou seja, implementar um construtor padrão (sem argumentos) e prover um identificado. Herda as propriedades do identificador da super classe.
 
 * Não usar Modelos Dinâmicos (experimental e pode sofrer mudanças)
@@ -132,14 +140,14 @@ O conjunto de dados é composto por arquivos obtidos a partir do processo de sel
 
 Descrição das colunas dos arquivos:
 
-* *project name*: Nome do projeto é a combinação do identificador do usuário do *github* com o nome do repositório. Em alguns casos, os repositório contém vários projetos e é necessário acrescentar o nome do diretrório do projeto.
+* *project name*: Nome do projeto é a combinação do identificador do usuário do *github* com o nome do repositório. Em alguns casos, os repositório contém vários projetos e é necessário acrescentar o nome do diretório do projeto.
 * *class name*: Nome da classe persistente do projeto que foi analisada.
 * *rule name*: Nome da regra que foi verificada.
 * *result*: Resultado da verificação da regra: true, se a regra foi atendida; false, caso contrário.
 
 ## Dados da Amostra Aleatoria de Projetos
 
-Os dados da execução das regras para a amostra composta por projeto selecionados de forma aleatoria:
+Os dados da execução das regras para a amostra composta por projeto selecionados de forma aleatória:
 
 ```{r, echo=TRUE, message=FALSE}
 results = read.csv('/home/taciano/dev/workspace/designtests/scripts/results_2015-08-20.txt')
@@ -162,12 +170,12 @@ mich...amples | jpa.config.java.Account | UseSetCollectionRule | true
 mich...amples | jpa.config.java.Account | NoFinalClassRule | true
 mich...amples | jpa.config.java.Account | NoArgumentConstructorRule | true
 mich...amples | jpa.config.java.Account | ImplementsSerializableRule | false
-sxy...project | com.fengjing.framework.springmvc.model.Dept | HashCodeAndEqualsRule | false
-sxy...project | com.fengjing.framework.springmvc.model.Dept | ProvideIdentifierPropertyRule | false
-sxy...project | com.fengjing.framework.springmvc.model.Dept | UseSetCollectionRule | false
-sxy...project | com.fengjing.framework.springmvc.model.Dept | NoFinalClassRule | true
-sxy...project | com.fengjing.framework.springmvc.model.Dept | NoArgumentConstructorRule | true
-sxy...project | com.fengjing.framework.springmvc.model.Dept | ImplementsSerializableRule | false 
+sxy...project | com.fengjing.Framework.springmvc.model.Dept | HashCodeAndEqualsRule | false
+sxy...project | com.fengjing.Framework.springmvc.model.Dept | ProvideIdentifierPropertyRule | false
+sxy...project | com.fengjing.Framework.springmvc.model.Dept | UseSetCollectionRule | false
+sxy...project | com.fengjing.Framework.springmvc.model.Dept | NoFinalClassRule | true
+sxy...project | com.fengjing.Framework.springmvc.model.Dept | NoArgumentConstructorRule | true
+sxy...project | com.fengjing.Framework.springmvc.model.Dept | ImplementsSerializableRule | false 
 
 # Análise
 
@@ -182,7 +190,7 @@ results_proportions
 
 ### Teste de Normalidade
 
-Os testes de normalidade nao rejeitam a hipotese dos dados serem normais!
+Os testes de normalidade não rejeitam a hipótese dos dados serem normais!
 
 ```{r}
 qqnorm(results_proportions$proporcao)
@@ -261,14 +269,14 @@ t.test(results_star_rules_proportions$proporcao)
 
 ## Questão de Pesquisa 1
  
-QP1: É possível utilizar testes de design para a avaliação de conformidade arquitetural de um framework?
+QP1: É possível utilizar testes de design para a avaliação de conformidade arquitetural de um Framework?
 
-   No início do nosso trabalho não sabíamos da possibilidade de escrever regras de design para a recomendações de utlização do *Framework* JPA/Hibernate. A partir do manual do *framework* extraímos as recomendações para as classes persistêntes e foi possível escrever todas utilizando as ferramentas para descrever regras de design.
+   No início do nosso trabalho não sabíamos da possibilidade de escrever regras de design para a recomendações de utilização do *Framework* JPA/Hibernate. A partir do manual do *framework* extraímos as recomendações para as classes persistentes e foi possível escrever todas utilizando as ferramentas para descrever regras de design.
    Existiam algumas recomendações relacionadas com os requisitos para os arquivos de configuração, que não eram objetivo do nosso estudo, mas não estão diretamente relacionadas com recomendações arquiteturais.
 
 ## Questão de Pesquisa 2
 
-QP2. As aplicações que adotam o *framework* estão em conformidade com as regras recomendadas por este framework? 
+QP2. As aplicações que adotam o *framework* estão em conformidade com as regras recomendadas por este Framework? 
 
   Foi calculado as proporções de falhas de todos as regras por projeto. Para os projetos selecionados aleatoriamente tivemos uma média de 30.05% de falhas para todas as classes persistentes do projeto. Para os projetos mais estrelados tivemos uma média de 32.12% de falhas para todas as classes persistentes.
 
@@ -280,25 +288,30 @@ boxplot(results_proportions$proporcao, results_star_proportions$proporcao)
 
 QP3. Qual a distribuição das violações por regras, entidades e projetos?
 
-  Ao realizar os testes de normalidade e teste T.
+  Foi calculado a distribução das violações por projetos e por regra. Desta forma, identificamos que cerca de 30% dos projetos apresentaram falhas e que a maiorias das falhas estão concentradas em duas regras. Aplicamos testes para detectar a normalidade dos dados, o que nos permitiu utilizarmos um teste T para calcular o intervalo de confiança.
 
 ## Questão de Pesquisa 4
 
 QP4: É possível dizer causas para a violação de regras utilizando a distribuição das violações?
 
-  A maioria das regras fazem referência à recomendações para maior eficiência e funcionamento adequado das características do framework. Condiderando as duas principais regras quebradas podemos concluir que não foram seguidas às recomendações do manual. Para a regra sobre o uso de equals e hashCode a recomendação diz que se ele for implementado deve-se usar uma solução que não utilize a chave primária utilizada pelo Hibernate. E esta relação pode causar problemas no proxie do hibernate.
+  A maioria das regras fazem referência à recomendações para maior eficiência e funcionamento adequado das características do Framework. Considerando as duas principais regras quebradas podemos concluir que não foram seguidas às recomendações do manual. Para a regra sobre o uso de equals e hashCode a recomendação diz que se ele for implementado deve-se usar uma solução que não utilize a chave primária utilizada pelo Hibernate. E esta relação pode causar problemas no proxy do hibernate.
 
 # Limitações
 
-* A seleção aleatória de projetos do github fornece uma viriabilidade grande de projetos, alguns deles são criados para tutorias e exemplos de aprendizado de programadores (projetos não reais);
-* Presenção de projetos incompletos na seleção aleatória;
+* A validação da implementação das regras;
+* A seleção aleatória de projetos do github fornece uma variabilidade grande de projetos, alguns deles são criados para tutorias e exemplos de aprendizado de programadores (projetos não reais);
+* Presença de projetos incompletos na seleção aleatória;
 * A seleção de projetos com mais estrelas não garante necessariamente que estes sejam reais mas são muito seguidos/curtidos tornando-os relevantes.
 
 # Trabalhos Futuros
 
-* Investigar correlação com os bugs nas issues dos projetos relacionados com o uso;
-* Investigar a execução das regras em um projeto real (Sistema e-Pol)
+* Avaliar e validar o conjunto de regras de design extraídas do framework com especialistas;
+* Investigar correlação com os bugs nas issues dos projetos relacionados com as regras que falharam;
+* Investigar a execução das regras em um projeto real (Sistema e-Pol);
 * Ampliar e validar qualitativamente o conjunto de regras de design para o Framework Hibernate
+  + Executar o experimento em projetos reais com releases estáveis;
+  + Apresentar os resultados e discutir com especialista a validade das regras;
+  + Comparar o resultado dos experimentos em projetos estáveis e projetos não estáveis.
 
 # Referências
 
