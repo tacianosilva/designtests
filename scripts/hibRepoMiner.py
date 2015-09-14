@@ -22,7 +22,7 @@ VERBOSE = True
 DEFAULT_OUTPUT_PATH = 'repos'
 MAVEN_BIN = '~/dev/apache-maven-3.3.3/bin'
 tamanhoPopulacao = -1
-tamanhoAmostra = 40
+tamanhoAmostra = 50
 buscarRepositorios = False
 STRING_BUSCA = "jpa hibernate language:java"
 
@@ -137,8 +137,9 @@ def getProjectsThatUseHibernate(args, gh):
     informacoes.append("Total de Resultados da Busca: %d" % tamanhoPopulacao)
     informacoes.append("Número de Repositorios com Hibernate/JPA: %d\n" % args.numHibernateReposDesired)
 
-    amostras = sortearAmostra(tamanhoPopulacao, tamanhoAmostra);
-    amostras.sort()
+    #amostras = sortearAmostra(tamanhoPopulacao, tamanhoAmostra);
+    amostras = selecionarTopStar(tamanhoPopulacao, tamanhoAmostra);
+    #amostras.sort()
 
     for p in repositorios:
 
@@ -164,7 +165,7 @@ def getProjectsThatUseHibernate(args, gh):
                     isMavenProj = "isMavenProject:True"
                     hibernateProjects.append(p[0])
 
-                print "Project %s uses hibernate. Need to find %d more projects that use hibernate..." % (p[0], args.numHibernateReposDesired - len(hibernateProjects))
+                print "Project %s uses hibernate. Need to find %d more projects that use hibernate..." % (p[0], args.numHibernateReposDesired - indice)
             print p[0] + ", " + isMavenProj + ", " + hasEntity
             informacoes.append(p[0] + ", " + isMavenProj + ", " + hasEntity)
 
@@ -183,6 +184,10 @@ def sortearAmostra(tamanhoPopulacao, tamanhoAmostra):
         rand = randint(1, tamanhoPopulacao)
         conjunto.add(rand)
     amostra = list(conjunto)
+    return amostra
+
+def selecionarTopStar(tamanhoPopulacao, tamanhoAmostra):
+    amostra = range(1, tamanhoAmostra+1)
     return amostra
 
 def writeInformations(nomeArq, informacoes):
@@ -221,8 +226,8 @@ def main():
     gh = initGithub(args.authenticate)
 
     dados = getProjectsThatUseHibernate(args, gh)
-    writeInformations('projectsInformations_2015-07-30.txt', dados[0])
-    writeInformations('projectsThatUseHibernate_2015-07-30.txt',dados[1])
+    writeInformations('projects_star_2015-08-30-2.txt', dados[0])
+    writeInformations('projects_star_hibernate_2015-08-30-2.txt',dados[1])
     runMavenCompile(dados[1])
 
 
