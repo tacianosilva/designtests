@@ -1,0 +1,7 @@
+"","regra","total","falhou","proporcao"
+"1","HashCodeAndEqualsRule",131,82,0.625954198473282
+"2","ImplementsSerializableRule",131,81,0.618320610687023
+"3","NoArgumentConstructorRule",131,0,0
+"4","NoFinalClassRule",131,0,0
+"5","ProvideIdentifierPropertyRule",131,7,0.0534351145038168
+"6","UseSetCollectionRule",131,37,0.282442748091603

@@ -1,0 +1,58 @@
+Lista de Projetos com Hibernate/JPA
+Data: 2015-08-30
+String de Busca: jpa hibernate language:java
+Total de Resultados da Busca: 646
+Número de Repositorios com Hibernate/JPA: 50
+
+michaelisvy/hibernate-4-spring-3.1-samples, isMavenProject:True, hasEntity:True
+sxyx2008/maven-framework-project, isMavenProject:True, hasEntity:True
+vladmihalcea/hibernate-master-class, isMavenProject:True, hasEntity:True
+oregami/dropwizard-guice-jpa-seed, isMavenProject:True, hasEntity:True
+bogus/Java-Spring-Examples, isMavenProject:False, hasEntity:True
+hibernate/hibernate-metamodelgen, isMavenProject:False, hasEntity:True
+amacoder/demo-restWS-spring-jersey-jpa2-hibernate, isMavenProject:True, hasEntity:True
+alexec/tutorial-hibernate-jpa, isMavenProject:True, hasEntity:True
+hibernate/hibernate-jpa-api, isMavenProject:False, hasEntity:False
+sroysf/webapp-springmvc-jpa-hibernate, isMavenProject:True, hasEntity:True
+GoogleCloudPlatform/appengine-cloudsql-native-mysql-hibernate-jpa-demo-java, isMavenProject:True, hasEntity:True
+lyubo/play-ebean, isMavenProject:False, hasEntity:False
+arey/spring-javaconfig-sample, isMavenProject:False, hasEntity:False
+nchandra/SampleDropwizardService, isMavenProject:True, hasEntity:True
+thrawn01/Spring-Jersey-Hibernate-DbUnit-Example, isMavenProject:True, hasEntity:True
+algaworks/curso-jpa-hibernate, isMavenProject:False, hasEntity:True
+adaikiss/xun, isMavenProject:True, hasEntity:True
+jirutka/rsql-hibernate, isMavenProject:True, hasEntity:True
+pires/fabric8-persistence-hibernate, isMavenProject:True, hasEntity:True
+oronno/WebApplication-Project-Skeleton, isMavenProject:False, hasEntity:True
+ichatz/wiseml, isMavenProject:False, hasEntity:False
+konrad-garus/HibernateConcurrencyDemo, isMavenProject:True, hasEntity:True
+honeyzhaoAliyun/WeixinMultiPlatform, isMavenProject:True, hasEntity:True
+yaw/swing-spring-jpa-crud, isMavenProject:True, hasEntity:True
+yaw/javafx-jpa-crud, isMavenProject:False, hasEntity:True
+pires/simple-jpa-hibernate-guice-desktop-app, isMavenProject:True, hasEntity:True
+gitchina/jpaJxet-Atomikos-Manage, isMavenProject:True, hasEntity:True
+marcelotozzi/spring-mvc-blog, isMavenProject:False, hasEntity:True
+henryyan/activiti-jpa-api, isMavenProject:True, hasEntity:True
+DanielMichalski/spring-web-rss-channels, isMavenProject:True, hasEntity:True
+pawel-b/spring-vaadin-jpa-example, isMavenProject:True, hasEntity:True
+jirkapinkas/example-spring-boot, isMavenProject:True, hasEntity:True
+cliffmaury/angular-spring4-stack, isMavenProject:True, hasEntity:True
+gustavoorsi/e-learning, isMavenProject:True, hasEntity:True
+Hotware/Hibernate-Search-JPA, isMavenProject:True, hasEntity:True
+sxyx2008/hibernate-search-example, isMavenProject:True, hasEntity:True
+yanaga-samples/clean-jpa, isMavenProject:True, hasEntity:True
+rponte/jpa-issuetracker-project, isMavenProject:True, hasEntity:True
+asdtiang/springMvc-jpa-demo, isMavenProject:True, hasEntity:True
+danielme-com/Spring-3---JPA-2---Hibernate-4---c3p0---EHCache---log4j-Integration-Demo, isMavenProject:True, hasEntity:True
+bleporini/jpa-sans-maitrise, isMavenProject:True, hasEntity:True
+sroysf/standalone-jpa-hibernate, isMavenProject:True, hasEntity:True
+mblanc/webapp-template, isMavenProject:True, hasEntity:True
+galderz/secondlc, isMavenProject:True, hasEntity:True
+chathurangat/Spring3-Hibernate-Maven-JPA, isMavenProject:True, hasEntity:True
+mohamedYoussfi/eboutique-jpa-hibernate-spring, isMavenProject:True, hasEntity:True
+chkal/criteria4jpa, isMavenProject:True, hasEntity:True
+diegogusava/spring-mvc-jpa, isMavenProject:True, hasEntity:True
+premium-minds/pm-persistence-utils, isMavenProject:True, hasEntity:True
+andrewmilkowski/template-wicket-spring-jpa2-hibernate-osgi, isMavenProject:True, hasEntity:True
+
+Total Projetos Download: 50 Maven: 40 Entity: 46

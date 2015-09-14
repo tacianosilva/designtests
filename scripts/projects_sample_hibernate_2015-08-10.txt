@@ -8,6 +8,7 @@ auskast/jpa
 WellsCui/spring-mvc-jpa-hibernate-mysql/mysecond-spring-mvc
 alex4u2nv/HibernateModeling
 seasarorg/s2hibernate-jpa/s2hibernate-jpa
+astrapi69/spring.hibernate.jpa/spring.hibernate.jpa
 natanielpaiva/JPA-2-and-Hibernate
 castlecodestein/spring-orm-jpa
 fwich/hibernate4JPAConverter
@@ -33,3 +34,9 @@ zhy2002/FitnessTracker
 indvamshi/applicationlibrary-backend
 stenman/databasefun
 davisoski/SpringMVCTomcat5CRUD
+huoex/HibernateStudyJpa
+jirutka/rsql-hibernate
+fabianoalmeida/stock-example-integration
+geronimo-iia/jpa-utilities
+eralmas7/Hibernate-JPA
+gabriel-fallen/instaphoto
