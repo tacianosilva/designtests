@@ -10,6 +10,7 @@ results_rules.falhou <- results_rules[which(results_rules$resultado == 'false'),
 results_rules.falhou["resultado"] <- NULL
 colnames(results_rules.falhou) <- c("regra", "falhou")
 results_rules_falhou = merge(results_rules_total, results_rules.falhou, all.x=TRUE, incomparables = NULL)
+results_rules_falhou[is.na(results_rules_falhou)] <- 0
 results_rules_falhou["proporcao"] <- results_rules_falhou$falhou / results_rules_falhou$total
 
 results_star_rules = aggregate(results_star$rule, list(resultado = results_star$result, regra = results_star$rule), length)
@@ -19,6 +20,7 @@ results_star_rules.falhou <- results_star_rules[which(results_star_rules$resulta
 results_star_rules.falhou["resultado"] <- NULL
 colnames(results_star_rules.falhou) <- c("regra", "falhou")
 results_star_rules_falhou = merge(results_star_rules_total, results_star_rules.falhou, all.x=TRUE, incomparables = NULL)
+results_star_rules_falhou[is.na(results_star_rules_falhou)] <- 0
 results_star_rules_falhou["proporcao"] <- results_star_rules_falhou$falhou / results_star_rules_falhou$total
 
 results_projects = aggregate(results$project, list(resultado = results$result, projeto = results$project), length)
@@ -38,14 +40,16 @@ results_star_projects.falhou <- results_star_projects[which(results_star_project
 results_projects.falhou["resultado"] <- NULL
 colnames(results_projects.falhou) <- c("projeto", "falhou")
 results_proj_falhou = merge(results_total, results_projects.falhou, all.x=TRUE, incomparables = NULL)
+results_proj_falhou[is.na(results_proj_falhou)] <- 0
 results_proj_falhou["proporcao"] <- results_proj_falhou$falhou / results_proj_falhou$total
 
 results_star_projects.falhou["resultado"] <- NULL
 colnames(results_star_projects.falhou) <- c("projeto", "falhou")
 results_star_proj_falhou = merge(results_star_total, results_star_projects.falhou, all.x=TRUE, incomparables = NULL)
+results_star_proj_falhou[is.na(results_star_proj_falhou)] <- 0
 results_star_proj_falhou["proporcao"] <- results_star_proj_falhou$falhou / results_star_proj_falhou$total
 
-write.csv(results_proj_falhou, file = "/home/taciano/dev/workspace/designtests/scripts/results_proportions.txt")
-write.csv(results_star_proj_falhou, file = "/home/taciano/dev/workspace/designtests/scripts/results_star_proportions.txt")
-write.csv(results_rules_falhou, file = "/home/taciano/dev/workspace/designtests/scripts/results_rules_proportions.txt")
-write.csv(results_star_rules_falhou, file = "/home/taciano/dev/workspace/designtests/scripts/results_star_rules_proportions.txt")
+write.csv(results_proj_falhou, file = "/home/taciano/dev/workspace/designtests/scripts/results_proportions.txt", row.names=FALSE)
+write.csv(results_star_proj_falhou, file = "/home/taciano/dev/workspace/designtests/scripts/results_star_proportions.txt", row.names=FALSE)
+write.csv(results_rules_falhou, file = "/home/taciano/dev/workspace/designtests/scripts/results_rules_proportions.txt", row.names=FALSE)
+write.csv(results_star_rules_falhou, file = "/home/taciano/dev/workspace/designtests/scripts/results_star_rules_proportions.txt", row.names=FALSE)
