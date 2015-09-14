@@ -7,6 +7,7 @@ import org.designwizard.design.FieldNode;
 import org.designwizard.designrules.Rule;
 
 import br.edu.ufcg.splab.designtests.DesignWizardDecorator;
+import br.edu.ufcg.splab.designtests.util.PersistenceRuleUtil;
 
 /**
  *
@@ -16,8 +17,11 @@ import br.edu.ufcg.splab.designtests.DesignWizardDecorator;
  */
 public class ProvideIdentifierPropertyRule extends AbstractDesignRule implements Rule {
 
+    private PersistenceRuleUtil util;
+
     public ProvideIdentifierPropertyRule(DesignWizardDecorator dwd) {
         super(dwd);
+        this.util = new PersistenceRuleUtil();
     }
 
     @Override
@@ -26,7 +30,7 @@ public class ProvideIdentifierPropertyRule extends AbstractDesignRule implements
 
         for (ClassNode entityNode : classes) {
 
-            FieldNode field = getIdentifierProperty(entityNode);
+            FieldNode field = util.getIdentifierProperty(entityNode);
 
             if (field == null) {
                 this.report += "The class <" + entityNode.getName()

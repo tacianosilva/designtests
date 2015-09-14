@@ -165,16 +165,4 @@ public abstract class AbstractDesignRule implements Rule {
         }
         return false;
     }
-
-    public FieldNode getIdentifierProperty(ClassNode entity) {
-        Set<FieldNode> declaredFields = entity.getAllFields();
-        for (FieldNode fieldNode : declaredFields) {
-            Set<ClassNode> annotations = fieldNode.getAnnotations();
-            ClassNode id = new ClassNode("javax.persistence.Id");
-            if (annotations.contains(id)) {
-                return fieldNode;
-            }
-        }
-        return null;
-    }
 }

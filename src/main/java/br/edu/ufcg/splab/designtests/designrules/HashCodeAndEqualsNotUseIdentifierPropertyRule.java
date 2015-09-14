@@ -9,6 +9,7 @@ import org.designwizard.design.MethodNode;
 import org.designwizard.designrules.Rule;
 
 import br.edu.ufcg.splab.designtests.DesignWizardDecorator;
+import br.edu.ufcg.splab.designtests.util.PersistenceRuleUtil;
 
 /**
  *
@@ -19,8 +20,11 @@ import br.edu.ufcg.splab.designtests.DesignWizardDecorator;
  */
 public class HashCodeAndEqualsNotUseIdentifierPropertyRule extends AbstractDesignRule implements Rule {
 
+    private PersistenceRuleUtil util;
+
     public HashCodeAndEqualsNotUseIdentifierPropertyRule(DesignWizardDecorator dwd) {
         super(dwd);
+        this.util = new PersistenceRuleUtil();
     }
 
     @Override
@@ -34,7 +38,7 @@ public class HashCodeAndEqualsNotUseIdentifierPropertyRule extends AbstractDesig
             MethodNode hashCodeMethod = entityNode
                     .getDeclaredMethod("hashCode()");
 
-            FieldNode field = getIdentifierProperty(entityNode);
+            FieldNode field = util.getIdentifierProperty(entityNode);
             Set<FieldNode> accessedFieldsEquals = null;
             Set<FieldNode> accessedFieldsHash = null;
 
