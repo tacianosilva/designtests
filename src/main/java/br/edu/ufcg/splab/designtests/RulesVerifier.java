@@ -25,39 +25,46 @@ public class RulesVerifier {
     public static void main(String[] args) throws IOException, ClassNotFoundException, InexistentEntityException {
         System.out.printf("\nConteúdo do arquivo projectsThatUseHibernate.txt\n\n");
 
-        String fileName = "scripts/projectsHibernate_star_2015-08-30.txt";
-        String fileResults = "scripts/results_star_2015-09-01.txt";
-        processarArquivo(fileName, fileResults);
+        String fileName = "scripts/projects_sample_hibernate_2015-08-10.txt";
+        String fileResults = "scripts/tests_results_sample.txt";
+        String infoResults = "scripts/tests_info_sample.txt";
+        processarArquivo(fileName, fileResults, infoResults);
 
     }
 
-    public static void processarArquivo(String fileProjects, String fileResults) {
+    public static void processarArquivo(String fileProjects, String fileResults, String infoResults) {
         try {
             FileReader arq = new FileReader(fileProjects);
             BufferedReader lerArq = new BufferedReader(arq);
 
             FileWriter fw = criarArquivo(fileResults);
-            PrintWriter gravarArq = new PrintWriter(fw);
-            gravarArq.printf("%s,%s,%s,%s\n", "project", "class", "rule", "result");
+            PrintWriter resultsWriter = new PrintWriter(fw);
+            resultsWriter.printf("%s,%s,%s,%s\n", "project", "class", "rule", "result");
+
+            FileWriter infoFW = criarArquivo(infoResults);
+            PrintWriter infoWriter = new PrintWriter(infoFW);
+            infoWriter.printf("%s,%s,%s,%s\n", "project", "num classes", "num model classes", "num fail classes");
+
             String linha = lerArq.readLine(); // lê a primeira linha
             // a variável "linha" recebe o valor "null" quando o processo
             // de repetição atingir o final do arquivo texto
             while (linha != null) {
                 System.out.printf("%s\n", linha);
 
-                processarProjeto(linha, gravarArq);
+                processarProjeto(linha, resultsWriter, infoWriter);
 
                 linha = lerArq.readLine(); // lê da segunda até a última linha
             }
 
             arq.close();
             fw.close();
+            infoFW.close();
         } catch (IOException e) {
             System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
         }
     }
 
-    public static void processarProjeto(String projeto, PrintWriter gravar) {
+    public static void processarProjeto(String projeto, PrintWriter resultsWriter, PrintWriter infoWriter) {
         String[] split = projeto.split("/");
         //String gitUser = split[0];
         String projectName = split[1];
@@ -70,7 +77,11 @@ public class RulesVerifier {
             System.out.println("Diretório do Projeto: " + projectDir);
             DesignWizardDecorator dwd = new DesignWizardDecorator(projectDir, projectName);
 
+            int numClasses = dwd.getClassesFromCode().size();
+
+            // Model Classes from Project
             Set<ClassNode> classes = dwd.getClassesByAnnotation("javax.persistence.Entity");
+            int numModelClasses = classes.size();
 
 
             List<AbstractDesignRule> regras = getRegras(dwd);
@@ -89,12 +100,13 @@ public class RulesVerifier {
 
                     System.out.println(">>>>" + projeto + ", " + classNode.getClassName() + ", " + ruleName + ", " + passed);
 
-                    gravarLinha(gravar, projeto, classNode.getClassName(), ruleName, passed);
+                    gravarLinha(resultsWriter, projeto, classNode.getClassName(), ruleName, passed);
                 }
                 if (!passedClass) numFailClasses++;
             }
 
-            System.out.println(">>>>" + projeto + ", " + dwd.getClassesFromCode().size() + ", " + classes.size() + ", " + numFailClasses);
+            System.out.println(">>>>" + projeto + ", " + numClasses + ", " + numModelClasses + ", " + numFailClasses);
+            gravarLinha(infoWriter, projeto, numClasses, numModelClasses, numFailClasses);
 
         } catch (IOException ioe) {
             ioe.printStackTrace();
@@ -110,6 +122,11 @@ public class RulesVerifier {
     private static void gravarLinha(PrintWriter gravar, String projeto, String className, String ruleName,
             boolean checkResult) {
         gravar.printf("%s,%s,%s,%s\n", projeto, className, ruleName, checkResult);
+    }
+
+    private static void gravarLinha(PrintWriter gravar, String projeto, int numClasses, int numModelClasses,
+            int numFailClasses) {
+        gravar.printf("%s,%d,%d,%d\n", projeto, numClasses, numModelClasses, numFailClasses);
     }
 
     private static List<AbstractDesignRule> getRegras(DesignWizardDecorator dwd) {
@@ -133,12 +150,6 @@ public class RulesVerifier {
         regras.add(rule7);
 
         return regras;
-    }
-
-    public static void gravarLinha(PrintWriter gravar, String gitUser, String projectName, int numEntidades,
-            boolean rulecheck, int totalPassou, int totalFalhou, boolean ocorreuErro, String msgErro) {
-        gravar.printf("%s, %s, %d, %s, %d, %d, %s, %s\n", gitUser, projectName, numEntidades, rulecheck,
-                totalPassou, totalFalhou, ocorreuErro, msgErro);
     }
 
     public static FileWriter criarArquivo(String fileResults) throws IOException {
