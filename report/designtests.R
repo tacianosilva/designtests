@@ -49,6 +49,19 @@ results_star_proj_falhou = merge(results_star_total, results_star_projects.falho
 results_star_proj_falhou[is.na(results_star_proj_falhou)] <- 0
 results_star_proj_falhou["proporcao"] <- results_star_proj_falhou$falhou / results_star_proj_falhou$total
 
+amostra1 = results_proj_falhou["projeto"]
+amostra2 = results_star_proj_falhou["projeto"]
+
+amostra1["proporcao"] <- results_proj_falhou["proporcao"]
+amostra1["tipo"] <- "aleatoria"
+
+amostra2["proporcao"] <- results_star_proj_falhou["proporcao"]
+amostra2["tipo"] <- "starred"
+
+total <- rbind(amostra1, amostra2)
+
+oneway.test(proporcao ~ tipo, data=total, na.action=na.omit, var.equal=FALSE)
+
 write.csv(results_proj_falhou, file = "/home/taciano/dev/workspace/designtests/scripts/results_proportions.txt", row.names=FALSE)
 write.csv(results_star_proj_falhou, file = "/home/taciano/dev/workspace/designtests/scripts/results_star_proportions.txt", row.names=FALSE)
 write.csv(results_rules_falhou, file = "/home/taciano/dev/workspace/designtests/scripts/results_rules_proportions.txt", row.names=FALSE)
