@@ -35,8 +35,6 @@ indvamshi/applicationlibrary-backend
 stenman/databasefun
 davisoski/SpringMVCTomcat5CRUD
 huoex/HibernateStudyJpa
-jirutka/rsql-hibernate
 fabianoalmeida/stock-example-integration
-geronimo-iia/jpa-utilities
 eralmas7/Hibernate-JPA
 gabriel-fallen/instaphoto
