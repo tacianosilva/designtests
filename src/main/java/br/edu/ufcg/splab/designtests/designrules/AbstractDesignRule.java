@@ -165,4 +165,23 @@ public abstract class AbstractDesignRule implements Rule {
         }
         return false;
     }
+
+    /**
+     * Returns a <code>MethodNode</code> object that reflects the specified method
+     * of the class or interface represented by <code>ClassNode</code> object.
+     * The <code>name</code> parameter is a <code>String</code> specifying the simple
+     * name of the desired method.
+     *
+     * @param classNode the <code>ClassNode</code> object that reflects the specified method.
+     * @param methodName the method name.
+     * @return  the <code>MethodNode</code> object of this class specified by
+     * <code>name</code> or <code>null</code> if a method with the specified name is not found.
+     */
+    protected MethodNode getMethod(ClassNode classNode, String methodName) {
+        // TODO Adicionar issue para a implementação deste método no ClassNode do DesignWizard.
+        for (MethodNode method: classNode.getAllMethods()) {
+            if (method.getShortName().equals(methodName)) return method;
+        }
+        return null;
+    }
 }
