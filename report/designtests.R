@@ -58,7 +58,13 @@ amostra1["tipo"] <- "aleatoria"
 amostra2["proporcao"] <- results_star_proj_falhou["proporcao"]
 amostra2["tipo"] <- "starred"
 
-total <- rbind(amostra1, amostra2)
+falhas <- rbind(amostra1, amostra2)
+
+levene.test(falhas$proporcao, falhas$tipo, location = "median")
+
+boxplot(amostra1$proporcao, amostra2$proporcao)
+
+require(lawstat)
 
 oneway.test(proporcao ~ tipo, data=total, na.action=na.omit, var.equal=FALSE)
 

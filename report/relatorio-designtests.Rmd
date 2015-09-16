@@ -3,9 +3,9 @@ title: Detecção de violações arquiteturais em software com relação às rec
   arquiteturais de utilização de frameworks
 author: "Taciano de Morais Silva"
 output:
-  pdf_document:
-    toc: yes
   html_document:
+    toc: yes
+  pdf_document:
     toc: yes
 bibliography: refs.bib
 ---
@@ -150,7 +150,7 @@ Descrição das colunas dos arquivos:
 Os dados da execução das regras para a amostra composta por projeto selecionados de forma aleatória:
 
 ```{r, echo=TRUE, message=FALSE}
-results = read.csv('/home/taciano/dev/workspace/designtests/scripts/results_2015-08-20.txt')
+results = read.csv('/home/taciano/dev/workspace/designtests/scripts/tests_results_sample.txt')
 ```
 
 
@@ -159,7 +159,7 @@ results = read.csv('/home/taciano/dev/workspace/designtests/scripts/results_2015
 Os dados da execução das regras para a amostra composta por projeto mais estrelados:
 
 ```{r, echo=TRUE, message=FALSE}
-results_star = read.csv('/home/taciano/dev/workspace/designtests/scripts/results_star_2015-08-30.txt')
+results_star = read.csv('/home/taciano/dev/workspace/designtests/scripts/tests_results_starred.txt')
 ```
 
 project name  | class name | rule name | result
@@ -264,6 +264,19 @@ shapiro.test(results_star_rules_proportions$proporcao)
 t.test(results_star_rules_proportions$proporcao)
 ```
 
+## Análise de variância entre as amostras
+
+Fazer o teste T recebendo as proporções das duas amostras.
+
+Criar um dataframe com as proporções e a informação do tipo de amostra (aleatória e estrelada).
+
+```{r}
+sample[project] <- results_proj_falhou[projeto]
+
+```
+
+
+oneway.test(emancipation.values ~ regiao, data=dados.wvs, na.action=na.omit, var.equal=FALSE)
 
 # Análise das Questões de Pesquisa
 
