@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.designwizard.design.ClassNode;
+import org.designwizard.design.Entity;
+import org.designwizard.design.Entity.TypesOfEntities;
 import org.designwizard.exception.InexistentEntityException;
 import org.designwizard.api.DesignWizard;
 
@@ -53,9 +55,14 @@ public class DesignWizardDecorator {
         return false;
     }
 
-    public Set<ClassNode> getClassesAnnotated(String annotationName) {
+    public Set<ClassNode> getClassesAnnotated(String annotationName) throws InexistentEntityException {
         Set<ClassNode> classes = new HashSet<ClassNode>();
-        dw.getAllClasses();
+        Set<Entity> entities = dw.getEntitiesAnnotatedBy(annotationName);
+        for (Entity entity : entities) {
+            if (entity.getTypeOfEntity().equals(TypesOfEntities.CLASS)) {
+                classes.add((ClassNode)entity);
+            }
+        }
         return classes;
     }
 
