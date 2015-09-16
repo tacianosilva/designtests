@@ -13,6 +13,8 @@ import br.edu.ufcg.splab.designtests.DesignWizardDecorator;
  *
  * Rule: Override both equals(java.lang.Object) and hashCode() in classes of the Model Package.
  *
+ * Methods must be declared in the persistent class.
+ *
  * @author Taciano
  */
 public class HashCodeAndEqualsRule extends AbstractDesignRule implements Rule {
