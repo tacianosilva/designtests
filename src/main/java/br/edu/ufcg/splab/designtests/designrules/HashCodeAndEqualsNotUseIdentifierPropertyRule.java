@@ -16,6 +16,8 @@ import br.edu.ufcg.splab.designtests.util.PersistenceRuleUtil;
  * Rule: Both equals(java.lang.Object) and hashCode() in classes of the Model Package
  * doesn't access the field that is identifier property.
  *
+ * Methods must be declared in the persistent class.
+ *
  * @author Taciano
  */
 public class HashCodeAndEqualsNotUseIdentifierPropertyRule extends AbstractDesignRule implements Rule {
@@ -27,9 +29,13 @@ public class HashCodeAndEqualsNotUseIdentifierPropertyRule extends AbstractDesig
         this.util = new PersistenceRuleUtil();
     }
 
+    /**
+     * Check if the equals(java.lang.Object) method and hashCode() method access the identifier field.
+     * @return True if exists methods and if it doesn't access the identifier field. Otherwise, returns false.
+     */
     @Override
     public boolean checkRule() {
-        Collection<ClassNode> classes = getClassNodes();
+        Set<ClassNode> classes = getClassNodes();
 
         for (ClassNode entityNode : classes) {
 
@@ -39,6 +45,7 @@ public class HashCodeAndEqualsNotUseIdentifierPropertyRule extends AbstractDesig
                     .getDeclaredMethod("hashCode()");
 
             FieldNode field = util.getIdentifierProperty(entityNode);
+
             Set<FieldNode> accessedFieldsEquals = null;
             Set<FieldNode> accessedFieldsHash = null;
 
@@ -62,7 +69,10 @@ public class HashCodeAndEqualsNotUseIdentifierPropertyRule extends AbstractDesig
                 contem = true;
             }
 
-            if (contem) {
+            HashCodeAndEqualsRule rule = new HashCodeAndEqualsRule(dwd);
+            rule.setClassNode(entityNode);
+            if (contem || !rule.checkRule()) {
+                this.report += rule.getReport();
                 addResultFalse(entityNode);
             } else {
                 addResultTrue(entityNode);
