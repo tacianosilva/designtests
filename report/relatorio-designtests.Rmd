@@ -72,7 +72,7 @@ pwr.p.test(h=h, sig.level = 0.05, power = 0.8)
 
   Para a seleção dos projetos para compor a amostra nós utilizamos os seguintes critérios:
 
-* Estarem hospedados no agregador on-line de repositórios *GitHub.com*;
+* Estarem hospedados no agregador on-line de repositórios *GitHub.com* ([@github]);
 * Utilizarem o *Framework* de Persistência **JPA/Hibernate**;
 * Contiverem classes persistentes (classes com a anotaçao Entity);
 
@@ -93,7 +93,7 @@ pwr.p.test(h=h, sig.level = 0.05, power = 0.8)
 
 ## Conjunto de Regras de Design
 
-Utilizando as recomendações de utilização no manual do *Framework* de Persistência **JPA/Hibernate** para as classes persistentes, identificamos as seguintes regras:
+Utilizando as recomendações de utilização no manual do *Framework* de Persistência **JPA/Hibernate** para as classes persistentes ([@hibernate5manual]) e identificamos as seguintes regras:
 
 * Implementar um construtor sem argumentos (Regra 1):
 
@@ -248,17 +248,13 @@ t.test(results_rules_proportions$proporcao)
 
 ## Proporçao de Falhas por Regras (Seleção Estrelados)
 
+  Na amostra de projetos estrelados obtivemos resultados semelhantes aos da amostra aleatória, como podemos verificar a seguir:
 ```{r}
 results_star_rules_proportions = read.csv('/home/taciano/dev/workspace/designtests/scripts/results_star_rules_proportions.txt')
 results_star_rules_proportions
 ```
 
-
-```{r}
-qqnorm(results_star_rules_proportions$proporcao)
-shapiro.test(results_star_rules_proportions$proporcao)
-```
-
+  Ao utilizar o *teste T* para calcularmos o intervalo de confiança e a média, notamos a proximidade com os resultados das duas amostras.
 
 ```{r}
 t.test(results_star_rules_proportions$proporcao)
@@ -266,17 +262,38 @@ t.test(results_star_rules_proportions$proporcao)
 
 ## Análise de variância entre as amostras
 
-Fazer o teste T recebendo as proporções das duas amostras.
+  Podemos perceber que os intervalos de confiança das duas amostras são semelhantes, e assim, temos a indicação de que as duas amostras não são estatisticamente diferentes.
 
-Criar um dataframe com as proporções e a informação do tipo de amostra (aleatória e estrelada).
+  Para testarmos a variação entre as amostras, criamos um *dataframe* **falhas** que identifica as proporções de falhas e de que tipo de amostra ela foi obtida: aleatória e estrelada.
 
-```{r}
-sample[project] <- results_proj_falhou[projeto]
+```{r, echo=FALSE}
+amostra1 = results_proportions["projeto"]
+amostra2 = results_star_proportions["projeto"]
 
+amostra1["proporcao"] <- results_proportions["proporcao"]
+amostra1["tipo"] <- "aleatoria"
+
+amostra2["proporcao"] <- results_star_proportions["proporcao"]
+amostra2["tipo"] <- "starred"
+
+falhas <- rbind(amostra1, amostra2)
 ```
 
+  As médias das duas amostras são diferentes como mostra o test T:
 
-oneway.test(emancipation.values ~ regiao, data=dados.wvs, na.action=na.omit, var.equal=FALSE)
+```{r}
+t.test(amostra1$proporcao, amostra2$proporcao)
+```
+
+```{r}
+lawstat::levene.test(falhas$proporcao, falhas$tipo, location = "median")
+```
+
+  Assumindo as variâncias como diferentes, realizamos um **Teste de Igualdade da Médias**, utilizando *oneway.test*.
+
+```{r}
+oneway.test(proporcao ~ tipo, data=falhas, na.action=na.omit, var.equal=FALSE)
+```
 
 # Análise das Questões de Pesquisa
 
@@ -284,14 +301,20 @@ oneway.test(emancipation.values ~ regiao, data=dados.wvs, na.action=na.omit, var
  
 QP1: É possível utilizar testes de design para a avaliação de conformidade arquitetural de um Framework?
 
-   No início do nosso trabalho não sabíamos da possibilidade de escrever regras de design para a recomendações de utilização do *Framework* JPA/Hibernate. A partir do manual do *framework* extraímos as recomendações para as classes persistentes e foi possível escrever todas utilizando as ferramentas para descrever regras de design.
-   Existiam algumas recomendações relacionadas com os requisitos para os arquivos de configuração, que não eram objetivo do nosso estudo, mas não estão diretamente relacionadas com recomendações arquiteturais.
+   Utilizando as recomendações definidas para o *Domain Model* do *Framework* de persistência **JPA/Hibernate**, que descrevem as recomendações para as classes de domínio (Classes com dados que devem ser persistidos)[@hibernate5manual]. A partir das descrições no manual do *framework* foi possível escrever as regras como testes de design utilizando a *API DesignWizard*. As exisgências do *framework* são poucos, fazendo referência as convênções para *POJO/Javabeans* das especificações (JSR) do JPA.
 
 ## Questão de Pesquisa 2
 
 QP2. As aplicações que adotam o *framework* estão em conformidade com as regras recomendadas por este Framework? 
 
-  Foi calculado as proporções de falhas de todos as regras por projeto. Para os projetos selecionados aleatoriamente tivemos uma média de 30.05% de falhas para todas as classes persistentes do projeto. Para os projetos mais estrelados tivemos uma média de 32.12% de falhas para todas as classes persistentes.
+  Utilizando os resultados dos testes para calcular as proporções de falhas das regras para as duas amostras de projeto. Na primeira amostra, onde os projetos foram selecionados aleatoriamente, foi obtida uma média de 30.05% de falhas no conjunto de classes persistentes (domain model) do projeto. 
+  
+```{r}
+t.test(results_proportions$proporcao)
+t.test(results_star_proportions$proporcao)
+```
+  
+  Podemos perceber que os intervalos de confiança das duas amostras são semelhantes, e assim, temos a indicação de que as duas amostras não são estatisticamente diferentes.
 
 ```{r}
 boxplot(results_proportions$proporcao, results_star_proportions$proporcao)
@@ -302,12 +325,34 @@ boxplot(results_proportions$proporcao, results_star_proportions$proporcao)
 QP3. Qual a distribuição das violações por regras, entidades e projetos?
 
   Foi calculado a distribução das violações por projetos e por regra. Desta forma, identificamos que cerca de 30% dos projetos apresentaram falhas e que a maiorias das falhas estão concentradas em duas regras. Aplicamos testes para detectar a normalidade dos dados, o que nos permitiu utilizarmos um teste T para calcular o intervalo de confiança.
+  
+```{r}
+results_rules_proportions
+```  
+  
+  Na segunda amostra, onde os projetos foram selecionados por classificação dos mais estrelados, foi obtida uma média de 32.12% de falhas no conjunto de classes persistentes.
+  
+```{r}
+results_star_rules_proportions
+```  
+
 
 ## Questão de Pesquisa 4
 
 QP4: É possível dizer causas para a violação de regras utilizando a distribuição das violações?
 
   A maioria das regras fazem referência à recomendações para maior eficiência e funcionamento adequado das características do Framework. Considerando as duas principais regras quebradas podemos concluir que não foram seguidas às recomendações do manual. Para a regra sobre o uso de equals e hashCode a recomendação diz que se ele for implementado deve-se usar uma solução que não utilize a chave primária utilizada pelo Hibernate. E esta relação pode causar problemas no proxy do hibernate.
+  
+  Dependendo das funcionalidades necessárias na aplicação, a regra referente a implementação dos métodos equals() e hashCode() deve ser adaptados. Caso contrário, algumas funcionalidades pode não funcionar:
+  
+                                         | no eq/hC at all | eq/hC with the id property | eq/hC with buisness key
+---------------------------------------- | --------------- | -------------------------- | ---------------------
+use in a composite-id                    | Não             | Sim | Sim
+multiple new instances in set            | Sim | Não | Sim
+equal to same object from other session	 | Não | Sim | Sim
+collections intact after saving          | Sim | Nao | Sim
+
+
 
 # Limitações
 
