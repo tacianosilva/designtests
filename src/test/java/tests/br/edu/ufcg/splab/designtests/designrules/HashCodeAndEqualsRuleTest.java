@@ -1,6 +1,9 @@
 package tests.br.edu.ufcg.splab.designtests.designrules;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
 
@@ -10,7 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import br.edu.ufcg.splab.designtests.DesignWizardDecorator;
-import br.edu.ufcg.splab.designtests.designrules.HashCodeAndEqualsNotUseIdentifierPropertyRule;
 import br.edu.ufcg.splab.designtests.designrules.HashCodeAndEqualsRule;
 import tests.br.edu.ufcg.splab.designtests.entities.EntityA;
 import tests.br.edu.ufcg.splab.designtests.entities.EntityB;
