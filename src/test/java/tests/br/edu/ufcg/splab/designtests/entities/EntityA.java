@@ -1,5 +1,6 @@
 package tests.br.edu.ufcg.splab.designtests.entities;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,7 +9,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class EntityA {
+public class EntityA implements Serializable {
+
+    /**
+     * serialVersionUID
+     */
+    private static final long serialVersionUID = 1L;
 
     @Id
     private Integer id;

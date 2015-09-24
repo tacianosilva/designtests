@@ -7,13 +7,14 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
 
+import org.designwizard.api.DesignWizard;
 import org.designwizard.design.ClassNode;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.edu.ufcg.splab.designtests.DesignWizardDecorator;
 import br.edu.ufcg.splab.designtests.designrules.HashCodeAndEqualsRule;
+import br.edu.ufcg.splab.designtests.util.PersistenceRuleUtil;
 import tests.br.edu.ufcg.splab.designtests.entities.EntityA;
 import tests.br.edu.ufcg.splab.designtests.entities.EntityB;
 import tests.br.edu.ufcg.splab.designtests.entities.EntityC;
@@ -22,9 +23,10 @@ import tests.br.edu.ufcg.splab.designtests.entities.SubEntityB;
 
 public class HashCodeAndEqualsRuleTest {
 
-    DesignWizardDecorator dw;
+    DesignWizard dw;
     Set<ClassNode> entities;
     Set<ClassNode> classes;
+    PersistenceRuleUtil util = new PersistenceRuleUtil();
     HashCodeAndEqualsRule rule;
 
     ClassNode entityA;
@@ -35,9 +37,9 @@ public class HashCodeAndEqualsRuleTest {
 
     @Before
     public void setUp() throws Exception {
-        dw = new DesignWizardDecorator("target/test-classes/tests/br/edu/ufcg/splab/designtests/entities/", "designtests");
-        classes = dw.getClassesFromCode();
-        entities = dw.getClassesAnnotated("javax.persistence.Entity");
+        dw = new DesignWizard("target/test-classes/tests/br/edu/ufcg/splab/designtests/entities/");
+        classes = dw.getAllClasses();
+        entities = util.getClassesAnnotated(dw, "javax.persistence.Entity");
         entityA = dw.getClass(EntityA.class.getName());
         entityB = dw.getClass(EntityB.class.getName());
         entityC = dw.getClass(EntityC.class.getName());
