@@ -2,11 +2,11 @@ package br.edu.ufcg.splab.designtests.designrules;
 
 import java.util.Collection;
 
+import org.designwizard.api.DesignWizard;
 import org.designwizard.design.ClassNode;
 import org.designwizard.design.FieldNode;
 import org.designwizard.designrules.Rule;
 
-import br.edu.ufcg.splab.designtests.DesignWizardDecorator;
 import br.edu.ufcg.splab.designtests.util.PersistenceRuleUtil;
 
 /**
@@ -19,8 +19,8 @@ public class ProvideIdentifierPropertyRule extends AbstractDesignRule implements
 
     private PersistenceRuleUtil util;
 
-    public ProvideIdentifierPropertyRule(DesignWizardDecorator dwd) {
-        super(dwd);
+    public ProvideIdentifierPropertyRule(DesignWizard dw) {
+        super(dw);
         this.util = new PersistenceRuleUtil();
     }
 

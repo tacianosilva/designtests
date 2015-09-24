@@ -3,11 +3,10 @@ package br.edu.ufcg.splab.designtests.designrules;
 import java.util.Collection;
 import java.util.Set;
 
+import org.designwizard.api.DesignWizard;
 import org.designwizard.design.ClassNode;
 import org.designwizard.design.FieldNode;
 import org.designwizard.designrules.Rule;
-
-import br.edu.ufcg.splab.designtests.DesignWizardDecorator;
 
 /**
  *
@@ -17,8 +16,8 @@ import br.edu.ufcg.splab.designtests.DesignWizardDecorator;
  */
 public class ProvideGetsSetsFieldsRule extends AbstractDesignRule implements Rule {
 
-    public ProvideGetsSetsFieldsRule(DesignWizardDecorator dwd) {
-        super(dwd);
+    public ProvideGetsSetsFieldsRule(DesignWizard dw) {
+        super(dw);
     }
 
     @Override

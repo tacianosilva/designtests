@@ -3,10 +3,9 @@ package br.edu.ufcg.splab.designtests.designrules;
 import java.util.Collection;
 import java.util.Set;
 
+import org.designwizard.api.DesignWizard;
 import org.designwizard.design.ClassNode;
 import org.designwizard.design.FieldNode;
-
-import br.edu.ufcg.splab.designtests.DesignWizardDecorator;
 
 /**
  *
@@ -17,8 +16,8 @@ import br.edu.ufcg.splab.designtests.DesignWizardDecorator;
  */
 public class UseSetCollectionRule extends AbstractDesignRule {
 
-    public UseSetCollectionRule(DesignWizardDecorator dwd) {
-        super(dwd);
+    public UseSetCollectionRule(DesignWizard dw) {
+        super(dw);
     }
 
     @Override

@@ -3,32 +3,63 @@ package br.edu.ufcg.splab.designtests.designrules;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.designwizard.api.DesignWizard;
 import org.designwizard.design.ClassNode;
 import org.designwizard.design.FieldNode;
 import org.designwizard.design.MethodNode;
 import org.designwizard.designrules.Rule;
 import org.designwizard.exception.InexistentEntityException;
 
-import br.edu.ufcg.splab.designtests.DesignWizardDecorator;
 import br.edu.ufcg.splab.designtests.util.TypesOfCollections;
 
+/**
+ * Abstract class to start the properties of the rules for software design in instance of the {@link DesignWizard}.
+ * @author Taciano Morais Silva - tacianosilva@gmail.com
+ */
 public abstract class AbstractDesignRule implements Rule {
 
-    protected DesignWizardDecorator dwd;
+    /**
+     * Facts of the Software Design.
+     */
+    protected DesignWizard dw;
+
+    /**
+     * Types of Collections from Java Collections Frameworks.
+     */
     protected TypesOfCollections collections;
+
+    /**
+     * Design Rule Name.
+     */
     protected String name;
 
     /**
-     * The set of classnodes that the rule will be executing
+     * The set of {@link ClassNode} that the rule will be executing.
      */
     protected Set<ClassNode> classNodes;
+
+    /**
+     * The set of {@link ClassNode} that the rule passed.
+     */
     protected Set<ClassNode> resultTrue;
+
+    /**
+     * The set of {@link ClassNode} that the rule failed.
+     */
     protected Set<ClassNode> resultFalse;
+
+    /**
+     * The Report with errors messages.
+     */
     protected String report;
 
-    public AbstractDesignRule(DesignWizardDecorator dwd) {
+    /**
+     * Initiates rule properties for software design in instance of the {@link DesignWizard}.
+     * @param dw The instance of the {@link DesignWizard} with the software design.
+     */
+    public AbstractDesignRule(DesignWizard dw) {
         this.name = this.getClass().getSimpleName();
-        this.dwd = dwd;
+        this.dw = dw;
         this.classNodes = null;
         this.report = "";
         this.collections = new TypesOfCollections();
@@ -36,8 +67,13 @@ public abstract class AbstractDesignRule implements Rule {
         this.resultFalse = new HashSet<ClassNode>();
     }
 
-    public AbstractDesignRule(DesignWizardDecorator dwd, Set<ClassNode> classes) {
-        this(dwd);
+    /**
+     * Initiates rule properties for software design in instance of the {@link DesignWizard}.
+     * @param dw The instance of the {@link DesignWizard} with the software design.
+     * @param classes The set of {@link ClassNode} that the rule will be executing.
+     */
+    public AbstractDesignRule(DesignWizard dw, Set<ClassNode> classes) {
+        this(dw);
         this.setClassNodes(classes);
     }
 
@@ -142,14 +178,22 @@ public abstract class AbstractDesignRule implements Rule {
    }
 
     /**
-     * Checks if the parameter belongs to the set of classes of the design {@link DesignWizardDecorator}.
+     * Checks if the parameter belongs to the set of classes of the design
+     * {@link DesignWizard#getAllClasses()}.
      * @param classes The set of classNodes to check the pertinence.
      * @return True if all classnodes belongs to the design.
+     * False if classes is <code>null</code> or {@link DesignWizard#getAllClasses()} is <code>null</code>.
      */
     protected boolean checkClassNodes(Set<ClassNode> classes) {
-        return dwd.getClassesFromCode().containsAll(classes);
+        if (dw.getAllClasses() != null) {
+            return dw.getAllClasses().containsAll(classes);
+        }
+        return false;
     }
 
+    /**
+     * The Report with errors messages.
+     */
     public abstract String getReport();
 
     public boolean isCollection(ClassNode node) {

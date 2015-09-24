@@ -1,14 +1,13 @@
 package br.edu.ufcg.splab.designtests.designrules;
 
-import java.util.Collection;
 import java.util.Set;
 
+import org.designwizard.api.DesignWizard;
 import org.designwizard.design.ClassNode;
 import org.designwizard.design.FieldNode;
 import org.designwizard.design.MethodNode;
 import org.designwizard.designrules.Rule;
 
-import br.edu.ufcg.splab.designtests.DesignWizardDecorator;
 import br.edu.ufcg.splab.designtests.util.PersistenceRuleUtil;
 
 /**
@@ -24,8 +23,8 @@ public class HashCodeAndEqualsNotUseIdentifierPropertyRule extends AbstractDesig
 
     private PersistenceRuleUtil util;
 
-    public HashCodeAndEqualsNotUseIdentifierPropertyRule(DesignWizardDecorator dwd) {
-        super(dwd);
+    public HashCodeAndEqualsNotUseIdentifierPropertyRule(DesignWizard dw) {
+        super(dw);
         this.util = new PersistenceRuleUtil();
     }
 
@@ -69,7 +68,7 @@ public class HashCodeAndEqualsNotUseIdentifierPropertyRule extends AbstractDesig
                 contem = true;
             }
 
-            HashCodeAndEqualsRule rule = new HashCodeAndEqualsRule(dwd);
+            HashCodeAndEqualsRule rule = new HashCodeAndEqualsRule(dw);
             rule.setClassNode(entityNode);
             if (contem || !rule.checkRule()) {
                 this.report += rule.getReport();

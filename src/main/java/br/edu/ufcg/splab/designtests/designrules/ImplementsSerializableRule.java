@@ -2,9 +2,8 @@ package br.edu.ufcg.splab.designtests.designrules;
 
 import java.util.Collection;
 
+import org.designwizard.api.DesignWizard;
 import org.designwizard.design.ClassNode;
-
-import br.edu.ufcg.splab.designtests.DesignWizardDecorator;
 
 /**
  *
@@ -14,8 +13,8 @@ import br.edu.ufcg.splab.designtests.DesignWizardDecorator;
  */
 public class ImplementsSerializableRule extends AbstractDesignRule {
 
-    public ImplementsSerializableRule(DesignWizardDecorator dwd) {
-        super(dwd);
+    public ImplementsSerializableRule(DesignWizard dw) {
+        super(dw);
     }
 
     @Override

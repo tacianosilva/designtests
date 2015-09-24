@@ -9,16 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.designwizard.api.DesignWizard;
 import org.designwizard.design.ClassNode;
 import org.designwizard.exception.InexistentEntityException;
 
 import br.edu.ufcg.splab.designtests.designrules.AbstractDesignRule;
-import br.edu.ufcg.splab.designtests.designrules.HashCodeAndEqualsRule;
-import br.edu.ufcg.splab.designtests.designrules.ImplementsSerializableRule;
-import br.edu.ufcg.splab.designtests.designrules.NoArgumentConstructorRule;
-import br.edu.ufcg.splab.designtests.designrules.NoFinalClassRule;
-import br.edu.ufcg.splab.designtests.designrules.ProvideIdentifierPropertyRule;
-import br.edu.ufcg.splab.designtests.designrules.UseSetCollectionRule;
+import br.edu.ufcg.splab.designtests.designrules.HashCodeAndEqualsNotUseIdentifierPropertyRule;
 
 public class RulesVerifier {
 
@@ -26,8 +22,8 @@ public class RulesVerifier {
         System.out.printf("\nConteúdo do arquivo projectsThatUseHibernate.txt\n\n");
 
         String fileName = "scripts/projects_sample_hibernate_2015-08-10.txt";
-        String fileResults = "scripts/tests_results_sample.txt";
-        String infoResults = "scripts/tests_info_sample.txt";
+        String fileResults = "scripts/tests_results_sample_r1.txt";
+        String infoResults = "scripts/tests_info_sample_r1.txt";
         processarArquivo(fileName, fileResults, infoResults);
 
     }
@@ -77,14 +73,14 @@ public class RulesVerifier {
             System.out.println("Diretório do Projeto: " + projectDir);
             DesignWizardDecorator dwd = new DesignWizardDecorator(projectDir, projectName);
 
-            int numClasses = dwd.getClassesFromCode().size();
+            int numClasses = dwd.getDesignWizard().getAllClasses().size();
 
             // Model Classes from Project
             Set<ClassNode> classes = dwd.getClassesByAnnotation("javax.persistence.Entity");
             int numModelClasses = classes.size();
 
 
-            List<AbstractDesignRule> regras = getRegras(dwd);
+            List<AbstractDesignRule> regras = getRegras(dwd.getDesignWizard());
             int numFailClasses = 0;
             boolean passedClass = true;
             for (ClassNode classNode : classes) {
@@ -129,11 +125,11 @@ public class RulesVerifier {
         gravar.printf("%s,%d,%d,%d\n", projeto, numClasses, numModelClasses, numFailClasses);
     }
 
-    private static List<AbstractDesignRule> getRegras(DesignWizardDecorator dwd) {
+    private static List<AbstractDesignRule> getRegras(DesignWizard dw) {
         List<AbstractDesignRule> regras = new ArrayList<AbstractDesignRule>();
 
         //Regras extraídas do manual
-        AbstractDesignRule rule1 = new HashCodeAndEqualsRule(dwd);
+/*        AbstractDesignRule rule1 = new HashCodeAndEqualsRule(dwd);
         regras.add(rule1);
         AbstractDesignRule rule2 = new NoArgumentConstructorRule(dwd);
         regras.add(rule2);
@@ -147,7 +143,10 @@ public class RulesVerifier {
         AbstractDesignRule rule6 = new UseSetCollectionRule(dwd);
         regras.add(rule6);
         AbstractDesignRule rule7 = new ImplementsSerializableRule(dwd);
-        regras.add(rule7);
+        regras.add(rule7);*/
+
+        AbstractDesignRule rule8 = new HashCodeAndEqualsNotUseIdentifierPropertyRule(dw);
+        regras.add(rule8);
 
         return regras;
     }

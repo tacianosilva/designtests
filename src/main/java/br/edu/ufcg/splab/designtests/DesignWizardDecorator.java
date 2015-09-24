@@ -4,11 +4,9 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.designwizard.design.ClassNode;
-import org.designwizard.design.Entity;
-import org.designwizard.design.Entity.TypesOfEntities;
-import org.designwizard.exception.InexistentEntityException;
 import org.designwizard.api.DesignWizard;
+import org.designwizard.design.ClassNode;
+import org.designwizard.exception.InexistentEntityException;
 
 import br.edu.ufcg.splab.designtests.design.Architecture;
 
@@ -55,17 +53,6 @@ public class DesignWizardDecorator {
         return false;
     }
 
-    public Set<ClassNode> getClassesAnnotated(String annotationName) throws InexistentEntityException {
-        Set<ClassNode> classes = new HashSet<ClassNode>();
-        Set<Entity> entities = dw.getEntitiesAnnotatedBy(annotationName);
-        for (Entity entity : entities) {
-            if (entity.getTypeOfEntity().equals(TypesOfEntities.CLASS)) {
-                classes.add((ClassNode)entity);
-            }
-        }
-        return classes;
-    }
-
     public Set<ClassNode> getAllAnnotations() {
         Set<ClassNode> annotations = dw.getAllAnnotations();
         return annotations;
@@ -77,10 +64,5 @@ public class DesignWizardDecorator {
 
     public ClassNode getAnnotation(String annotationName) throws InexistentEntityException {
         return dw.getAnnotation(annotationName);
-    }
-
-    public Set<ClassNode> getClassesFromCode() {
-        // TODO Para testar a conversão de annotações quando temos annotações definidas no projeto.
-        return dw.getAllClasses();
     }
 }

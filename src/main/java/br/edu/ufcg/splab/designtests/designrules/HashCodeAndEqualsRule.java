@@ -3,11 +3,10 @@ package br.edu.ufcg.splab.designtests.designrules;
 import java.util.Collection;
 import java.util.Set;
 
+import org.designwizard.api.DesignWizard;
 import org.designwizard.design.ClassNode;
 import org.designwizard.design.MethodNode;
 import org.designwizard.designrules.Rule;
-
-import br.edu.ufcg.splab.designtests.DesignWizardDecorator;
 
 /**
  *
@@ -19,8 +18,8 @@ import br.edu.ufcg.splab.designtests.DesignWizardDecorator;
  */
 public class HashCodeAndEqualsRule extends AbstractDesignRule implements Rule {
 
-    public HashCodeAndEqualsRule(DesignWizardDecorator dwd) {
-        super(dwd);
+    public HashCodeAndEqualsRule(DesignWizard dw) {
+        super(dw);
     }
 
     @Override

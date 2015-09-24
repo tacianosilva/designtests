@@ -2,11 +2,10 @@ package br.edu.ufcg.splab.designtests.designrules;
 
 import java.util.Collection;
 
+import org.designwizard.api.DesignWizard;
 import org.designwizard.design.ClassNode;
 import org.designwizard.design.Modifier;
 import org.designwizard.designrules.Rule;
-
-import br.edu.ufcg.splab.designtests.DesignWizardDecorator;
 
 /**
  *
@@ -17,8 +16,8 @@ import br.edu.ufcg.splab.designtests.DesignWizardDecorator;
  */
 public class NoFinalClassRule extends AbstractDesignRule implements Rule {
 
-    public NoFinalClassRule(DesignWizardDecorator dwd) {
-        super(dwd);
+    public NoFinalClassRule(DesignWizard dw) {
+        super(dw);
     }
 
     @Override

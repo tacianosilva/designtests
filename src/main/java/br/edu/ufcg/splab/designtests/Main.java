@@ -3,6 +3,7 @@ package br.edu.ufcg.splab.designtests;
 import java.io.IOException;
 import java.util.Set;
 
+import org.designwizard.api.DesignWizard;
 import org.designwizard.design.ClassNode;
 import org.designwizard.exception.InexistentEntityException;
 
@@ -17,13 +18,11 @@ import br.edu.ufcg.splab.designtests.designrules.UseSetCollectionRule;
 public class Main {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, InexistentEntityException {
-        // TODO Auto-generated method stub
-
-        DesignWizardDecorator dwd;
         String projectName = "sigest";
         String arquivoJar = "jars/sigest.jar";
 
-        dwd = new DesignWizardDecorator(arquivoJar, projectName);
+        DesignWizardDecorator dwd = new DesignWizardDecorator(arquivoJar, projectName);
+        DesignWizard dw = dwd.getDesignWizard();
 
         Set<ClassNode> models = dwd.getClassesByAnnotation("javax.persistence.Entity");
 
@@ -32,7 +31,7 @@ public class Main {
             System.out.println(classNode.getAnnotations());
         }
 
-        Set<ClassNode> classes = dwd.getClassesFromCode();
+        Set<ClassNode> classes = dwd.getDesignWizard().getAllClasses();
 
         for (ClassNode classNode : classes) {
             System.out.println(classNode.getClassName());
@@ -83,7 +82,7 @@ public class Main {
 
         System.out.printf("\n Execution of the Rules \n\n");
 
-        AbstractDesignRule rule0 = new ProvideIdentifierPropertyRule(dwd);
+        AbstractDesignRule rule0 = new ProvideIdentifierPropertyRule(dw);
         rule0.setClassNodes(models);
         System.out.println("Report Rule ProvideIdentifierPropertyRule");
         if (!rule0.checkRule()) {
@@ -98,7 +97,7 @@ public class Main {
             System.out.println("Passou: " + classNode.getName());
         }
 
-        AbstractDesignRule rule1 = new HashCodeAndEqualsRule(dwd);
+        AbstractDesignRule rule1 = new HashCodeAndEqualsRule(dw);
         rule1.setClassNodes(models);
         System.out.println("Report Rule HashCodeAndEqualsRule");
         if (!rule1.checkRule()) {
@@ -114,7 +113,7 @@ public class Main {
             System.out.println("Passou: " + classNode.getName());
         }
 
-        ImplementsSerializableRule rule2 = new ImplementsSerializableRule(dwd);
+        ImplementsSerializableRule rule2 = new ImplementsSerializableRule(dw);
         rule2.setClassNodes(models);
         System.out.println("\nReport Rule ImplementsSerializableRule");
         if (!rule2.checkRule()) {
@@ -131,7 +130,7 @@ public class Main {
             System.out.println("Passou: " + classNode.getName());
         }
 
-        UseSetCollectionRule rule3 = new UseSetCollectionRule(dwd);
+        UseSetCollectionRule rule3 = new UseSetCollectionRule(dw);
         rule3.setClassNodes(models);
         System.out.println("Report Rule UseSetCollectionRule");
         if (!rule3.checkRule()) {
@@ -148,7 +147,7 @@ public class Main {
             System.out.println("Passou: " + classNode.getName());
         }
 
-        HashCodeAndEqualsNotUseIdentifierPropertyRule rule4 = new HashCodeAndEqualsNotUseIdentifierPropertyRule(dwd);
+        HashCodeAndEqualsNotUseIdentifierPropertyRule rule4 = new HashCodeAndEqualsNotUseIdentifierPropertyRule(dw);
         rule4.setClassNodes(models);
         System.out.println("Report Rule HashCodeAndEqualsNotUseIdentifierPropertyRule");
         if (!rule4.checkRule()) {
@@ -165,7 +164,7 @@ public class Main {
             System.out.println("Passou: " + classNode.getName());
         }
 
-        ProvideGetsSetsFieldsRule rule5 = new ProvideGetsSetsFieldsRule(dwd);
+        ProvideGetsSetsFieldsRule rule5 = new ProvideGetsSetsFieldsRule(dw);
         rule5.setClassNodes(models);
         System.out.println("Report Rule ProvideGetsSetsFieldsRule");
         if (!rule5.checkRule()) {
