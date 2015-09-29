@@ -8,12 +8,12 @@ import org.designwizard.design.ClassNode;
 import org.designwizard.design.FieldNode;
 import org.designwizard.design.MethodNode;
 import org.designwizard.designrules.Rule;
-import org.designwizard.exception.InexistentEntityException;
 
 import br.edu.ufcg.splab.designtests.util.TypesOfCollections;
 
 /**
- * Abstract class to start the properties of the rules for software design in instance of the {@link DesignWizard}.
+ * Abstract class to start the properties of the rules for software design in
+ * instance of the {@link DesignWizard}.
  * @author Taciano Morais Silva - tacianosilva@gmail.com
  */
 public abstract class AbstractDesignRule implements Rule {
@@ -91,23 +91,40 @@ public abstract class AbstractDesignRule implements Rule {
         return resultFalse;
     }
 
-    public void addResultTrue(ClassNode node) {
+    /**
+     * Add a {@link ClassNode} in the set of true results.
+     * @param node The classNode that passed the rule.
+     */
+    public final void addResultTrue(final ClassNode node) {
         resultTrue.add(node);
     }
 
-    public void addResultFalse(ClassNode node) {
+    /**
+     * Add a {@link ClassNode} in the set of false results.
+     * @param node The classNode that did not pass the rule
+     */
+    public final void addResultFalse(final ClassNode node) {
         resultFalse.add(node);
     }
 
-    protected boolean hasSetMethod(FieldNode fieldNode, ClassNode entityNode) {
-        String name = fieldNode.getShortName();
+    /**
+     * Verifies if exists set method for the field.
+     * @param fieldNode The field contained in the class.
+     * @param entityNode Entity that contains the field.
+     * @return True if exists set method in the entity for the field.
+     */
+    protected final boolean hasSetMethod(final FieldNode fieldNode, final ClassNode entityNode) {
+        String fieldName = fieldNode.getShortName();
         ClassNode type = fieldNode.getType();
         ClassNode voidType = new ClassNode("void");
-        String getName = "set" + name.substring(0, 1).toUpperCase() + name.substring(1)+"("+type.getName()+")";
+        String getName = "set" + fieldName.substring(0, 1).toUpperCase()
+                + fieldName.substring(1) + "(" + type.getName() + ")";
 
         MethodNode methodNode = entityNode.getDeclaredMethod(getName);
 
-        if (methodNode == null) return false;
+        if (methodNode == null) {
+            return false;
+        }
 
         String methodName = methodNode.getShortName();
         ClassNode methodType = methodNode.getReturnType();
@@ -118,6 +135,12 @@ public abstract class AbstractDesignRule implements Rule {
         return false;
     }
 
+    /**
+     * Verifies if exists get method for the field.
+     * @param fieldNode The field contained in the class.
+     * @param entityNode Entity that contains the field.
+     * @return True if exists get method in the entity for the field.
+     */
     protected boolean hasGetMethod(FieldNode fieldNode, ClassNode entityNode) {
         String name = fieldNode.getShortName();
         ClassNode type = fieldNode.getType();
@@ -125,7 +148,9 @@ public abstract class AbstractDesignRule implements Rule {
 
         MethodNode methodNode = entityNode.getDeclaredMethod(getName);
 
-        if (methodNode == null) return false;
+        if (methodNode == null) {
+            return false;
+        }
 
         String methodName = methodNode.getShortName();
         ClassNode methodType = methodNode.getReturnType();
@@ -138,9 +163,8 @@ public abstract class AbstractDesignRule implements Rule {
     }
 
     /**
-     *
-     * @return
-     * @throws InexistentEntityException
+     * Returns the set of <code>ClassNode</code> objects where this design rule will be executed.
+     * @return A set of <code>ClassNode</code> objects or set empty.
      */
     protected Set<ClassNode> getClassNodes() {
         return classNodes;
@@ -166,25 +190,25 @@ public abstract class AbstractDesignRule implements Rule {
 
     /**
     *
-    * @param classes
+    * @param classe
     */
-   public void setClassNode(ClassNode classe) {
-       resetCollections();
-       Set<ClassNode> classes = new HashSet<ClassNode>();
-       classes.add(classe);
-       if (checkClassNodes(classes)) {
-           this.classNodes = classes;
-       }
-   }
+    public final void setClassNode(final ClassNode classe) {
+        resetCollections();
+        Set<ClassNode> classes = new HashSet<ClassNode>();
+        classes.add(classe);
+        if (checkClassNodes(classes)) {
+            this.classNodes = classes;
+        }
+    }
 
     /**
      * Checks if the parameter belongs to the set of classes of the design
      * {@link DesignWizard#getAllClasses()}.
      * @param classes The set of classNodes to check the pertinence.
-     * @return True if all classnodes belongs to the design.
-     * False if classes is <code>null</code> or {@link DesignWizard#getAllClasses()} is <code>null</code>.
+     * @return True if all classnodes belongs to the design. False if classes is <code>null</code>
+     * or {@link DesignWizard#getAllClasses()} is <code>null</code>.
      */
-    protected boolean checkClassNodes(Set<ClassNode> classes) {
+    protected final boolean checkClassNodes(final Set<ClassNode> classes) {
         if (dw.getAllClasses() != null) {
             return dw.getAllClasses().containsAll(classes);
         }
@@ -193,6 +217,7 @@ public abstract class AbstractDesignRule implements Rule {
 
     /**
      * The Report with errors messages.
+     * @return A string with errors messages.
      */
     public abstract String getReport();
 
