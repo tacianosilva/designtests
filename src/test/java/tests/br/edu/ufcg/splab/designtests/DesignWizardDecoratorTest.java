@@ -1,24 +1,39 @@
 package tests.br.edu.ufcg.splab.designtests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.Set;
 
-import org.designwizard.design.PackageNode;
 import org.designwizard.api.DesignWizard;
+import org.designwizard.design.PackageNode;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import br.edu.ufcg.splab.designtests.DesignWizardDecorator;
-import br.edu.ufcg.splab.designtests.design.Architecture;
-import br.edu.ufcg.splab.designtests.design.ModuleNode;
 
+/**
+ * Test class for {@link DesignWizardDecorator}.
+ * @author Taciano de Morais Silva - tacianosilva@gmail.com
+ */
 public class DesignWizardDecoratorTest {
 
+    /**
+     * DesignWizard instance.
+     */
     DesignWizard dw;
+    /**
+     * Decorator instance.
+     */
     DesignWizardDecorator dwd;
+    /**
+     * Project name on the tests.
+     */
     String projectName = "sigest";
+    /**
+     * Project jar file.
+     */
     String arquivoJar = "jars/sigest.jar";
 
     @Before
@@ -45,12 +60,5 @@ public class DesignWizardDecoratorTest {
         }
 
         assertNotNull("3", dwd);
-    }
-
-    //@Test
-    public final void testGetArchtecture() {
-        Architecture arch = dwd.getArchitecture();
-        ModuleNode model = arch.getModule("model");
-        assertNotNull("1", dwd);
     }
 }

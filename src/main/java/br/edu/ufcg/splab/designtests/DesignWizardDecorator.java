@@ -8,8 +8,10 @@ import org.designwizard.api.DesignWizard;
 import org.designwizard.design.ClassNode;
 import org.designwizard.exception.InexistentEntityException;
 
-import br.edu.ufcg.splab.designtests.design.Architecture;
-
+/**
+ * Auxiliary class for execution of design tests.
+ * @author Taciano de Morais Silva - tacianosilva@gmail.com
+ */
 public class DesignWizardDecorator {
 
     private DesignWizard dw;
@@ -18,11 +20,6 @@ public class DesignWizardDecorator {
     public DesignWizardDecorator(String pathToJar, String projectName) throws IOException, ClassNotFoundException {
         this.dw = new DesignWizard(pathToJar);
         this.projectName = projectName;
-    }
-
-    public Architecture getArchitecture() {
-        Architecture arch = new Architecture(projectName);
-        return arch;
     }
 
     public DesignWizard getDesignWizard() {
