@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>br.edu.ufcg.splab</groupId>
     <artifactId>designtests</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>designtests - Automatic verification of design rules</name>
     <description>Ferramenta para Testes de Design Automáticos</description>
     <url>https://github.com/tacianosilva/designtests</url>
@@ -99,6 +99,10 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <!--  -Xdoclint:none -->
+                    <additionalparam>-Xdoclint:all</additionalparam>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
