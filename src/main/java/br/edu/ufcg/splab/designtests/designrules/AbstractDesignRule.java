@@ -77,16 +77,32 @@ public abstract class AbstractDesignRule implements Rule {
         this.setClassNodes(classes);
     }
 
+    /**
+     * Returns the rule's name.
+     * @return The rule's name.
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * Checks if the set {@link AbstractDesignRule#getClassNodes()} attends the rule.
+     * @see org.designwizard.designrules.Rule#checkRule()
+     */
     public abstract boolean checkRule();
 
+    /**
+     * Returns the set of <code>ClassNode</code> objects that passed the rule.
+     * @return A set of <code>ClassNode</code> objects or set empty.
+     */
     public Set<ClassNode> getResultsTrue() {
         return resultTrue;
     }
 
+    /**
+     * Returns the set of <code>ClassNode</code> objects that did not pass the rule.
+     * @return A set of <code>ClassNode</code> objects or set empty.
+     */
     public Set<ClassNode> getResultsFalse() {
         return resultFalse;
     }
@@ -101,7 +117,7 @@ public abstract class AbstractDesignRule implements Rule {
 
     /**
      * Add a {@link ClassNode} in the set of false results.
-     * @param node The classNode that did not pass the rule
+     * @param node The classNode that did not pass the rule.
      */
     public final void addResultFalse(final ClassNode node) {
         resultFalse.add(node);
@@ -171,8 +187,8 @@ public abstract class AbstractDesignRule implements Rule {
     }
 
     /**
-     *
-     * @param classes
+     * Put a set of <code>ClassNode</code> objects where this design rule will be executed.
+     * @param classes A set of <code>ClassNode</code> objects where this design rule will be executed.
      */
     public void setClassNodes(Set<ClassNode> classes) {
         resetCollections();
@@ -181,6 +197,9 @@ public abstract class AbstractDesignRule implements Rule {
         }
     }
 
+    /**
+     * Resets collections fields.
+     */
     private void resetCollections() {
         this.classNodes = new HashSet<ClassNode>();
         this.resultTrue = new HashSet<ClassNode>();
@@ -189,8 +208,8 @@ public abstract class AbstractDesignRule implements Rule {
     }
 
     /**
-    *
-    * @param classe
+    * Put a <code>ClassNode</code> object where this design rule will be executed.
+    * @param classe A <code>ClassNode</code> objects where this design rule will be executed.
     */
     public final void setClassNode(final ClassNode classe) {
         resetCollections();
@@ -221,6 +240,12 @@ public abstract class AbstractDesignRule implements Rule {
      */
     public abstract String getReport();
 
+    /**
+     * Checks if the classNode implements or inherits from the Collection type of
+     * the Java Collection Framework.
+     * @param node A classNode.
+     * @return True if the classNode implements or inherits from the Collection type.
+     */
     public boolean isCollection(ClassNode node) {
         if (collections.isCollection(node)) {
             return true;
@@ -228,6 +253,12 @@ public abstract class AbstractDesignRule implements Rule {
         return false;
     }
 
+    /**
+     * Checks if the classNode implements or inherits from the Set type of
+     * the Java Collection Framework.
+     * @param node A classNode.
+     * @return True if the classNode implements or inherits from the Set type.
+     */
     public boolean isSet(ClassNode node) {
         if (collections.isSet(node)) {
             return true;
@@ -247,7 +278,6 @@ public abstract class AbstractDesignRule implements Rule {
      * <code>name</code> or <code>null</code> if a method with the specified name is not found.
      */
     protected MethodNode getMethod(ClassNode classNode, String methodName) {
-        // TODO Adicionar issue para a implementação deste método no ClassNode do DesignWizard.
         for (MethodNode method: classNode.getAllMethods()) {
             if (method.getShortName().equals(methodName)) return method;
         }
