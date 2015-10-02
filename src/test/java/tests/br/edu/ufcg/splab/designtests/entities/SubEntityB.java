@@ -9,6 +9,9 @@ public class SubEntityB extends SuperEntityB {
     @Column
     private String fieldSubEntity;
 
+    @Column
+    private String field;
+
     protected String getMethodSuperEntity() {
         return fieldSubEntity;
     }

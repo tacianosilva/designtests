@@ -17,6 +17,10 @@ public class EntityC {
     private String name;
 
     @Column
+    private String field;
+
+
+    @Column
     private Set<String> collectionSet;
 
     @Column
@@ -34,8 +38,8 @@ public class EntityC {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getField() {
+        return field;
     }
 
     public Set<String> getCollectionSet() {

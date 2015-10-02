@@ -16,11 +16,11 @@ public class SuperEntityA implements Serializable {
     @Id
     private String fieldSuperEntity;
 
-    protected String getMethodSuperEntity() {
+    protected String getFieldSuperEntity() {
         return fieldSuperEntity;
     }
 
-    protected void setMethodSuperEntity(String param) {
+    protected void setFieldSuperEntity(String param) {
         this.fieldSuperEntity = param;
     }
 

@@ -21,11 +21,11 @@ public class SubEntityA extends SuperEntityA {
         this.id = param;
     }
 
-    protected String getMethodSuperEntity() {
+    protected String getFieldSubEntity() {
         return fieldSubEntity;
     }
 
-    protected void setMethodSuperEntity(String param) {
+    protected void setFieldSubEntity(String param) {
         this.fieldSubEntity = param;
     }
 
