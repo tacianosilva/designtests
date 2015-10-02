@@ -9,7 +9,8 @@ import org.junit.runners.Suite.SuiteClasses;
     HashCodeAndEqualsNotUseIdentifierPropertyRuleTest.class,
     HashCodeAndEqualsRuleTest.class,
     ImplementsSerializableRuleTest.class,
-    ProvideIdentifierPropertyRuleTest.class })
+    ProvideIdentifierPropertyRuleTest.class,
+    ProvideGetsSetsFieldsRuleTest.class })
 public class AllTests {
 
 }

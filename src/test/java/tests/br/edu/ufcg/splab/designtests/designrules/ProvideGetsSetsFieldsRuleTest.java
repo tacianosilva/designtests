@@ -13,25 +13,27 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.edu.ufcg.splab.designtests.designrules.HashCodeAndEqualsNotUseIdentifierPropertyRule;
+import br.edu.ufcg.splab.designtests.designrules.ProvideGetsSetsFieldsRule;
 import br.edu.ufcg.splab.designtests.util.PersistenceRuleUtil;
 import tests.br.edu.ufcg.splab.designtests.entities.EntityA;
 import tests.br.edu.ufcg.splab.designtests.entities.EntityB;
 import tests.br.edu.ufcg.splab.designtests.entities.EntityC;
+import tests.br.edu.ufcg.splab.designtests.entities.EntityD;
 import tests.br.edu.ufcg.splab.designtests.entities.SubEntityA;
 import tests.br.edu.ufcg.splab.designtests.entities.SubEntityB;
 
-public class HashCodeAndEqualsNotUseIdentifierPropertyRuleTest {
+public class ProvideGetsSetsFieldsRuleTest {
 
     DesignWizard dw;
     Set<ClassNode> entities;
     Set<ClassNode> classes;
     PersistenceRuleUtil util = new PersistenceRuleUtil();
-    HashCodeAndEqualsNotUseIdentifierPropertyRule rule;
+    ProvideGetsSetsFieldsRule rule;
 
     ClassNode entityA;
     ClassNode entityB;
     ClassNode entityC;
+    ClassNode entityD;
     ClassNode subEntityA;
     ClassNode subEntityB;
 
@@ -43,9 +45,10 @@ public class HashCodeAndEqualsNotUseIdentifierPropertyRuleTest {
         entityA = dw.getClass(EntityA.class.getName());
         entityB = dw.getClass(EntityB.class.getName());
         entityC = dw.getClass(EntityC.class.getName());
+        entityD = dw.getClass(EntityD.class.getName());
         subEntityA = dw.getClass(SubEntityA.class.getName());
         subEntityB = dw.getClass(SubEntityB.class.getName());
-        rule = new HashCodeAndEqualsNotUseIdentifierPropertyRule(dw);
+        rule = new ProvideGetsSetsFieldsRule(dw);
     }
 
     @After
@@ -56,65 +59,69 @@ public class HashCodeAndEqualsNotUseIdentifierPropertyRuleTest {
         entityA = null;
         entityB = null;
         entityC = null;
+        entityD = null;
         subEntityA = null;
         subEntityB = null;
     }
 
     @Test
-    public void testEntities() {
-        assertEquals("1", 8, classes.size());
-        assertEquals("2", 6, entities.size());
-    }
-
-    @Test
     public void testCheckRule() {
-        // Não implementa hashCode e Equals no caso herda os métodos de Object.
-        rule.setClassNode(entityA);
-        assertFalse("1", rule.checkRule());
 
-        // Sobrescreve os métodos hashCode e Equals que não utilizam o Identificador
+        // Implementa getters and setters
+        rule.setClassNode(entityA);
+        assertTrue("1", rule.checkRule());
+
+        // Implementa getters and setters
         rule.setClassNode(entityB);
         assertTrue("2", rule.checkRule());
 
-        // Sobrescreve os métodos hashCode e Equals que utilizam o Identificador
+        // Não implementa setters
         rule.setClassNode(entityC);
         assertFalse("3", rule.checkRule());
 
-        // Não implementa hashCode e Equals e a superClasse herda os métodos de Object.
-        rule.setClassNode(subEntityA);
+        // Não implementa setters
+        rule.setClassNode(entityD);
         assertFalse("4", rule.checkRule());
 
-        // Herda o HashCode e Equals que utilizam o Identificador da SuperClasse.
+        // Implementa getters and setters
+        rule.setClassNode(subEntityA);
+        assertTrue("5", rule.checkRule());
+
+        // Não implementa getters and setters
         rule.setClassNode(subEntityB);
-        assertFalse("5", rule.checkRule());
+        assertFalse("6", rule.checkRule());
     }
 
     @Test
     public void testGetReport() {
-        // Não implementa hashCode e Equals no caso herda os métodos de Object.
+        // Implementa getters and setters
         rule.setClassNode(entityA);
         rule.checkRule();
-        assertNotSame("1", "", rule.getReport());
+        assertEquals("1", "", rule.getReport());
 
-        // Sobrescreve os métodos hashCode e Equals que não utilizam o Identificador
+        // Não implementa getters and setters
         rule.setClassNode(entityB);
         rule.checkRule();
         assertEquals("2", "", rule.getReport());
 
-        // Sobrescreve os métodos hashCode e Equals que utilizam o Identificador
+        // Não implementa setters
         rule.setClassNode(entityC);
         rule.checkRule();
         assertNotSame("3", "", rule.getReport());
 
-        // Não implementa hashCode e Equals e a superClasse herda os métodos de Object.
-        rule.setClassNode(subEntityA);
+        // Não implementa setters
+        rule.setClassNode(entityD);
         rule.checkRule();
         assertNotSame("4", "", rule.getReport());
 
-        // Herda o HashCode e Equals que utilizam o Identificador da SuperClasse.
+        // Implementa getters and setters
+        rule.setClassNode(subEntityA);
+        rule.checkRule();
+        assertEquals("5", "", rule.getReport());
+
+        // Não implementa getters and setters
         rule.setClassNode(subEntityB);
         rule.checkRule();
-        assertNotSame("5", "", rule.getReport());
+        assertNotSame("6", "", rule.getReport());
     }
-
 }
