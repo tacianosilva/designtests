@@ -25,6 +25,7 @@ public class TypesOfCollections {
         this.sets.add("java.util.NavigableSet");
         this.collections.add("java.util.Queue");
         this.collections.add("java.util.Set");
+        this.sets.add("java.util.Set");
         this.sets.add("java.util.SortedSet");
         this.collections.add("java.util.TransferQueue");
 
