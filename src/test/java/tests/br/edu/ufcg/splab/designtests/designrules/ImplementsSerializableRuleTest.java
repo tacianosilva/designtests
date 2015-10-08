@@ -110,5 +110,4 @@ public class ImplementsSerializableRuleTest {
         rule.checkRule();
         assertNotSame("5", "", rule.getReport());
     }
-
 }
