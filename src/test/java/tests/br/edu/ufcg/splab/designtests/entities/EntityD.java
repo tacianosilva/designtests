@@ -26,4 +26,8 @@ public class EntityD implements Serializable {
 
     @Column
     private LinkedList<String> collectionLinkedList;
+
+    public EntityD(String name) {
+        this.name = name;
+    }
 }

@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class EntityC {
+public final class EntityC {
 
     @Id
     private Integer id;
@@ -25,6 +25,10 @@ public class EntityC {
 
     @Column
     private HashSet<String> collectionHashSet;
+
+    public EntityC() {
+        super();
+    }
 
     public Integer getId() {
         return id;

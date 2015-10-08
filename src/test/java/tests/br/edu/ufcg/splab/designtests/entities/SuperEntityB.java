@@ -9,6 +9,10 @@ public class SuperEntityB {
     @Id
     private Integer id;
 
+    public SuperEntityB(Integer id) {
+        this.id = id;
+    }
+
     protected Integer getId() {
         return id;
     }

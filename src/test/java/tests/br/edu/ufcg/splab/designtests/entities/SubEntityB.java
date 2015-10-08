@@ -4,7 +4,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
-public class SubEntityB extends SuperEntityB {
+public final class SubEntityB extends SuperEntityB {
+
+    public SubEntityB(Integer id) {
+        super(id);
+    }
 
     @Column
     private String fieldSubEntity;
