@@ -29,4 +29,21 @@ public class SubEntityC extends SuperEntityC {
     protected void setFieldSubEntity(String param) {
         this.fieldSubEntity = param;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        SubEntityC other = (SubEntityC) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        return true;
+    }
 }

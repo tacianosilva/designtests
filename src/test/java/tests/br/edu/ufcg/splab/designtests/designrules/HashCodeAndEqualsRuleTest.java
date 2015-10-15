@@ -18,8 +18,10 @@ import br.edu.ufcg.splab.designtests.util.PersistenceRuleUtil;
 import tests.br.edu.ufcg.splab.designtests.entities.EntityA;
 import tests.br.edu.ufcg.splab.designtests.entities.EntityB;
 import tests.br.edu.ufcg.splab.designtests.entities.EntityC;
+import tests.br.edu.ufcg.splab.designtests.entities.EntityD;
 import tests.br.edu.ufcg.splab.designtests.entities.SubEntityA;
 import tests.br.edu.ufcg.splab.designtests.entities.SubEntityB;
+import tests.br.edu.ufcg.splab.designtests.entities.SubEntityC;
 
 public class HashCodeAndEqualsRuleTest {
 
@@ -32,8 +34,10 @@ public class HashCodeAndEqualsRuleTest {
     ClassNode entityA;
     ClassNode entityB;
     ClassNode entityC;
+    ClassNode entityD;
     ClassNode subEntityA;
     ClassNode subEntityB;
+    ClassNode subEntityC;
 
     @Before
     public void setUp() throws Exception {
@@ -43,8 +47,10 @@ public class HashCodeAndEqualsRuleTest {
         entityA = dw.getClass(EntityA.class.getName());
         entityB = dw.getClass(EntityB.class.getName());
         entityC = dw.getClass(EntityC.class.getName());
+        entityD = dw.getClass(EntityD.class.getName());
         subEntityA = dw.getClass(SubEntityA.class.getName());
         subEntityB = dw.getClass(SubEntityB.class.getName());
+        subEntityC = dw.getClass(SubEntityC.class.getName());
         rule = new HashCodeAndEqualsRule(dw);
     }
 
@@ -56,8 +62,10 @@ public class HashCodeAndEqualsRuleTest {
         entityA = null;
         entityB = null;
         entityC = null;
+        entityD = null;
         subEntityA = null;
         subEntityB = null;
+        subEntityC = null;
     }
 
     @Test
@@ -74,13 +82,20 @@ public class HashCodeAndEqualsRuleTest {
         rule.setClassNode(entityC);
         assertTrue("3", rule.checkRule());
 
+        // Não implementa hashCode e Equals no caso herda os métodos de Object.
+        rule.setClassNode(entityD);
+        assertFalse("4", rule.checkRule());
+
         // Não implementa hashCode e Equals e a superClasse herda os métodos de Object.
         rule.setClassNode(subEntityA);
-        assertFalse("4", rule.checkRule());
+        assertFalse("5", rule.checkRule());
 
         // Herda o HashCode e Equals que utilizam o Identificador da SuperClasse.
         rule.setClassNode(subEntityB);
-        assertFalse("5", rule.checkRule());
+        assertFalse("6", rule.checkRule());
+
+        rule.setClassNode(subEntityC);
+        assertFalse("7", rule.checkRule());
     }
 
     @Test
@@ -100,15 +115,42 @@ public class HashCodeAndEqualsRuleTest {
         rule.checkRule();
         assertEquals("3", "", rule.getReport());
 
+        // Não implementa hashCode e Equals no caso herda os métodos de Object.
+        rule.setClassNode(entityD);
+        rule.checkRule();
+        assertNotSame("4", "", rule.getReport());
+
         // Não implementa hashCode e Equals e a superClasse herda os métodos de Object.
         rule.setClassNode(subEntityA);
         rule.checkRule();
-        assertNotSame("4", "", rule.getReport());
+        assertNotSame("5", "", rule.getReport());
 
         // Herda o HashCode e Equals que utilizam o Identificador da SuperClasse.
         rule.setClassNode(subEntityB);
         rule.checkRule();
-        assertNotSame("5", "", rule.getReport());
+        assertNotSame("6", "", rule.getReport());
+
+        rule.setClassNode(subEntityC);
+        rule.checkRule();
+        assertNotSame("7", "", rule.getReport());
     }
 
+    @Test
+    public void testResults() {
+        // Existem classes que não atendem a regra
+        rule.setClassNodes(entities);
+        assertFalse("1", rule.checkRule());
+
+        Set<ClassNode> falhas = rule.getResultsFalse();
+        for (ClassNode classNode : falhas) {
+            System.out.println("Falha: " + classNode.getShortName());
+        }
+        assertEquals("2", 5, falhas.size());
+
+        Set<ClassNode> acertos = rule.getResultsTrue();
+        for (ClassNode classNode : acertos) {
+            System.out.println("Acerto: " + classNode.getShortName());
+        }
+        assertEquals("3", 2, acertos.size());
+    }
 }
