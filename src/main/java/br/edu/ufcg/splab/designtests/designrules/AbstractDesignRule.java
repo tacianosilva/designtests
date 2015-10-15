@@ -133,10 +133,10 @@ public abstract class AbstractDesignRule implements Rule {
         String fieldName = fieldNode.getShortName();
         ClassNode type = fieldNode.getType();
         ClassNode voidType = new ClassNode("void");
-        String getName = "set" + fieldName.substring(0, 1).toUpperCase()
+        String setName = "set" + fieldName.substring(0, 1).toUpperCase()
                 + fieldName.substring(1) + "(" + type.getName() + ")";
 
-        MethodNode methodNode = entityNode.getDeclaredMethod(getName);
+        MethodNode methodNode = entityNode.getDeclaredMethod(setName);
 
         if (methodNode == null) {
             return false;
@@ -145,7 +145,7 @@ public abstract class AbstractDesignRule implements Rule {
         String methodName = methodNode.getShortName();
         ClassNode methodType = methodNode.getReturnType();
 
-        if (methodName.equals(getName) && methodType.equals(voidType)) {
+        if (methodName.equals(setName) && methodType.equals(voidType)) {
             return true;
         }
         return false;
