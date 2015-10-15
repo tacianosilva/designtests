@@ -17,7 +17,7 @@ import br.edu.ufcg.splab.designtests.util.PersistenceRuleUtil;
  *
  * Methods must be declared in the persistent class.
  *
- * @author Taciano
+ * @author Taciano Morais Silva - tacianosilva@gmail.com
  */
 public class HashCodeAndEqualsNotUseIdentifierPropertyRule extends AbstractDesignRule implements Rule {
 
@@ -67,7 +67,7 @@ public class HashCodeAndEqualsNotUseIdentifierPropertyRule extends AbstractDesig
                         + field.getShortName() + "> in the hashCode method.\n";
                 contem = true;
             }
-
+            // Verificar a presença dos métodos hashCode e Equals
             HashCodeAndEqualsRule rule = new HashCodeAndEqualsRule(dw);
             rule.setClassNode(entityNode);
             if (contem || !rule.checkRule()) {
