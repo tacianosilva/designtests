@@ -15,6 +15,13 @@ import org.designwizard.exception.InexistentEntityException;
 
 import br.edu.ufcg.splab.designtests.designrules.AbstractDesignRule;
 import br.edu.ufcg.splab.designtests.designrules.HashCodeAndEqualsNotUseIdentifierPropertyRule;
+import br.edu.ufcg.splab.designtests.designrules.HashCodeAndEqualsRule;
+import br.edu.ufcg.splab.designtests.designrules.ImplementsSerializableRule;
+import br.edu.ufcg.splab.designtests.designrules.NoArgumentConstructorRule;
+import br.edu.ufcg.splab.designtests.designrules.NoFinalClassRule;
+import br.edu.ufcg.splab.designtests.designrules.ProvideGetsSetsFieldsRule;
+import br.edu.ufcg.splab.designtests.designrules.ProvideIdentifierPropertyRule;
+import br.edu.ufcg.splab.designtests.designrules.UseSetCollectionRule;
 
 public class RulesVerifier {
 
@@ -22,8 +29,15 @@ public class RulesVerifier {
         System.out.printf("\nConteúdo do arquivo projectsThatUseHibernate.txt\n\n");
 
         String fileName = "scripts/projects_sample_hibernate_2015-08-10.txt";
-        String fileResults = "scripts/tests_results_sample_r1.txt";
-        String infoResults = "scripts/tests_info_sample_r1.txt";
+        String fileResults = "scripts/tests_results_sample.txt";
+        String infoResults = "scripts/tests_info_sample.txt";
+
+        processarArquivo(fileName, fileResults, infoResults);
+
+        fileName = "scripts/projects_starred_hibernate_2015-08-30.txt";
+        fileResults = "scripts/tests_results_starred.txt";
+        infoResults = "scripts/tests_info_starred.txt";
+
         processarArquivo(fileName, fileResults, infoResults);
 
     }
@@ -128,23 +142,26 @@ public class RulesVerifier {
     private static List<AbstractDesignRule> getRegras(DesignWizard dw) {
         List<AbstractDesignRule> regras = new ArrayList<AbstractDesignRule>();
 
-        //Regras extraídas do manual
-/*        AbstractDesignRule rule1 = new HashCodeAndEqualsRule(dwd);
+        //Regras extraídas do manual Hibernate
+        AbstractDesignRule rule1 = new NoArgumentConstructorRule(dw);
         regras.add(rule1);
-        AbstractDesignRule rule2 = new NoArgumentConstructorRule(dwd);
+        AbstractDesignRule rule2 = new ProvideIdentifierPropertyRule(dw);
         regras.add(rule2);
-        AbstractDesignRule rule3 = new ProvideIdentifierPropertyRule(dwd);
+        AbstractDesignRule rule3 = new NoFinalClassRule(dw);
         regras.add(rule3);
-        AbstractDesignRule rule4 = new NoFinalClassRule(dwd);
+        AbstractDesignRule rule4 = new ProvideGetsSetsFieldsRule(dw);
         regras.add(rule4);
-        //AbstractDesignRule rule5 = new ProvideGetsSetsFieldsRule(dwd);
-        //regras.add(rule5);
+        AbstractDesignRule rule5 = new HashCodeAndEqualsRule(dw);
+        regras.add(rule5);
 
-        AbstractDesignRule rule6 = new UseSetCollectionRule(dwd);
+        // Alternativa recomendada para representar associações multivaloradas.
+        AbstractDesignRule rule6 = new UseSetCollectionRule(dw);
         regras.add(rule6);
-        AbstractDesignRule rule7 = new ImplementsSerializableRule(dwd);
-        regras.add(rule7);*/
+        // De acordo com a especificação do JPA
+        AbstractDesignRule rule7 = new ImplementsSerializableRule(dw);
+        regras.add(rule7);
 
+        // Associação da Regra 2 com a regra 5
         AbstractDesignRule rule8 = new HashCodeAndEqualsNotUseIdentifierPropertyRule(dw);
         regras.add(rule8);
 
