@@ -79,9 +79,4 @@ public class HashCodeAndEqualsNotUseIdentifierPropertyRule extends AbstractDesig
         }
         return this.report.equals("") ? true : false;
     }
-
-    @Override
-    public String getReport() {
-        return this.report;
-    }
 }

@@ -62,9 +62,4 @@ public class NoArgumentConstructorRule extends AbstractDesignRule implements Rul
         }
         return this.report.equals("") ? true : false;
     }
-
-    @Override
-    public String getReport() {
-        return this.report;
-    }
 }

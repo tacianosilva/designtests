@@ -48,9 +48,4 @@ public class UseSetCollectionRule extends AbstractDesignRule {
         }
         return this.report.equals("") ? true : false;
     }
-
-    @Override
-    public String getReport() {
-        return this.report;
-    }
 }

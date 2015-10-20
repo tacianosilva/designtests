@@ -59,9 +59,4 @@ public class ProvideIdentifierPropertyRule extends AbstractDesignRule implements
         }
         return this.report.equals("") ? true : false;
     }
-
-    @Override
-    public String getReport() {
-        return this.report;
-    }
 }

@@ -50,9 +50,4 @@ public class NoFinalClassRule extends AbstractDesignRule implements Rule {
         }
         return this.report.equals("") ? true : false;
     }
-
-    @Override
-    public String getReport() {
-        return this.report;
-    }
 }

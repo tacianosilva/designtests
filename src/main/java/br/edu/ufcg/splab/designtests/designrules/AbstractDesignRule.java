@@ -182,7 +182,7 @@ public abstract class AbstractDesignRule implements Rule {
      * Returns the set of <code>ClassNode</code> objects where this design rule will be executed.
      * @return A set of <code>ClassNode</code> objects or set empty.
      */
-    protected Set<ClassNode> getClassNodes() {
+    public Set<ClassNode> getClassNodes() {
         return classNodes;
     }
 
@@ -238,7 +238,9 @@ public abstract class AbstractDesignRule implements Rule {
      * The Report with errors messages.
      * @return A string with errors messages.
      */
-    public abstract String getReport();
+    public final String getReport() {
+        return this.report;
+    }
 
     /**
      * Checks if the classNode implements or inherits from the Collection type of

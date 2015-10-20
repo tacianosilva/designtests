@@ -1,6 +1,7 @@
 package br.edu.ufcg.splab.designtests.designrules;
 
 import java.util.Collection;
+import java.util.Set;
 
 import org.designwizard.api.DesignWizard;
 import org.designwizard.design.ClassNode;
@@ -13,8 +14,21 @@ import org.designwizard.design.ClassNode;
  */
 public class ImplementsSerializableRule extends AbstractDesignRule {
 
+    /**
+     * Initiates rule properties for software design in instance of the {@link DesignWizard}.
+     * @param dw The instance of the {@link DesignWizard} with the software design.
+     */
     public ImplementsSerializableRule(DesignWizard dw) {
         super(dw);
+    }
+
+    /**
+     * Initiates rule properties for software design in instance of the {@link DesignWizard}.
+     * @param dw The instance of the {@link DesignWizard} with the software design.
+     * @param classes The set of {@link ClassNode} that the rule will be executing.
+     */
+    public ImplementsSerializableRule(DesignWizard dw, Set<ClassNode> classes) {
+        super(dw, classes);
     }
 
     @Override
@@ -32,10 +46,5 @@ public class ImplementsSerializableRule extends AbstractDesignRule {
             }
         }
         return this.report.equals("") ? true : false;
-    }
-
-    @Override
-    public String getReport() {
-        return this.report;
     }
 }
