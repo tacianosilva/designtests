@@ -61,6 +61,22 @@ public class ImplementsSerializableRuleTest {
     }
 
     @Test
+    public void testRule() {
+        rule = new ImplementsSerializableRule(dw);
+        assertEquals("1", "", rule.getReport());
+        assertEquals("2", 0, rule.getResultsFalse().size());
+        assertEquals("3", 0, rule.getResultsTrue().size());
+        rule.setClassNodes(entities);
+        assertEquals("4", entities, rule.getClassNodes());
+
+        rule = new ImplementsSerializableRule(dw, entities);
+        assertEquals("5", "", rule.getReport());
+        assertEquals("6", 0, rule.getResultsFalse().size());
+        assertEquals("7", 0, rule.getResultsTrue().size());
+        assertEquals("8", entities, rule.getClassNodes());
+    }
+
+    @Test
     public void testCheckRule() {
         // Implementa a interface Serializable
         rule.setClassNode(entityA);
