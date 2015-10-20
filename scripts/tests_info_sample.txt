@@ -14,7 +14,7 @@ natanielpaiva/JPA-2-and-Hibernate,5,2,2
 castlecodestein/spring-orm-jpa,4,1,1
 fwich/hibernate4JPAConverter,8,1,1
 oleg-panichev/StudentsProject,11,2,2
-olivier8/ToysForBoys,23,5,3
+olivier8/ToysForBoys,23,5,5
 samantang/BanqueSpringJPA2Hibernate/Banque6,26,11,11
 imed-pf/dojo-persistence-jpa-hibernate-example,5,2,2
 lorinpa/book-site-jpa,41,5,5
@@ -32,7 +32,7 @@ FabianRojasFuentes/Webservices-REST-JAX-RS/Webservices-JPA,15,4,4
 lgazo/jboss-poc/horec-domain,3,1,1
 jhong2023/rest-bootstrap,8,2,2
 zhy2002/FitnessTracker,24,5,5
-indvamshi/applicationlibrary-backend,136,17,13
+indvamshi/applicationlibrary-backend,136,17,17
 stenman/databasefun,6,3,3
 davisoski/SpringMVCTomcat5CRUD,13,3,3
 huoex/HibernateStudyJpa,6,3,3

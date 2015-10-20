@@ -15,7 +15,7 @@ yaw/swing-spring-jpa-crud,51,1,1
 pires/simple-jpa-hibernate-guice-desktop-app,8,1,1
 gitchina/jpaJxet-Atomikos-Manage,7,2,2
 henryyan/activiti-jpa-api/activiti-jpa-core,25,20,20
-pawel-b/spring-vaadin-jpa-example/svexample-web,41,2,1
+pawel-b/spring-vaadin-jpa-example/svexample-web,41,2,2
 jirkapinkas/example-spring-boot,9,1,1
 gustavoorsi/e-learning/e-learning-model,19,5,5
 sxyx2008/hibernate-search-example/hibernate-example,7,2,2
@@ -29,4 +29,4 @@ galderz/secondlc,3,3,3
 chathurangat/Spring3-Hibernate-Maven-JPA,2,1,1
 mohamedYoussfi/eboutique-jpa-hibernate-spring,18,7,7
 diegogusava/spring-mvc-jpa,1,1,1
-andrewmilkowski/template-wicket-spring-jpa2-hibernate-osgi/database-tier,3,1,0
+andrewmilkowski/template-wicket-spring-jpa2-hibernate-osgi/database-tier,3,1,1
