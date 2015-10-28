@@ -1,7 +1,7 @@
 #Script R para gerar os Dados agragados
 
-results = read.csv('/home/taciano/dev/workspace/designtests/scripts/results_2015-08-20.txt')
-results_star = read.csv('/home/taciano/dev/workspace/designtests/scripts/results_star_2015-09-01.txt')
+results = read.csv('/home/taciano/dev/workspace/designtests/scripts/tests_results_sample.txt')
+results_star = read.csv('/home/taciano/dev/workspace/designtests/scripts/tests_results_starred.txt')
 
 results_rules = aggregate(results$rule, list(resultado = results$result, regra = results$rule), length)
 results_rules_total = aggregate(results$rule, list(resultado = results$rule), length)
