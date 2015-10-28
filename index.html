@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Design tests with DesignWizard API by tacianosilva</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Design tests with DesignWizard API</h1>
+      <h2 class="project-tagline">Design tests for JPA/Hibernate with DesignWizard API and scripts (python and R) for select project and result analisys</h2>
+      <a href="https://github.com/tacianosilva/designtests" class="btn">View on GitHub</a>
+      <a href="https://github.com/tacianosilva/designtests/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/tacianosilva/designtests/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h2>
+<a id="welcome-to-the-design-tests" class="anchor" href="#welcome-to-the-design-tests" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome to the Design Tests!</h2>
+
+<p>This project contains experiments with design tests using DesignWizard API. This project contains scripts and programs for running design tests for a set of projects that use Hibernate/JPA and it been selected from <a href="https://github.com">GitHub.com</a>.</p>
+
+<h3>
+<a id="details-from-experiments" class="anchor" href="#details-from-experiments" aria-hidden="true"><span class="octicon octicon-link"></span></a>Details from Experiments</h3>
+
+<p>This project contains source code and R scripts for an experiment about design tests. In the experiment we used the <a href="https://github.com/joaoarthurb/designwizard">DesignWizard API</a> to write the design rules and to test of a set of projects. The set of projects was selected from the online repository hosted on GitHub. We selected two sample projects that should use JPA / Hibernate:</p>
+
+<ul>
+<li>Random sample
+
+<ul>
+<li>40 projects</li>
+<li>145 persistant classes</li>
+</ul>
+</li>
+<li>Starred sample
+
+<ul>
+<li>31 projects</li>
+<li>108 persistant classes</li>
+</ul>
+</li>
+</ul>
+
+<p>So, we wrote design tests for domain model rules (design rules for persistent classes) that are described on documentation of the Hibernate Framework (See in <a href="https://docs.jboss.org/hibernate/orm/5.0/userGuide/en-US/html/ch02.html">https://docs.jboss.org/hibernate/orm/5.0/userGuide/en-US/html/ch02.html</a>) and on the JPA Specification.</p>
+
+<p>It is important to highlight some informations in the documentation about persistent classes definition:</p>
+
+<ol>
+<li><p>It says that Hibernate works best if the classes of the domain model follows the conventions of Plain Old Java Object (POJO), which is also known as JavaBeans programming model.</p></li>
+<li><p>It says that these rules are not "tough demands". So, the Hibernate does not require much of your persistent objects. However, if portability with JPA is required, the rules should be regarded as strict requirements.</p></li>
+</ol>
+
+<p>For example, we wrote a design rule that checks if the entity (persistent class annotated with <a href="https://github.com/Entity" class="user-mention">@Entity</a>) implements the equals/hashCode, described in the subsection 2.1.5 of the documentation, and if these methods access the identifier property (annotated with <a href="https://github.com/id" class="user-mention">@id</a>). So, the execution of the rule returns true or false.
+Verification of design rules has been applied in two samples from github projects. We found the following results to verify the design rules.</p>
+
+<p><strong>Random sample of github projects (40 projects with 145 persistent classes)</strong></p>
+
+<table>
+<thead>
+<tr>
+<th>rules</th>
+<th>total of tests</th>
+<th>failed tests</th>
+<th>failed proportions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HashCodeAndEqualsNotUseIdentifierRule</td>
+<td>145</td>
+<td>132</td>
+<td>0.91034483</td>
+</tr>
+<tr>
+<td>HashCodeAndEqualsRule</td>
+<td>145</td>
+<td>96</td>
+<td>0.66206897</td>
+</tr>
+<tr>
+<td>ImplementsSerializableRule</td>
+<td>145</td>
+<td>95</td>
+<td>0.65517241</td>
+</tr>
+<tr>
+<td>NoArgumentConstructorRule</td>
+<td>145</td>
+<td>0</td>
+<td>0.00000000</td>
+</tr>
+<tr>
+<td>NoFinalClassRule</td>
+<td>145</td>
+<td>0</td>
+<td>0.00000000</td>
+</tr>
+<tr>
+<td>ProvideGetsSetsFieldsRule</td>
+<td>145</td>
+<td>37</td>
+<td>0.25517241</td>
+</tr>
+<tr>
+<td>ProvideIdentifierPropertyRule</td>
+<td>145</td>
+<td>7</td>
+<td>0.04827586</td>
+</tr>
+<tr>
+<td>UseSetCollectionRule</td>
+<td>145</td>
+<td>30</td>
+<td>0.20689655</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Starred sample of github projects (31 projects with 108 persistent classes)</strong></p>
+
+<table>
+<thead>
+<tr>
+<th>rules</th>
+<th>total of tests</th>
+<th>failed tests</th>
+<th>failed proportions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HashCodeAndEqualsNotUseIdentifierRule</td>
+<td>108</td>
+<td>86</td>
+<td>0.7962963</td>
+</tr>
+<tr>
+<td>HashCodeAndEqualsRule</td>
+<td>108</td>
+<td>78</td>
+<td>0.7222222</td>
+</tr>
+<tr>
+<td>ImplementsSerializableRule</td>
+<td>108</td>
+<td>70</td>
+<td>0.6481481</td>
+</tr>
+<tr>
+<td>NoArgumentConstructorRule</td>
+<td>108</td>
+<td>0</td>
+<td>0.00000000</td>
+</tr>
+<tr>
+<td>NoFinalClassRule</td>
+<td>108</td>
+<td>0</td>
+<td>0.00000000</td>
+</tr>
+<tr>
+<td>ProvideGetsSetsFieldsRule</td>
+<td>108</td>
+<td>34</td>
+<td>0.3148148</td>
+</tr>
+<tr>
+<td>ProvideIdentifierPropertyRule</td>
+<td>108</td>
+<td>13</td>
+<td>0.1203704</td>
+</tr>
+<tr>
+<td>UseSetCollectionRule</td>
+<td>108</td>
+<td>11</td>
+<td>0.1018519</td>
+</tr>
+</tbody>
+</table>
+
+<p>Violations of the design rules can cause functionality anomalies in the use of persistent classes. Some of these anomalies can occur in the generation of the proxy runtime; the non-use of wrapper classes; the proxies for lazy loading (performance issues); the inscription of persistent classes in a set; the reconnection of detached instances; in passing by value of persistent classes and representation of multivalued associations.</p>
+
+<h3>
+<a id="instructions-to-eclipse-users" class="anchor" href="#instructions-to-eclipse-users" aria-hidden="true"><span class="octicon octicon-link"></span></a>Instructions to Eclipse users</h3>
+
+<p>This project is deployed as an Eclipse project with Maven. In order to import
+<em>DesignTests</em> properly, consider the following steps:</p>
+
+<ol>
+<li>Clone the project from the official GitHub repository</li>
+<li>On <em>Eclipse</em>, install Git.</li>
+<li>On <em>Eclipse</em>, install Maven.</li>
+<li>On <em>Eclipse</em>, import a Java project of the cloned
+folder. <em>Eclipse</em> will understand the configuration on the existing project.</li>
+</ol>
+
+<h3>
+<a id="instructions-to-maven-users" class="anchor" href="#instructions-to-maven-users" aria-hidden="true"><span class="octicon octicon-link"></span></a>Instructions to Maven users</h3>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/tacianosilva/designtests">Design tests with DesignWizard API</a> is maintained by <a href="https://github.com/tacianosilva">tacianosilva</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+            <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-69425432-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
