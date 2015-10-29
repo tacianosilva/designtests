@@ -203,6 +203,22 @@ folder. <em>Eclipse</em> will understand the configuration on the existing proje
 <h3>
 <a id="instructions-to-maven-users" class="anchor" href="#instructions-to-maven-users" aria-hidden="true"><span class="octicon octicon-link"></span></a>Instructions to Maven users</h3>
 
+<p>This project needs the DesignWizard dependency. The DesignWizard project has the ASM dependency considered optional in the your pom .xml file. So, to use the  DesignWizard API is necessary to inform the following dependencies:</p>
+
+<pre><code>
+        &lt;dependency>
+            &lt;groupId&gt;org.designwizard&lt;/groupId&gt;
+            &lt;artifactId&gt;designwizard&lt;/artifactId&gt;
+            &lt;version&gt;1.4&lt;/version&gt;
+            &lt;scope&gt;compile&lt;/scope&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;asm&lt;/groupId&gt;
+            &lt;artifactId&gt;asm&lt;/artifactId&gt;
+            &lt;version&gt;3.1&lt;/version&gt;
+        &lt;/dependency&gt;
+</code></pre>
+
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/tacianosilva/designtests">Design tests with DesignWizard API</a> is maintained by <a href="https://github.com/tacianosilva">tacianosilva</a>.</span>
 
