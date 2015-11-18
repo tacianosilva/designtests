@@ -52,19 +52,34 @@
         <dependency>
             <groupId>org.designwizard</groupId>
             <artifactId>designwizard</artifactId>
-            <version>1.4</version>
+            <version>1.4.0.2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>asm</groupId>
             <artifactId>asm</artifactId>
             <version>3.1</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>javax.persistence</artifactId>
-            <version>2.1.0</version>
-            <scope>test</scope>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>4.3.10.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>1.0.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-c3p0</artifactId>
+            <version>4.3.10.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.37</version>
         </dependency>
     </dependencies>
 
@@ -105,7 +120,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <!--  -Xdoclint:none -->
+                    <!-- -Xdoclint:none -->
                     <additionalparam>-Xdoclint:all</additionalparam>
                 </configuration>
             </plugin>
