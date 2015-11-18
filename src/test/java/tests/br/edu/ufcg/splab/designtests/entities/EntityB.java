@@ -1,70 +1,48 @@
 package tests.br.edu.ufcg.splab.designtests.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class EntityB implements Serializable {
 
-    @Column
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
     @Column
     private String name;
 
     @Column
+    @ElementCollection(fetch=FetchType.EAGER)
     private List<String> collectionList;
 
     @Column
-    private ArrayList<String> collectionArrayList;
+    @ElementCollection(fetch=FetchType.EAGER)
+    private List<String> collectionArrayList;
 
     @Column
-    private LinkedList<String> collectionLinkedList;
+    @ElementCollection(fetch=FetchType.EAGER)
+    private List<String> collectionLinkedList;
 
-    public Integer getId() {
-        return id;
+    public EntityB() {
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public EntityB(String name) {
         this.name = name;
-    }
-
-    public List<String> getCollectionList() {
-        return collectionList;
-    }
-
-    public void setCollectionList(List<String> collectionList) {
-        this.collectionList = collectionList;
-    }
-
-    public ArrayList<String> getCollectionArrayList() {
-        return collectionArrayList;
-    }
-
-    public void setCollectionArrayList(ArrayList<String> collectionArrayList) {
-        this.collectionArrayList = collectionArrayList;
-    }
-
-    public LinkedList<String> getCollectionLinkedList() {
-        return collectionLinkedList;
-    }
-
-    public void setCollectionLinkedList(LinkedList<String> collectionLinkedList) {
-        this.collectionLinkedList = collectionLinkedList;
     }
 
     @Override

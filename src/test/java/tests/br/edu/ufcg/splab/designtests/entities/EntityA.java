@@ -1,14 +1,20 @@
 package tests.br.edu.ufcg.splab.designtests.entities;
 
 import java.io.Serializable;
-import java.util.HashSet;
+
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.TableGenerator;
 
 @Entity
+@TableGenerator(name="colSeq", allocationSize=1)
 public class EntityA implements Serializable {
 
     /**
@@ -17,16 +23,17 @@ public class EntityA implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(strategy=GenerationType.TABLE, generator="colSeq")
     private Integer id;
 
     @Column
     private String name;
 
-    @Column
+    @ElementCollection(fetch=FetchType.EAGER)
     private Set<String> collectionSet;
 
-    @Column
-    private HashSet<String> collectionHashSet;
+    @ElementCollection(fetch=FetchType.EAGER)
+    private Set<String> collectionHashSet;
 
     public Integer getId() {
         return id;
@@ -52,11 +59,11 @@ public class EntityA implements Serializable {
         this.collectionSet = collectionSet;
     }
 
-    public HashSet<String> getCollectionHashSet() {
+    public Set<String> getCollectionHashSet() {
         return collectionHashSet;
     }
 
-    public void setCollectionHashSet(HashSet<String> collectionHashSet) {
+    public void setCollectionHashSet(Set<String> collectionHashSet) {
         this.collectionHashSet = collectionHashSet;
     }
 }

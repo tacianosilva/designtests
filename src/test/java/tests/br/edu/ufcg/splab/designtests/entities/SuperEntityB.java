@@ -45,5 +45,4 @@ public class SuperEntityB {
             return false;
         return true;
     }
-
 }

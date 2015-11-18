@@ -4,13 +4,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public final class EntityC {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
     @Column
@@ -21,10 +26,12 @@ public final class EntityC {
 
 
     @Column
+    @ElementCollection(fetch=FetchType.EAGER)
     private Set<String> collectionSet;
 
     @Column
-    private HashSet<String> collectionHashSet;
+    @ElementCollection(fetch=FetchType.EAGER)
+    private Set<String> collectionHashSet;
 
     public EntityC() {
         super();
@@ -54,7 +61,7 @@ public final class EntityC {
         this.collectionSet = collectionSet;
     }
 
-    public HashSet<String> getCollectionHashSet() {
+    public Set<String> getCollectionHashSet() {
         return collectionHashSet;
     }
 
