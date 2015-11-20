@@ -71,9 +71,9 @@ public class ProvideGetsSetsFieldsRuleTest {
         rule.setClassNode(entityA);
         assertTrue("1", rule.checkRule());
 
-        // Implementa getters and setters
+        // Não implementa getters and setters
         rule.setClassNode(entityB);
-        assertTrue("2", rule.checkRule());
+        assertFalse("2", rule.checkRule());
 
         // Não implementa setters
         rule.setClassNode(entityC);
@@ -102,7 +102,7 @@ public class ProvideGetsSetsFieldsRuleTest {
         // Não implementa getters and setters
         rule.setClassNode(entityB);
         rule.checkRule();
-        assertEquals("2", "", rule.getReport());
+        assertNotSame("2", "", rule.getReport());
 
         // Não implementa setters
         rule.setClassNode(entityC);

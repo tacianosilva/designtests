@@ -66,9 +66,9 @@ public class ProvideIdentifierPropertyRuleTest {
         rule.setClassNode(entityA);
         assertTrue("1", rule.checkRule());
 
-        // Não contém o atributo identificador
+        // Contém o atributo identificador
         rule.setClassNode(entityB);
-        assertFalse("2", rule.checkRule());
+        assertTrue("2", rule.checkRule());
 
         // Contém o atributo identificador
         rule.setClassNode(entityC);
@@ -90,10 +90,10 @@ public class ProvideIdentifierPropertyRuleTest {
         rule.checkRule();
         assertEquals("1", "", rule.getReport());
 
-        // Não contém o atributo identificador
+        // Contém o atributo identificador
         rule.setClassNode(entityB);
         rule.checkRule();
-        assertNotSame("2", "", rule.getReport());
+        assertEquals("2", "", rule.getReport());
 
         // Contém o atributo identificador
         rule.setClassNode(entityC);
