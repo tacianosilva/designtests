@@ -19,7 +19,7 @@ from random import randint
 from Crypto.Random.random import randrange
 
 VERBOSE = True
-DEFAULT_OUTPUT_PATH = 'repos'
+DEFAULT_OUTPUT_PATH = '/home/taciano/dev/repos'
 MAVEN_BIN = '~/dev/apache-maven-3.3.3/bin'
 tamanhoPopulacao = -1
 tamanhoAmostra = 50
@@ -110,7 +110,7 @@ def runMavenCompile(projetos):
     for p in projetos:
         if isMavenProject(p):
             print 'Run Maven Compile %s' % p
-            proj_dir = workspace + "/" + DEFAULT_OUTPUT_PATH + "/" + p
+            proj_dir = DEFAULT_OUTPUT_PATH + "/" + p
             os.chdir(proj_dir)
             run('%s/mvn compiler:compile' % (MAVEN_BIN))
             #run('%s/mvn jar:jar' % (MAVEN_BIN))
@@ -226,8 +226,8 @@ def main():
     gh = initGithub(args.authenticate)
 
     dados = getProjectsThatUseHibernate(args, gh)
-    writeInformations('projects_star_2015-08-30-2.txt', dados[0])
-    writeInformations('projects_star_hibernate_2015-08-30-2.txt',dados[1])
+    writeInformations('projects_star_2015-11-12.txt', dados[0])
+    writeInformations('projects_star_hibernate_2015-11-12.txt',dados[1])
     runMavenCompile(dados[1])
 
 
