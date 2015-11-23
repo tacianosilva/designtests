@@ -30,11 +30,11 @@ public class DesignWizardDecoratorTest {
     /**
      * Project name on the tests.
      */
-    String projectName = "sigest";
+    String projectName = "desingtest";
     /**
      * Project jar file.
      */
-    String arquivoJar = "jars/sigest.jar";
+    String arquivoJar = "target/classes";
 
     @Before
     public void setUp() throws Exception {
@@ -53,7 +53,7 @@ public class DesignWizardDecoratorTest {
         assertNotNull("1", dw);
 
         Set<PackageNode> packages = dw.getAllPackages();
-        assertEquals("2", 10, packages.size());
+        assertEquals("2", 3, packages.size());
 
         for (PackageNode packageNode : packages) {
             System.out.println("package" + packageNode);
