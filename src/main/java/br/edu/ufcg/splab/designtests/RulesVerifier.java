@@ -78,8 +78,9 @@ public class RulesVerifier {
         String[] split = projeto.split("/");
         //String gitUser = split[0];
         String projectName = split[1];
-        String reposDir = "scripts/repos/";
+        String reposDir = "/home/taciano/dev/repos/";
         String classDir = "/target/classes";
+        classDir = getClassesDirectory(reposDir, projeto);
 
         String projectDir = reposDir + projeto + classDir;
 
@@ -105,7 +106,7 @@ public class RulesVerifier {
 
                     passedClass = passedClass && passed;
 
-                    System.out.println("Report Rule" + ruleName);
+                    System.out.println("Report Rule: " + ruleName);
                     System.out.println(rule.getReport());
 
                     System.out.println(">>>>" + projeto + ", " + classNode.getClassName() + ", " + ruleName + ", " + passed);
@@ -127,6 +128,11 @@ public class RulesVerifier {
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
         }
+    }
+
+    private static String getClassesDirectory(String repo, String projeto) {
+        //TODO Detectar se o projeto é Maven ou Gradle. Detectar Diretório onde ficam os .class.
+        return null;
     }
 
     private static void gravarLinha(PrintWriter gravar, String projeto, String className, String ruleName,
