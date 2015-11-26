@@ -1,9 +1,5 @@
 package tests.br.edu.ufcg.splab.designtests;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.TreeSet;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -22,16 +18,7 @@ public class GeraTabelas {
         factory = Persistence.createEntityManagerFactory("designtestsPU");
         manager = factory.createEntityManager();
 
-        EntityA a = new EntityA();
-        a.setName("Estudar JPA");
-        Set<String> phones = new TreeSet<String>();
-        phones.add("fone1");
-        phones.add("fone2");
-        a.setCollectionSet(phones);
-        HashSet<String> emails = new HashSet<String>();
-        emails.add("email1");
-        emails.add("email2");
-        a.setCollectionHashSet(emails);
+        EntityA a = createA();
 
         manager.getTransaction().begin();
         manager.persist(a);
@@ -57,8 +44,16 @@ public class GeraTabelas {
         factory.close();
       }
 
+    private static EntityA createA() {
+        EntityA a = new EntityA();
+        a.setName("Estudar JPA");
+        a.getEntityBSet().add(createB());
+        a.getEntityCSet().add(createC());
+        return a;
+    }
+
     private static EntityB createB() {
-        EntityB b = new EntityB();
+        EntityB b = new EntityB("Entidade B");
         return b;
     }
 
