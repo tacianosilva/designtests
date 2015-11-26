@@ -36,6 +36,9 @@ public class EntityA implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
     private Set<EntityC> EntityCSet = new HashSet<EntityC>();
 
+    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+    private Set<EntityD> EntityDSet = new HashSet<EntityD>();
+
     public Integer getId() {
         return id;
     }
@@ -66,5 +69,13 @@ public class EntityA implements Serializable {
 
     public void setEntityCSet(Set<EntityC> entityCSet) {
         EntityCSet = entityCSet;
+    }
+
+    public Set<EntityD> getEntityDSet() {
+        return EntityDSet;
+    }
+
+    public void setEntityDSet(Set<EntityD> entityDSet) {
+        EntityDSet = entityDSet;
     }
 }
