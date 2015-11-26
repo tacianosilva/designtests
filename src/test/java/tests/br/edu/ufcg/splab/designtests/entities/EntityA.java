@@ -1,16 +1,17 @@
 package tests.br.edu.ufcg.splab.designtests.entities;
 
 import java.io.Serializable;
-
+import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.TableGenerator;
 
 @Entity
@@ -29,11 +30,11 @@ public class EntityA implements Serializable {
     @Column
     private String name;
 
-    @ElementCollection(fetch=FetchType.EAGER)
-    private Set<String> collectionSet;
+    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+    private Set<EntityB> EntityBSet = new HashSet<EntityB>();
 
-    @ElementCollection(fetch=FetchType.EAGER)
-    private Set<String> collectionHashSet;
+    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+    private Set<EntityC> EntityCSet = new HashSet<EntityC>();
 
     public Integer getId() {
         return id;
@@ -51,19 +52,19 @@ public class EntityA implements Serializable {
         this.name = name;
     }
 
-    public Set<String> getCollectionSet() {
-        return collectionSet;
+    public Set<EntityB> getEntityBSet() {
+        return EntityBSet;
     }
 
-    public void setCollectionSet(Set<String> collectionSet) {
-        this.collectionSet = collectionSet;
+    public void setEntityBSet(Set<EntityB> entityBSet) {
+        EntityBSet = entityBSet;
     }
 
-    public Set<String> getCollectionHashSet() {
-        return collectionHashSet;
+    public Set<EntityC> getEntityCSet() {
+        return EntityCSet;
     }
 
-    public void setCollectionHashSet(Set<String> collectionHashSet) {
-        this.collectionHashSet = collectionHashSet;
+    public void setEntityCSet(Set<EntityC> entityCSet) {
+        EntityCSet = entityCSet;
     }
 }
