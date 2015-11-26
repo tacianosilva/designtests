@@ -23,7 +23,7 @@ public class EntityB implements Serializable {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
-    @Column
+    @Column(nullable=false, unique=true)
     private String name;
 
     @Column
