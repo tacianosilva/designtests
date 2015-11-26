@@ -24,7 +24,6 @@ public final class EntityC {
     @Column
     private String field;
 
-
     @Column
     @ElementCollection(fetch=FetchType.EAGER)
     private Set<String> collectionSet;
@@ -47,6 +46,10 @@ public final class EntityC {
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getField() {
