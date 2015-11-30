@@ -79,8 +79,7 @@ public class RulesVerifier {
         //String gitUser = split[0];
         String projectName = split[1];
         String reposDir = "/home/taciano/dev/repos/";
-        String classDir = "/target/classes";
-        classDir = getClassesDirectory(reposDir, projeto);
+        String classDir = getClassesDirectory(reposDir, projeto);
 
         String projectDir = reposDir + projeto + classDir;
 
@@ -132,7 +131,10 @@ public class RulesVerifier {
 
     private static String getClassesDirectory(String repo, String projeto) {
         //TODO Detectar se o projeto é Maven ou Gradle. Detectar Diretório onde ficam os .class.
-        return null;
+        if ("Raysmond/SpringBlog".equals(projeto)) {
+            return "/build/classes/main/com/raysmond/blog/models";
+        }
+        return "/target/classes";
     }
 
     private static void gravarLinha(PrintWriter gravar, String projeto, String className, String ruleName,
