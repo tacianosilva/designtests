@@ -1,3 +1,5 @@
+Raysmond/SpringBlog
+philipsorst/angular-rest-springsecurity
 michaelisvy/hibernate-4-spring-3.1-samples
 sxyx2008/maven-framework-project
 oregami/dropwizard-guice-jpa-seed
