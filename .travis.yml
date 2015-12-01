@@ -1,8 +1,11 @@
 language: java
 jdk:
   - oraclejdk8
+before_script:
+  - mysql -e 'create database designtests_db;'
 services:
   - mysql
 cache:
   directories:
     - '$HOME/.m2/repository'
+
