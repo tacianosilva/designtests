@@ -37,7 +37,9 @@ public class ImplementsSerializableRule extends AbstractDesignRule {
 
         for (ClassNode entityNode : classes) {
             ClassNode serializable = new ClassNode("java.io.Serializable");
-            if (!entityNode.implementsInterface(serializable)) {
+            ClassNode superClass = entityNode.getSuperClass();
+            if (!entityNode.implementsInterface(serializable)
+                    && !superClass.implementsInterface(serializable)) {
                 this.report += "The class <" + entityNode.getName() + "> "
                             + "doesn't implements interface Serializable.\n";
                 addResultFalse(entityNode);

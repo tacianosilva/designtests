@@ -18,6 +18,8 @@ import br.edu.ufcg.splab.designtests.util.TypesOfCollections;
  */
 public abstract class AbstractDesignRule implements Rule {
 
+    protected final ClassNode objectClass = new ClassNode("java.lang.Object");
+
     /**
      * Facts of the Software Design.
      */
@@ -285,4 +287,23 @@ public abstract class AbstractDesignRule implements Rule {
         }
         return null;
     }
+
+    protected MethodNode getEqualsMethod(ClassNode classNode) {
+        MethodNode equalsMethod = classNode.getDeclaredMethod("equals(java.lang.Object)");
+        ClassNode superClass = classNode.getSuperClass();
+        if (equalsMethod == null && !objectClass.equals(superClass)) {
+            equalsMethod = classNode.getInheritedMethod("equals(java.lang.Object)");
+        }
+        return equalsMethod;
+    }
+
+    protected MethodNode getHashCodeMethod(ClassNode classNode) {
+        MethodNode hashCodeMethod = classNode.getDeclaredMethod("hashCode()");
+        ClassNode superClass = classNode.getSuperClass();
+        if (hashCodeMethod == null && !objectClass.equals(superClass)) {
+            hashCodeMethod = classNode.getInheritedMethod("hashCode()");
+        }
+        return hashCodeMethod;
+    }
+
 }

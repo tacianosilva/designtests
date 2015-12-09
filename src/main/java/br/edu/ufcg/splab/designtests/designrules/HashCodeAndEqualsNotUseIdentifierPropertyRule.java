@@ -38,10 +38,8 @@ public class HashCodeAndEqualsNotUseIdentifierPropertyRule extends AbstractDesig
 
         for (ClassNode entityNode : classes) {
 
-            MethodNode equalsMethod = entityNode
-                    .getDeclaredMethod("equals(java.lang.Object)");
-            MethodNode hashCodeMethod = entityNode
-                    .getDeclaredMethod("hashCode()");
+            MethodNode equalsMethod = getEqualsMethod(entityNode);
+            MethodNode hashCodeMethod = getHashCodeMethod(entityNode);
 
             FieldNode field = util.getIdentifierProperty(entityNode);
 
