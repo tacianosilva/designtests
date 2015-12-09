@@ -92,7 +92,7 @@ public class HashCodeAndEqualsRuleTest {
 
         // Herda o HashCode e Equals que utilizam o Identificador da SuperClasse.
         rule.setClassNode(subEntityB);
-        assertFalse("6", rule.checkRule());
+        assertTrue("6", rule.checkRule());
 
         rule.setClassNode(subEntityC);
         assertFalse("7", rule.checkRule());
@@ -128,7 +128,7 @@ public class HashCodeAndEqualsRuleTest {
         // Herda o HashCode e Equals que utilizam o Identificador da SuperClasse.
         rule.setClassNode(subEntityB);
         rule.checkRule();
-        assertNotSame("6", "", rule.getReport());
+        assertEquals("6", "", rule.getReport());
 
         rule.setClassNode(subEntityC);
         rule.checkRule();
@@ -145,12 +145,12 @@ public class HashCodeAndEqualsRuleTest {
         for (ClassNode classNode : falhas) {
             System.out.println("Falha: " + classNode.getShortName());
         }
-        assertEquals("2", 5, falhas.size());
+        assertEquals("2", 4, falhas.size());
 
         Set<ClassNode> acertos = rule.getResultsTrue();
         for (ClassNode classNode : acertos) {
             System.out.println("Acerto: " + classNode.getShortName());
         }
-        assertEquals("3", 2, acertos.size());
+        assertEquals("3", 3, acertos.size());
     }
 }

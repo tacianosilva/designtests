@@ -92,7 +92,7 @@ public class ImplementsSerializableRuleTest {
 
         // A super classe implementa a interface Serializable
         rule.setClassNode(subEntityA);
-        assertFalse("4", rule.checkRule());
+        assertTrue("4", rule.checkRule());
 
         // A super classe não implementa a interface Serializable
         rule.setClassNode(subEntityB);
@@ -119,7 +119,7 @@ public class ImplementsSerializableRuleTest {
         // A super classe implementa a interface Serializable
         rule.setClassNode(subEntityA);
         rule.checkRule();
-        assertNotSame("4", "", rule.getReport());
+        assertEquals("4", "", rule.getReport());
 
         // A super classe não implementa a interface Serializable
         rule.setClassNode(subEntityB);
