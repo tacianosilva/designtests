@@ -1,4 +1,6 @@
 project,num classes,num model classes,num fail classes
+Raysmond/SpringBlog,8,4,4
+philipsorst/angular-rest-springsecurity,20,2,2
 michaelisvy/hibernate-4-spring-3.1-samples,10,4,4
 sxyx2008/maven-framework-project,188,5,5
 oregami/dropwizard-guice-jpa-seed,50,4,4
