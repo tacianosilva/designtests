@@ -1,0 +1,228 @@
+Busca de projetos que utilizam o EntityManager do Hibernate e manipulação de conjuntos (Set).
+
+Comando para busca de arquivos no terminal:
+
+grep -R "java.util.Set" src |  cut -d ":" -f 1  | uniq | xargs grep "EntityManager"  | cut -d ":" -f 1 | uniq
+
+Lista de Projetos:
+
+Verificado (falha na busca): emmanuelbernard/hibernate-core-ogm
+Verificado (nada encontrado): FasterXML/jackson-datatype-hibernate
+
+FasterXML/jackson-datatype-hibernate/hibernate5/src/test/java/com/fasterxml/jackson/datatype/hibernate5/ForceLazyLoadingTest.java
+
+Verificado (nada encontrado): fedealconada/spring-maven-struts-hibernate-jpa-project
+Verificado (nada encontrado): feliperodriguesbastos/setsoft
+
+galderz/secondlc/src/test/java/secondlc/JpaManagedWith2lcTest.java
+
+Verificado (nada encontrado): hibernate/hibernate-orm/hibernate-entitymanager
+
+Exemplos de Testes
+hibernate/hibernate-orm/hibernate-entitymanager/src/test/java/org/hibernate/jpa/test/collection/PostLoadTest.java
+hibernate/hibernate-orm/hibernate-entitymanager/src/test/java/org/hibernate/jpa/test/convert/CollectionElementConversionTest.java
+hibernate/hibernate-orm/hibernate-entitymanager/src/test/java/org/hibernate/jpa/test/convert/CollectionCompositeElementConversionTest.java
+hibernate/hibernate-orm/hibernate-entitymanager/src/test/java/org/hibernate/jpa/test/graphs/BasicEntityGraphTests.java
+hibernate/hibernate-orm/hibernate-entitymanager/src/test/java/org/hibernate/jpa/test/graphs/EntityGraphTest.java
+hibernate/hibernate-orm/hibernate-entitymanager/src/test/java/org/hibernate/jpa/test/graphs/EntityGraphLoadPlanBuilderTest.java
+hibernate/hibernate-orm/hibernate-entitymanager/src/test/java/org/hibernate/jpa/test/criteria/enumcollection/EnumIsMemberTest.java
+hibernate/hibernate-orm/hibernate-entitymanager/src/test/java/org/hibernate/jpa/test/criteria/components/ComponentCriteriaTest.java
+hibernate/hibernate-orm/hibernate-entitymanager/src/test/java/org/hibernate/jpa/test/criteria/subquery/CorrelatedSubqueryTest.java
+hibernate/hibernate-orm/hibernate-entitymanager/src/test/java/org/hibernate/jpa/test/emops/FlushTest.java
+
+hibernate/hibernate-orm/hibernate-envers/src/test/java/org/hibernate/envers/test/integration/onetomany/BasicSetWithMulId.java
+grep: hibernate/hibernate-orm/hibernate-envers/src/test/java/org/hibernate/envers/test/integration/query/ids/MulIdOneToManyQuery.java
+Arquivohibernate/hibernate-orm/hibernate-envers/src/test/java/org/hibernate/envers/test/integration/query/ids/EmbIdOneToManyQuery.java
+: Arquivo ou diretório não encontrado
+hibernate/hibernate-orm/hibernate-envers/src/test/java/org/hibernate/envers/test/integration/query/MaximalizePropertyQuery.java
+grep: bináriohibernate/hibernate-jpa-api/src/main/java/javax/persistence/Persistence.java
+: Arquivo ou diretório não encontradohjuva/database-examples/src/main/java/no/bekk/database/batchsize/JpaJobbDao.java
+
+hjuva/database-examples/src/test/java/no/bekk/database/dao/JpaJobbDaoTest.java
+Arquivo binário hjuva/database-examples/target/classes/no/bekk/database/batchsize/JpaJobbDao.class coincide com o padrão
+Hotware/Hibernate-Search-JPA/integrationtest/wildfly/src/test/java/org/hibernate/search/genericjpa/test/integration/HibernateWildFlyIntegrationTest.java
+grep: coincide: Arquivo ou diretório não encontrado
+grep: Hotware/Hibernate-Search-JPA/integrationtest/tomee/src/test/java/org/hibernate/search/genericjpa/test/integration/OpenJPATomEEIntegrationTest.java
+com: Arquivo ou diretório não encontrado
+Hotware/Hibernate-Search-JPA/integrationtest/glassfish/src/test/java/org/hibernate/search/genericjpa/test/integration/EclipseLinkGlassFishIntegrationTest.java
+grep: o: Arquivo ou diretório não encontrado
+grep: padrão: Arquivo ou diretório não encontrado
+Hotware/Hibernate-Search-JPA/jpa/src/main/java/org/hibernate/search/genericjpa/impl/JPASearchFactoryAdapter.java
+Hotware/Hibernate-Search-JPA/jpa/src/main/java/org/hibernate/search/genericjpa/batchindexing/impl/MassIndexerImpl.java
+grep: ArquivoHotware/Hibernate-Search-JPA/jpa/src/test/java/org/hibernate/search/genericjpa/test/db/events/jpa/DatabaseIntegrationTest.java
+: Arquivo ou diretório não encontrado
+grep: Hotware/Hibernate-Search-JPA/jpa/src/test/java/org/hibernate/search/genericjpa/test/entity/jpa/EntityManagerEntityProviderTest.java
+binário: Arquivo ou diretório não encontrado
+Hotware/Hibernate-Search-JPA/jpa/src/test/java/org/hibernate/search/genericjpa/test/entity/jpa/JPAReusableEntityManagerTest.java
+Hotware/Hibernate-Search-JPA/jpa/src/test/java/org/hibernate/search/genericjpa/test/jpa/IntegrationTest.java
+
+Hotware/Hibernate-Search-JPA/jpa/src/test/java/org/hibernate/search/genericjpa/test/batchindexing/MassIndexerTest.java
+Arquivo binário Hotware/Hibernate-Search-JPA/jpa/target/classes/org/hibernate/search/genericjpa/impl/JPASearchFactoryAdapter.class coincide com o padrão
+Arquivo binário Hotware/Hibernate-Search-JPA/jpa/target/classes/org/hibernate/search/genericjpa/Setup.class coincide com o padrão
+Arquivo binário Hotware/Hibernate-Search-JPA/jpa/target/classes/org/hibernate/search/genericjpa/batchindexing/impl/MassIndexerImpl.class coincide com o padrão
+indvamshi/applicationlibrary-backend/src/main/java/com/cisco/iwe/applibrary/dao/impl/PlacementDAOImpl.java
+indvamshi/applicationlibrary-backend/src/main/java/com/cisco/iwe/applibrary/dao/impl/MobileDAOImpl.java
+indvamshi/applicationlibrary-backend/src/main/java/com/cisco/iwe/applibrary/dao/impl/ContactDAOImpl.java
+indvamshi/applicationlibrary-backend/src/main/java/com/cisco/iwe/applibrary/dao/impl/AdminUserDAOImpl.java
+indvamshi/applicationlibrary-backend/src/main/java/com/cisco/iwe/applibrary/dao/impl/ApplicationVersionDAOImpl.java
+indvamshi/applicationlibrary-backend/src/main/java/com/cisco/iwe/applibrary/dao/impl/OrganisationDAOImpl.java
+indvamshi/applicationlibrary-backend/src/main/java/com/cisco/iwe/applibrary/dao/impl/AppContactDAOImpl.java
+indvamshi/applicationlibrary-backend/src/main/java/com/cisco/iwe/applibrary/dao/impl/ApplicationStatusDAOImpl.java
+indvamshi/applicationlibrary-backend/src/main/java/com/cisco/iwe/applibrary/dao/impl/ApplicationDAOImpl.java
+indvamshi/applicationlibrary-backend/src/main/java/com/cisco/iwe/applibrary/dao/impl/PortletDAOImpl.java
+indvamshi/applicationlibrary-backend/src/main/java/com/cisco/iwe/applibrary/dao/impl/DevelopmentTypeDAOImpl.java
+indvamshi/applicationlibrary-backend/src/main/java/com/cisco/iwe/applibrary/dao/impl/ContactTypeDAOImpl.java
+indvamshi/applicationlibrary-backend/src/main/java/com/cisco/iwe/applibrary/dao/impl/AvailableForDAOImpl.java
+grep: Arquivo: Arquivo ou diretório não encontrado
+grep: indvamshi/applicationlibrary-backend/src/main/java/com/cisco/iwe/applibrary/dao/impl/ApplicationTypeDAOImpl.java
+binário: Arquivo ou diretório não encontradoindvamshi/applicationlibrary-backend/src/main/java/com/cisco/iwe/applibrary/dao/impl/CategoryDAOImpl.java
+
+indvamshi/applicationlibrary-backend/src/main/java/com/cisco/iwe/applibrary/dao/impl/ApplicationImageDAOImpl.java
+indvamshi/applicationlibrary-backend/src/main/java/com/cisco/iwe/applibrary/dao/impl/ReleaseDAOImpl.java
+grep: coincideindvamshi/applicationlibrary-backend/src/main/java/com/cisco/iwe/applibrary/dao/AbstractJpaDao.java
+: Arquivo ou diretório não encontrado
+grep: indvamshi/applicationlibrary-backend/src/main/java/com/cisco/iwe/applibrary/dao/JpaDao.java
+
+Arquivo binário indvamshi/applicationlibrary-backend/target/classes/com/cisco/iwe/applibrary/dao/impl/ContactDAOImpl.class coincide com o padrão
+grep: Arquivo binário indvamshi/applicationlibrary-backend/target/classes/com/cisco/iwe/applibrary/dao/impl/ApplicationTypeDAOImpl.class coincide com o padrão
+oArquivo binário indvamshi/applicationlibrary-backend/target/classes/com/cisco/iwe/applibrary/dao/impl/ContactTypeDAOImpl.class coincide com o padrão
+: Arquivo ou diretório não encontradoArquivo binário indvamshi/applicationlibrary-backend/target/classes/com/cisco/iwe/applibrary/dao/impl/DevelopmentTypeDAOImpl.class coincide com o padrão
+
+Arquivo binário indvamshi/applicationlibrary-backend/target/classes/com/cisco/iwe/applibrary/dao/impl/OrganisationDAOImpl.class coincide com o padrão
+Arquivo binário indvamshi/applicationlibrary-backend/target/classes/com/cisco/iwe/applibrary/dao/impl/ApplicationStatusDAOImpl.class coincide com o padrão
+grep: Arquivo binário indvamshi/applicationlibrary-backend/target/classes/com/cisco/iwe/applibrary/dao/impl/ApplicationVersionDAOImpl.class coincide com o padrão
+padrãoArquivo binário indvamshi/applicationlibrary-backend/target/classes/com/cisco/iwe/applibrary/dao/impl/AvailableForDAOImpl.class coincide com o padrão
+: Arquivo ou diretório não encontradoArquivo binário indvamshi/applicationlibrary-backend/target/classes/com/cisco/iwe/applibrary/dao/impl/AdminUserDAOImpl.class coincide com o padrão
+
+Arquivo binário indvamshi/applicationlibrary-backend/target/classes/com/cisco/iwe/applibrary/dao/impl/MobileDAOImpl.class coincide com o padrão
+grep: Arquivo binário indvamshi/applicationlibrary-backend/target/classes/com/cisco/iwe/applibrary/dao/impl/AppContactDAOImpl.class coincide com o padrão
+ArquivoArquivo binário indvamshi/applicationlibrary-backend/target/classes/com/cisco/iwe/applibrary/dao/impl/CategoryDAOImpl.class coincide com o padrão
+: Arquivo ou diretório não encontradoArquivo binário indvamshi/applicationlibrary-backend/target/classes/com/cisco/iwe/applibrary/dao/impl/ApplicationImageDAOImpl.class coincide com o padrão
+
+Arquivo binário indvamshi/applicationlibrary-backend/target/classes/com/cisco/iwe/applibrary/dao/impl/PortletDAOImpl.class coincide com o padrão
+grep: Arquivo binário indvamshi/applicationlibrary-backend/target/classes/com/cisco/iwe/applibrary/dao/impl/ApplicationDAOImpl.class coincide com o padrão
+binárioArquivo binário indvamshi/applicationlibrary-backend/target/classes/com/cisco/iwe/applibrary/dao/impl/PlacementDAOImpl.class coincide com o padrão
+: Arquivo ou diretório não encontradoArquivo binário indvamshi/applicationlibrary-backend/target/classes/com/cisco/iwe/applibrary/dao/impl/ReleaseDAOImpl.class coincide com o padrão
+
+Arquivo binário indvamshi/applicationlibrary-backend/target/classes/com/cisco/iwe/applibrary/dao/AbstractJpaDao.class coincide com o padrão
+Infrag/FilterLib/src/main/java/org/obozek/filterlib/AbstractFilteringRepository.java
+Arquivo binário Infrag/FilterLib/target/classes/org/obozek/filterlib/AbstractFilteringRepository.class coincide com o padrão
+Arquivo binário jbcazaux/many2many/README.md coincide com o padrão
+Arquivo binário jonathanqbo/jpa/target/classes/bq/jpa/demo/metadata/service/MetadataService.class coincide com o padrão
+jromanz/lessons-JPA/src/test/java/com/mycompany/automoviles/lesson/test/JPA04Test.java
+grep: coincideArquivo binário jromanz/lessons-JPA/target/test-classes/com/mycompany/automoviles/lesson/test/JPA04Test.class coincide com o padrão
+Arquivo binário kalpana-k/StudentEnrollment/target/classes/com/test/student/dao/StudentDAO.class coincide com o padrão
+: Arquivo ou diretório não encontradoArquivo binário liquibase/liquibase-hibernate/target/classes/liquibase/ext/hibernate/database/HibernateSpringDatabase.class coincide com o padrão
+mhaglind/jpa-exercises/labs/lab-querying/src/main/java/net/evolutionaryarchitecture/jpa/querying/EventRepository.java
+
+grep: Arquivo binário mhaglind/jpa-exercises/labs/lab-querying/target/classes/net/evolutionaryarchitecture/jpa/querying/EventRepository.class coincide com o padrão
+mhaglind/jpa-exercises/labs/solution-association/src/main/java/net/evolutionaryarchitecture/jpa/association/EventRepository.java
+mhaglind/jpa-exercises/labs/solution-association/src/test/java/net/evolutionaryarchitecture/jpa/association/Lab.java
+Arquivo binário mhaglind/jpa-exercises/labs/solution-association/target/classes/net/evolutionaryarchitecture/jpa/association/EventRepository.class coincide com o padrão
+mhaglind/jpa-exercises/labs/solution-inheritance/src/main/java/net/evolutionaryarchitecture/jpa/inheritance/EventRepository.java
+Arquivo binário mhaglind/jpa-exercises/labs/solution-inheritance/target/classes/net/evolutionaryarchitecture/jpa/inheritance/EventRepository.class coincide com o padrão
+mhaglind/jpa-exercises/labs/solution-components/src/test/java/net/evolutionaryarchitecture/hibernate/components/Lab.java
+mhaglind/jpa-exercises/labs/solution-querying/src/main/java/net/evolutionaryarchitecture/jpa/querying/EventRepository.java
+Arquivo binário mhaglind/jpa-exercises/labs/solution-querying/target/classes/net/evolutionaryarchitecture/jpa/querying/EventRepository.class coincide com o padrão
+mhaglind/jpa-exercises/labs/lab-association/src/main/java/net/evolutionaryarchitecture/jpa/association/EventRepository.java
+mhaglind/jpa-exercises/labs/lab-association/src/test/java/net/evolutionaryarchitecture/jpa/association/Lab.java
+Arquivo binário mhaglind/jpa-exercises/labs/lab-association/target/classes/net/evolutionaryarchitecture/jpa/association/EventRepository.class coincide com o padrão
+mhaglind/jpa-exercises/labs/lab-inheritance/src/main/java/net/evolutionaryarchitecture/jpa/inheritance/EventRepository.java
+Arquivo binário mhaglind/jpa-exercises/labs/lab-inheritance/target/classes/net/evolutionaryarchitecture/jpa/inheritance/EventRepository.class coincide com o padrão
+mhaglind/jpa-exercises/samples/sample-eventmanager/src/main/java/net/evolutionaryarchitecture/jpa/samples/JpaEventPublicationService.java
+Arquivo binário mhaglind/jpa-exercises/samples/sample-eventmanager/target/classes/net/evolutionaryarchitecture/jpa/samples/JpaEventPublicationService.class coincide com o padrão
+mhaglind/jpa-exercises/samples/sample-gourmet/src/main/java/net/evolutionaryarchitecture/jpa/samples/EventRepository.java
+michaellavelle/spring-social-hibernate-jpa/src/main/java/org/springframework/social/connect/jpa/hibernate/AbstractUserConnectionJpaDao.java
+
+Arquivo binário michaellavelle/spring-social-hibernate-jpa/target/classes/org/springframework/social/connect/jpa/hibernate/AbstractUserConnectionJpaDao.class coincide com o padrão
+grep: nsavageJVM/starschema/src/main/java/com/japp/persitance/GenericDaoImpl.java
+coincideArquivo binário nsavageJVM/starschema/target/classes/com/japp/persitance/GenericDaoImpl.class coincide com o padrão
+: Arquivo ou diretório não encontradopanmingzhi815/hibernateCache/src/main/java/org/pan/service/SystemService.java
+Arquivo binário panmingzhi815/hibernateCache/target/classes/org/pan/service/SystemService.class coincide com o padrão
+Arquivo binário PierreLeresteux/twittsearch/target/classes/fr/pierre/entretien/twittsearch/service/TwittsearchService.class coincide com o padrão
+pressgang-ccms/PressGangCCMSModel/src/main/java/org/jboss/pressgang/ccms/model/utils/TopicUtilities.java
+pressgang-ccms/PressGangCCMSModel/src/main/java/org/jboss/pressgang/ccms/model/TranslatedTopic.java
+
+pressgang-ccms/PressGangCCMSModel/src/main/java/org/jboss/pressgang/ccms/model/contentspec/TranslatedContentSpec.java
+grep: com: Arquivo ou diretório não encontradopressgang-ccms/PressGangCCMSModel/src/main/java/org/jboss/pressgang/ccms/model/contentspec/ContentSpec.java
+
+pressgang-ccms/PressGangCCMSModel/src/main/java/org/jboss/pressgang/ccms/model/contentspec/CSNode.java
+grep: opressgang-ccms/PressGangCCMSModel/src/main/java/org/jboss/pressgang/ccms/model/contentspec/TranslatedCSNode.java
+: Arquivo ou diretório não encontrado
+pressgang-ccms/PressGangCCMSModel/src/main/java/org/jboss/pressgang/ccms/model/TranslatedTopicData.java
+grep: padrão: Arquivo ou diretório não encontradopressgang-ccms/PressGangCCMSModel/src/main/java/org/jboss/pressgang/ccms/model/Topic.java
+
+
+grep: rotemjac/Spring-hibernate-project/The: Arquivo ou diretório não encontrado
+grep: animal: Arquivo ou diretório não encontrado
+grep: park/src/my/pack/webTier/clients/creation/Client_Creating_Logistic_Facilities.java: Arquivo ou diretório não encontrado
+grep: rotemjac/Spring-hibernate-project/The: Arquivo ou diretório não encontrado
+grep: animal: Arquivo ou diretório não encontrado
+grep: park/src/my/pack/dataAccessTier/dao/facilities/AreaDao.java: Arquivo ou diretório não encontrado
+grep: rotemjac/Spring-hibernate-project/The: Arquivo ou diretório não encontrado
+grep: animal: Arquivo ou diretório não encontrado
+grep: park/src/my/pack/dataAccessTier/dao/facilities/Land_PortionDao_hibernate_impl.java: Arquivo ou diretório não encontrado
+grep: rotemjac/Spring-hibernate-project/The: Arquivo ou diretório não encontrado
+grep: animal: Arquivo ou diretório não encontrado
+grep: park/src/my/pack/all_methods_performance/Performance_data.java: Arquivo ou diretório não encontrado
+grep: rotemjac/Spring-hibernate-project/The: Arquivo ou diretório não encontrado
+grep: animal: Arquivo ou diretório não encontrado
+grep: park/src/my/pack/all_methods_performance/Dao_performance_data_jpa_impl.java: Arquivo ou diretório não encontrado
+grep: rotemjac/Spring-hibernate-project/The: Arquivo ou diretório não encontrado
+grep: animal: Arquivo ou diretório não encontrado
+grep: park/src/my/pack/all_methods_performance/Service_performance_data.java: Arquivo ou diretório não encontrado
+grep: rotemjac/Spring-hibernate-project/The: Arquivo ou diretório não encontrado
+grep: animal: Arquivo ou diretório não encontrado
+grep: park/src/my/pack/all_methods_performance/Service_performance_data_impl.java: Arquivo ou diretório não encontrado
+grep: rotemjac/Spring-hibernate-project/The: Arquivo ou diretório não encontrado
+grep: animal: Arquivo ou diretório não encontrado
+grep: park/src/my/pack/all_methods_performance/Dao_performance_data.java: Arquivo ou diretório não encontrado
+grep: rotemjac/Spring-hibernate-project/The: Arquivo ou diretório não encontrado
+grep: animal: Arquivo ou diretório não encontrado
+grep: park/src/my/pack/all_methods_performance/Dao_performance_data_hibernate_impl.java: Arquivo ou diretório não encontrado
+grep: rotemjac/Spring-hibernate-project/The: Arquivo ou diretório não encontrado
+grep: animal: Arquivo ou diretório não encontrado
+grep: park/src/my/pack/serviceTier/services/facilities/AreaService.java: Arquivo ou diretório não encontrado
+grep: rotemjac/Spring-hibernate-project/The: Arquivo ou diretório não encontrado
+grep: animal: Arquivo ou diretório não encontrado
+grep: park/src/my/pack/serviceTier/services/facilities/AreaService_impl.java: Arquivo ou diretório não encontrado
+
+
+
+rainmore/guice-jpa-hibernate/src/main/java/com/rainmore/java/services/PersonService.java
+rainmore/guice-jpa-hibernate/src/main/java/com/rainmore/java/services/PersonServiceImpl.java
+rainmore/guice-jpa-hibernate/src/main/java/com/rainmore/java/OtherExample.java
+rainmore/guice-jpa-hibernate/src/main/java/com/rainmore/java/Main.java
+Arquivo binário SaKondri/Phonebook/bin/com/sakondri/dao/GeneralDao.class coincide com o padrão
+seasarorg/s2hibernate-jpa/s2hibernate-jpa/src/test/java/org/seasar/hibernate/jpa/metadata/HibernateEntityDescTest.java
+Arquivo binário seasarorg/s2hibernate-jpa/s2hibernate-jpa/target/classes/examples/entityreader/FileTest.class coincide com o padrão
+sobngwi/spring-webmvc-hibernate/spring-mvc-hibernate/src/main/java/com/sobngwi/hibernate/nsy135/modele/dao/ServiceHibernateDAO.java
+Arquivo binário sobngwi/spring-webmvc-hibernate/spring-mvc-hibernate/target/classes/com/sobngwi/hibernate/nsy135/modele/dao/ServiceHibernateDAO.class coincide com o padrão
+spring-projects/spring-framework/src/asciidoc/core-beans.adoc
+spring-projects/spring-framework/spring-orm/src/main/java/org/springframework/orm/jpa/SharedEntityManagerCreator.java
+spring-projects/spring-framework/spring-orm/src/main/java/org/springframework/orm/jpa/AbstractEntityManagerFactoryBean.java
+spring-projects/spring-framework/spring-orm/src/main/java/org/springframework/orm/jpa/ExtendedEntityManagerCreator.java
+
+
+spring-projects/spring-framework/spring-orm/src/main/java/org/springframework/orm/jpa/persistenceunit/DefaultPersistenceUnitManager.java
+spring-projects/spring-framework/spring-context/src/main/java/org/springframework/context/annotation/AnnotationConfigUtils.java
+Arquivo binário sxyx2008/hibernate-search-example/hibernate-search-hibernate/src/main/java/org/hibernate/search/hibernate/example/SearchManager.java coincide com o padrão
+grep: Arquivo binário sxyx2008/hibernate-search-example/hibernate-search-jpa/src/main/java/org/hibernate/search/jpa/example/dao/impl/BookDaoImpl.java coincide com o padrão
+coincideArquivo binário sxyx2008/hibernate-search-example/hibernate-search-jpa/src/main/java/org/hibernate/search/jpa/example/SearchManager.java coincide com o padrão
+: Arquivo ou diretório não encontradoArquivo binário sxyx2008/hibernate-search-example/hibernate-search-jpa/target/classes/org/hibernate/search/jpa/example/dao/impl/BookDaoImpl.class coincide com o padrão
+
+grep: Arquivo binário sxyx2008/hibernate-search-example/hibernate-search-jpa/target/classes/org/hibernate/search/jpa/example/SearchManager.class coincide com o padrão
+tapas4java/CommonGenericDAO/src/com/anitech/commongenericdao/dao/JPACommonGenericDAO.java
+com: Arquivo ou diretório não encontradothiagolyma/jpa-hibernate/exemplo/br/com/ucb/tmor/onetomany/Teste.java
+
+thiagolyma/jpa-hibernate/exemplo/br/ucb/tmor/exemplo/entidade/associacao/manytomany/Teste.java
+
+
+
+
+thiagolyma/jpa-hibernate/exemplo/br/ucb/tmor/exemplo/entidade/associacao/onetomany/Teste.java
+tim-tang/hibernate-jpa-training/src/test/java/com/xplusz/association/ManyToManyMappedByTests.java
+tim-tang/hibernate-jpa-training/src/test/java/com/xplusz/association/OneToManyBidirectionByTests.java
+
+Arquivo binário tuxied/JSFCrudApp/WebContent/WEB-INF/classes/com/dao/GenericDAO.class coincide com o padrão
+Arquivo binário xjodoin/torpedoquery/target/classes/org/torpedoquery/jpa/internal/query/DefaultQueryBuilder.class coincide com o padrão
