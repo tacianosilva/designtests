@@ -13,7 +13,9 @@ import org.junit.runners.Suite.SuiteClasses;
     NoFinalClassRuleTest.class,
     ProvideIdentifierPropertyRuleTest.class,
     ProvideGetsSetsFieldsRuleTest.class,
-    UseSetCollectionRuleTest.class })
+    UseSetCollectionRuleTest.class,
+    UseListCollectionRuleTest.class,
+    UseInterfaceSetOrListRuleTest.class })
 public class AllTests {
 
 }

@@ -62,8 +62,8 @@ public class HashCodeAndEqualsNotUseIdentifierPropertyRuleTest {
 
     @Test
     public void testEntities() {
-        assertEquals("1", 10, classes.size());
-        assertEquals("2", 7, entities.size());
+        assertEquals("1", 11, classes.size());
+        assertEquals("2", 8, entities.size());
     }
 
     @Test

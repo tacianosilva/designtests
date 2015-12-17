@@ -1,6 +1,9 @@
 package tests.br.edu.ufcg.splab.designtests.designrules;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
 
@@ -10,7 +13,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.edu.ufcg.splab.designtests.designrules.UseSetCollectionRule;
+import br.edu.ufcg.splab.designtests.designrules.UseListCollectionRule;
 import br.edu.ufcg.splab.designtests.util.PersistenceRuleUtil;
 import tests.br.edu.ufcg.splab.designtests.entities.EntityA;
 import tests.br.edu.ufcg.splab.designtests.entities.EntityB;
@@ -19,14 +22,14 @@ import tests.br.edu.ufcg.splab.designtests.entities.EntityD;
 import tests.br.edu.ufcg.splab.designtests.entities.SubEntityA;
 import tests.br.edu.ufcg.splab.designtests.entities.SubEntityB;
 
-public class UseSetCollectionRuleTest {
+public class UseListCollectionRuleTest {
 
     DesignWizard dw;
     Set<ClassNode> entities;
     Set<ClassNode> classes;
     PersistenceRuleUtil util = new PersistenceRuleUtil();
 
-    UseSetCollectionRule rule;
+    UseListCollectionRule rule;
 
     ClassNode entityA;
     ClassNode entityB;
@@ -47,7 +50,7 @@ public class UseSetCollectionRuleTest {
         entityD = dw.getClass(EntityD.class.getName());
         subEntityA = dw.getClass(SubEntityA.class.getName());
         subEntityB = dw.getClass(SubEntityB.class.getName());
-        rule = new UseSetCollectionRule(dw);
+        rule = new UseListCollectionRule(dw);
     }
 
     @After
@@ -72,13 +75,13 @@ public class UseSetCollectionRuleTest {
 
         // Não usa coleções do tipo Set - Utiliza List, ArrayList e LinkedList.
         rule.setClassNode(entityB);
-        assertFalse("2", rule.checkRule());
+        assertTrue("2", rule.checkRule());
 
         // Usa coleções do tipo Set e HashSet.
         rule.setClassNode(entityC);
-        assertTrue("3", rule.checkRule());
+        assertFalse("3", rule.checkRule());
 
-        // Não usa coleções do tipo Set - Utiliza List, ArrayList e LinkedList.
+        // Usa coleções do tipo Set e List.
         rule.setClassNode(entityD);
         assertFalse("4", rule.checkRule());
 
@@ -101,12 +104,12 @@ public class UseSetCollectionRuleTest {
         // Não usa coleções do tipo Set - Utiliza List, ArrayList e LinkedList.
         rule.setClassNode(entityB);
         rule.checkRule();
-        assertNotSame("2", "", rule.getReport());
+        assertEquals("2", "", rule.getReport());
 
         // Usa coleções do tipo Set e HashSet.
         rule.setClassNode(entityC);
         rule.checkRule();
-        assertEquals("3", "", rule.getReport());
+        assertNotSame("3", "", rule.getReport());
 
         // Não usa coleções do tipo Set - Utiliza List, ArrayList e LinkedList.
         rule.setClassNode(entityD);

@@ -151,6 +151,6 @@ public class HashCodeAndEqualsRuleTest {
         for (ClassNode classNode : acertos) {
             System.out.println("Acerto: " + classNode.getShortName());
         }
-        assertEquals("3", 3, acertos.size());
+        assertEquals("3", 4, acertos.size());
     }
 }
