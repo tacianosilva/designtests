@@ -271,6 +271,19 @@ public abstract class AbstractDesignRule implements Rule {
     }
 
     /**
+     * Checks if the classNode implements or inherits from the List type of
+     * the Java Collection Framework.
+     * @param node A classNode.
+     * @return True if the classNode implements or inherits from the List type.
+     */
+    public boolean isList(ClassNode node) {
+        if (collections.isList(node)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Returns a <code>MethodNode</code> object that reflects the specified method
      * of the class or interface represented by <code>ClassNode</code> object.
      * The <code>name</code> parameter is a <code>String</code> specifying the simple
