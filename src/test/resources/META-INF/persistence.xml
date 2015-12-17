@@ -9,6 +9,7 @@
         <class>tests.br.edu.ufcg.splab.designtests.entities.EntityB</class>
         <class>tests.br.edu.ufcg.splab.designtests.entities.EntityC</class>
         <class>tests.br.edu.ufcg.splab.designtests.entities.EntityD</class>
+        <class>tests.br.edu.ufcg.splab.designtests.entities.EntityE</class>
         <class>tests.br.edu.ufcg.splab.designtests.entities.SuperEntityA</class>
         <class>tests.br.edu.ufcg.splab.designtests.entities.SuperEntityB</class>
         <class>tests.br.edu.ufcg.splab.designtests.entities.SuperEntityC</class>
