@@ -1,8 +1,12 @@
 package tests.br.edu.ufcg.splab.designtests.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -10,6 +14,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class EntityD implements Serializable {
@@ -32,11 +37,10 @@ public class EntityD implements Serializable {
 
     @Column
     @ElementCollection(fetch=FetchType.EAGER)
-    private List<String> collectionArrayList;
+    private Collection<String> collectionArrayList;
 
-    @Column
-    @ElementCollection(fetch=FetchType.EAGER)
-    private List<String> collectionLinkedList;
+    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+    private Set<EntityE> entityESet = new HashSet<EntityE>();
 
     public EntityD(String name) {
         this.name = name;
@@ -56,5 +60,13 @@ public class EntityD implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<EntityE> getEntityESet() {
+        return entityESet;
+    }
+
+    public void setEntityESet(Set<EntityE> entityESet) {
+        this.entityESet = entityESet;
     }
 }

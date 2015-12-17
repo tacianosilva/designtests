@@ -1,8 +1,12 @@
 package tests.br.edu.ufcg.splab.designtests.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,7 +15,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.TableGenerator;
 
 @Entity
@@ -31,13 +37,22 @@ public class EntityA implements Serializable {
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-    private Set<EntityB> EntityBSet = new HashSet<EntityB>();
+    private Set<EntityB> entityBSet = new HashSet<EntityB>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-    private Set<EntityC> EntityCSet = new HashSet<EntityC>();
+    private Set<EntityC> entityCSet = new HashSet<EntityC>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-    private Set<EntityD> EntityDSet = new HashSet<EntityD>();
+    private Set<EntityD> entityDSet = new HashSet<EntityD>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+    @JoinTable(name = "EntityA_EntityE_List")
+    private List<EntityE> entityEList = new ArrayList<EntityE>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+    @JoinTable(name = "EntityA_EntityE_SortedSet")
+    @OrderBy // Usará a primary key
+    private SortedSet<EntityE> entityESortedSet = new TreeSet<EntityE>();
 
     public Integer getId() {
         return id;
@@ -56,26 +71,42 @@ public class EntityA implements Serializable {
     }
 
     public Set<EntityB> getEntityBSet() {
-        return EntityBSet;
+        return entityBSet;
     }
 
     public void setEntityBSet(Set<EntityB> entityBSet) {
-        EntityBSet = entityBSet;
+        this.entityBSet = entityBSet;
     }
 
     public Set<EntityC> getEntityCSet() {
-        return EntityCSet;
+        return entityCSet;
     }
 
     public void setEntityCSet(Set<EntityC> entityCSet) {
-        EntityCSet = entityCSet;
+        this.entityCSet = entityCSet;
     }
 
     public Set<EntityD> getEntityDSet() {
-        return EntityDSet;
+        return entityDSet;
     }
 
     public void setEntityDSet(Set<EntityD> entityDSet) {
-        EntityDSet = entityDSet;
+        this.entityDSet = entityDSet;
+    }
+
+    public List<EntityE> getEntityEList() {
+        return entityEList;
+    }
+
+    public void setEntityEList(List<EntityE> entityEList) {
+        this.entityEList = entityEList;
+    }
+
+    public SortedSet<EntityE> getEntityESortedSet() {
+        return entityESortedSet;
+    }
+
+    public void setEntityESortedSet(SortedSet<EntityE> entityESortedSet) {
+        this.entityESortedSet = entityESortedSet;
     }
 }
