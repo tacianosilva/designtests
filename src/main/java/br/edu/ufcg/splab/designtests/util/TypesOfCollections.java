@@ -7,12 +7,17 @@ import org.designwizard.design.ClassNode;
 
 public class TypesOfCollections {
 
+    public static final ClassNode SET = new ClassNode("java.util.Set");
+    public static final ClassNode LIST = new ClassNode("java.util.List");
+
     private Set<String> collections;
     private Set<String> sets;
+    private Set<String> lists;
 
     public TypesOfCollections() {
         this.collections = new HashSet<String>();
         this.sets = new HashSet<String>();
+        this.lists = new HashSet<String>();
 
         // Hierarquia de Interfaces do Collection
         this.collections.add("java.util.Collection");
@@ -21,7 +26,7 @@ public class TypesOfCollections {
         this.collections.add("java.util.BlockingDeque");
         this.collections.add("java.util.BlockingQueue");
         this.collections.add("java.util.Deque");
-        this.collections.add("java.util.List");
+        this.lists.add("java.util.List");
         this.sets.add("java.util.NavigableSet");
         this.collections.add("java.util.Queue");
         this.collections.add("java.util.Set");
@@ -65,6 +70,7 @@ public class TypesOfCollections {
         this.collections.add("java.util.Vector");
 
         this.collections.addAll(sets);
+        this.collections.addAll(lists);
     }
 
     public boolean isCollection(ClassNode node) {
@@ -90,6 +96,20 @@ public class TypesOfCollections {
 
     public boolean isSet(String name) {
         if (name != null && sets.contains(name)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isList(ClassNode node) {
+        if (node != null && lists.contains(node.getName())) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isList(String name) {
+        if (name != null && lists.contains(name)) {
             return true;
         }
         return false;
