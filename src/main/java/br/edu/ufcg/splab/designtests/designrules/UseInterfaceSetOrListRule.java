@@ -14,7 +14,7 @@ import br.edu.ufcg.splab.designtests.util.TypesOfCollections;
  * Rule: Declaration of Collection of the type Set or List in classes of the Model
  * Package.
  *
- * @author Taciano
+ * @author Taciano Morais Silva - tacianosilva@gmail.com
  */
 public class UseInterfaceSetOrListRule extends AbstractDesignRule {
 

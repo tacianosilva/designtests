@@ -12,7 +12,7 @@ import org.designwizard.design.FieldNode;
  * Rule: Declaration of Collection of the type List in classes of the Model
  * Package.
  *
- * @author Taciano
+ * @author Taciano Morais Silva - tacianosilva@gmail.com
  */
 public class UseListCollectionRule extends AbstractDesignRule {
 

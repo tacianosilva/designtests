@@ -10,7 +10,7 @@ import org.designwizard.design.ClassNode;
  *
  * Rule: The Serializable interface should be implementated for all classes in the Model Package.
  *
- * @author Taciano
+ * @author Taciano Morais Silva - tacianosilva@gmail.com
  */
 public class ImplementsSerializableRule extends AbstractDesignRule {
 
