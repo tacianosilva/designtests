@@ -23,6 +23,10 @@ import tests.br.edu.ufcg.splab.designtests.entities.SubEntityA;
 import tests.br.edu.ufcg.splab.designtests.entities.SubEntityB;
 import tests.br.edu.ufcg.splab.designtests.entities.SubEntityC;
 
+/**
+ * Test class with the verification of the design rule @link {@link HashCodeAndEqualsRule}.
+ * @author Taciano Morais Silva - tacianosilva@gmail.com
+ */
 public class HashCodeAndEqualsRuleTest {
 
     DesignWizard dw;
