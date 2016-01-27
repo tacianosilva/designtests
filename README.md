@@ -19,9 +19,21 @@ folder. *Eclipse* will understand the configuration on the existing project.
 
 ### Instructions to Maven users
 
-The API GXL doesn't distributed in the maven repositories and it needs to be
-installed in local repository. The maven commando for install:
+The DesignWizard project has the ASM dependency considered optional in the your pom.xml file. So, to use the DesignWizard API is necessary to inform the following dependencies:
 
-mvn install:install-file -Dfile=gxl.jar -DgroupId=net.sourceforge.gxl -DartifactId=gxl -Dversion=0.92 -Dpackaging=jar
+        <dependency>
+            <groupId>org.designwizard</groupId>
+            <artifactId>designwizard</artifactId>
+            <version>1.4</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>3.1</version>
+        </dependency>
 
-Download GXL:  http://gxl.sourceforge.net/
+
+## History
+
+For detailed changelog, see [Releases](https://github.com/tacianosilva/designtests/releases).
