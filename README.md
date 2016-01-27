@@ -2,6 +2,10 @@
 
 This project contains experiments with design tests using DesignWizard API. This project contains scripts and programs for running design tests for a set of systems that use Hibernate/JPA and it been selected from github.
 
+### Version before the separation of the projects - DesignTests and DesignTestMiner
+
+v-0.8.9: Version that contains the classes with the Design Rules for hibernate and classes for GitHub Project Analysis. Classes related to github project analysis will be moved to the designtestminer project. Version before the separation of the projects.
+
 ### Continuos Integration with [Travis](https://travis-ci.org)
 
 [![Build Status](https://travis-ci.org/tacianosilva/designtests.svg)](https://travis-ci.org/tacianosilva/designtests)
