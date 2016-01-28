@@ -18,37 +18,40 @@ import br.edu.ufcg.splab.designtests.util.TypesOfCollections;
  */
 public abstract class AbstractDesignRule implements Rule {
 
-    protected final ClassNode objectClass = new ClassNode("java.lang.Object");
+    /**
+     * ClassNode for represents the {@link Object} class.
+     */
+    private final ClassNode objectClass = new ClassNode("java.lang.Object");
 
     /**
      * Facts of the Software Design.
      */
-    protected DesignWizard dw;
+    private DesignWizard designWizard;
 
     /**
      * Types of Collections from Java Collections Frameworks.
      */
-    protected TypesOfCollections collections;
+    private TypesOfCollections collections;
 
     /**
      * Design Rule Name.
      */
-    protected String name;
+    private String name;
 
     /**
      * The set of {@link ClassNode} that the rule will be executing.
      */
-    protected Set<ClassNode> classNodes;
+    private Set<ClassNode> classNodes;
 
     /**
      * The set of {@link ClassNode} that the rule passed.
      */
-    protected Set<ClassNode> resultTrue;
+    private Set<ClassNode> resultsTrue;
 
     /**
      * The set of {@link ClassNode} that the rule failed.
      */
-    protected Set<ClassNode> resultFalse;
+    private Set<ClassNode> resultsFalse;
 
     /**
      * The Report with errors messages.
@@ -61,12 +64,12 @@ public abstract class AbstractDesignRule implements Rule {
      */
     public AbstractDesignRule(DesignWizard dw) {
         this.name = this.getClass().getSimpleName();
-        this.dw = dw;
+        this.designWizard = dw;
         this.classNodes = null;
         this.report = "";
         this.collections = new TypesOfCollections();
-        this.resultTrue = new HashSet<ClassNode>();
-        this.resultFalse = new HashSet<ClassNode>();
+        this.resultsTrue = new HashSet<ClassNode>();
+        this.resultsFalse = new HashSet<ClassNode>();
     }
 
     /**
@@ -88,6 +91,22 @@ public abstract class AbstractDesignRule implements Rule {
     }
 
     /**
+     * ClassNode for represents the {@link Object} class.
+     * @return A ClassNode for <code>java.lang.Object</code>.
+     */
+    public ClassNode getObjectClass() {
+        return this.objectClass;
+    }
+
+    /**
+     * Returns a DesignWizard's instance with the design.
+     * @return A DesignWizard's instance with the design.
+     */
+    protected DesignWizard getDesignWizard() {
+        return this.designWizard;
+    }
+
+    /**
      * Checks if the set {@link AbstractDesignRule#getClassNodes()} attends the rule.
      * @see org.designwizard.designrules.Rule#checkRule()
      */
@@ -98,7 +117,7 @@ public abstract class AbstractDesignRule implements Rule {
      * @return A set of <code>ClassNode</code> objects or set empty.
      */
     public Set<ClassNode> getResultsTrue() {
-        return resultTrue;
+        return resultsTrue;
     }
 
     /**
@@ -106,23 +125,23 @@ public abstract class AbstractDesignRule implements Rule {
      * @return A set of <code>ClassNode</code> objects or set empty.
      */
     public Set<ClassNode> getResultsFalse() {
-        return resultFalse;
+        return resultsFalse;
     }
 
     /**
      * Add a {@link ClassNode} in the set of true results.
      * @param node The classNode that passed the rule.
      */
-    public final void addResultTrue(final ClassNode node) {
-        resultTrue.add(node);
+    protected final void addResultTrue(final ClassNode node) {
+        resultsTrue.add(node);
     }
 
     /**
      * Add a {@link ClassNode} in the set of false results.
      * @param node The classNode that did not pass the rule.
      */
-    public final void addResultFalse(final ClassNode node) {
-        resultFalse.add(node);
+    protected final void addResultFalse(final ClassNode node) {
+        resultsFalse.add(node);
     }
 
     /**
@@ -204,8 +223,8 @@ public abstract class AbstractDesignRule implements Rule {
      */
     private void resetCollections() {
         this.classNodes = new HashSet<ClassNode>();
-        this.resultTrue = new HashSet<ClassNode>();
-        this.resultFalse = new HashSet<ClassNode>();
+        this.resultsTrue = new HashSet<ClassNode>();
+        this.resultsFalse = new HashSet<ClassNode>();
         this.report = "";
     }
 
@@ -230,8 +249,8 @@ public abstract class AbstractDesignRule implements Rule {
      * or {@link DesignWizard#getAllClasses()} is <code>null</code>.
      */
     protected final boolean checkClassNodes(final Set<ClassNode> classes) {
-        if (dw.getAllClasses() != null) {
-            return dw.getAllClasses().containsAll(classes);
+        if (designWizard.getAllClasses() != null) {
+            return designWizard.getAllClasses().containsAll(classes);
         }
         return false;
     }
@@ -304,7 +323,7 @@ public abstract class AbstractDesignRule implements Rule {
     protected MethodNode getEqualsMethod(ClassNode classNode) {
         MethodNode equalsMethod = classNode.getDeclaredMethod("equals(java.lang.Object)");
         ClassNode superClass = classNode.getSuperClass();
-        if (equalsMethod == null && !objectClass.equals(superClass)) {
+        if (equalsMethod == null && !getObjectClass().equals(superClass)) {
             equalsMethod = classNode.getInheritedMethod("equals(java.lang.Object)");
         }
         return equalsMethod;
@@ -313,10 +332,9 @@ public abstract class AbstractDesignRule implements Rule {
     protected MethodNode getHashCodeMethod(ClassNode classNode) {
         MethodNode hashCodeMethod = classNode.getDeclaredMethod("hashCode()");
         ClassNode superClass = classNode.getSuperClass();
-        if (hashCodeMethod == null && !objectClass.equals(superClass)) {
+        if (hashCodeMethod == null && !getObjectClass().equals(superClass)) {
             hashCodeMethod = classNode.getInheritedMethod("hashCode()");
         }
         return hashCodeMethod;
     }
-
 }

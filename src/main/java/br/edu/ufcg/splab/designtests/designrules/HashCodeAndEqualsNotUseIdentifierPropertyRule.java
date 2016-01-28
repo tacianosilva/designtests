@@ -66,7 +66,7 @@ public class HashCodeAndEqualsNotUseIdentifierPropertyRule extends AbstractDesig
                 contem = true;
             }
             // Verificar a presença dos métodos hashCode e Equals
-            HashCodeAndEqualsRule rule = new HashCodeAndEqualsRule(dw);
+            HashCodeAndEqualsRule rule = new HashCodeAndEqualsRule(getDesignWizard());
             rule.setClassNode(entityNode);
             if (contem || !rule.checkRule()) {
                 this.report += rule.getReport();
