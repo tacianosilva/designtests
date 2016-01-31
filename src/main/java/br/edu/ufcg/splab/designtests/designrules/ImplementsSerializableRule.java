@@ -18,7 +18,7 @@ public class ImplementsSerializableRule extends AbstractDesignRule {
      * Initiates rule properties for software design in instance of the {@link DesignWizard}.
      * @param dw The instance of the {@link DesignWizard} with the software design.
      */
-    public ImplementsSerializableRule(DesignWizard dw) {
+    public ImplementsSerializableRule(final DesignWizard dw) {
         super(dw);
     }
 
@@ -27,12 +27,12 @@ public class ImplementsSerializableRule extends AbstractDesignRule {
      * @param dw The instance of the {@link DesignWizard} with the software design.
      * @param classes The set of {@link ClassNode} that the rule will be executing.
      */
-    public ImplementsSerializableRule(DesignWizard dw, Set<ClassNode> classes) {
+    public ImplementsSerializableRule(final DesignWizard dw, final Set<ClassNode> classes) {
         super(dw, classes);
     }
 
     @Override
-    public boolean checkRule() {
+    public final boolean checkRule() {
         Collection<ClassNode> classes = getClassNodes();
 
         for (ClassNode entityNode : classes) {
@@ -40,13 +40,13 @@ public class ImplementsSerializableRule extends AbstractDesignRule {
             ClassNode superClass = entityNode.getSuperClass();
             if (!entityNode.implementsInterface(serializable)
                     && !superClass.implementsInterface(serializable)) {
-                this.report += "The class <" + entityNode.getName() + "> "
-                            + "doesn't implements interface Serializable.\n";
-                addResultFalse(entityNode);
+                this.addReport("The class <" + entityNode.getName() + "> "
+                            + "doesn't implements interface Serializable.\n");
+                this.addResultFalse(entityNode);
             } else {
-                addResultTrue(entityNode);
+                this.addResultTrue(entityNode);
             }
         }
-        return this.report.equals("") ? true : false;
+        return this.isEmptyReport();
     }
 }

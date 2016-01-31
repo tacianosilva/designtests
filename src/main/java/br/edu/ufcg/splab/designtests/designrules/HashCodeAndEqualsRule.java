@@ -17,12 +17,16 @@ import org.designwizard.designrules.Rule;
  */
 public class HashCodeAndEqualsRule extends AbstractDesignRule implements Rule {
 
-    public HashCodeAndEqualsRule(DesignWizard dw) {
+    /**
+     * Initiates rule properties for software design in instance of the {@link DesignWizard}.
+     * @param dw The instance of the {@link DesignWizard} with the software design.
+     */
+    public HashCodeAndEqualsRule(final DesignWizard dw) {
         super(dw);
     }
 
     @Override
-    public boolean checkRule() {
+    public final boolean checkRule() {
         Collection<ClassNode> classes = getClassNodes();
 
         for (ClassNode entityNode : classes) {
@@ -34,16 +38,18 @@ public class HashCodeAndEqualsRule extends AbstractDesignRule implements Rule {
 
             if (!(contem)) {
                 if (equalsMethod == null) {
-                    this.report += "The class <" + entityNode.getName() + "> doesn't contain the equals method.\n";
+                    this.addReport("The class <" + entityNode.getName()
+                        + "> doesn't contain the equals method.\n");
                 }
                 if (hashCodeMethod == null) {
-                    this.report += "The class <" + entityNode.getName() + "> doesn't contain the hashCode method.\n";
+                    this.addReport("The class <" + entityNode.getName()
+                        + "> doesn't contain the hashCode method.\n");
                 }
                 addResultFalse(entityNode);
             } else {
                 addResultTrue(entityNode);
             }
         }
-        return this.report.equals("") ? true : false;
+        return this.isEmptyReport();
     }
 }

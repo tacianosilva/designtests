@@ -28,7 +28,7 @@ public class ProvideGetsSetsFieldsRule extends AbstractDesignRule implements Rul
      * Builds the rule for the designwizard instance.
      * @param dw A {@link DesignWizard} instance.
      */
-    public ProvideGetsSetsFieldsRule(DesignWizard dw) {
+    public ProvideGetsSetsFieldsRule(final DesignWizard dw) {
         super(dw);
     }
 
@@ -37,7 +37,7 @@ public class ProvideGetsSetsFieldsRule extends AbstractDesignRule implements Rul
      * @see br.edu.ufcg.splab.designtests.designrules.AbstractDesignRule#checkRule()
      */
     @Override
-    public boolean checkRule() {
+    public final boolean checkRule() {
         Collection<ClassNode> classes = getClassNodes();
 
         for (ClassNode entityNode : classes) {
@@ -53,13 +53,15 @@ public class ProvideGetsSetsFieldsRule extends AbstractDesignRule implements Rul
                 }
 
                 if (!hasGetMethod(fieldNode, entityNode)) {
-                    this.report += "The field <" + fieldNode.getName() + "> of the class <" + fieldNode.getName()
-                    + " doesn't implement the get method.\n";
+                    this.addReport("The field <" + fieldNode.getName() + "> of the class <"
+                        + fieldNode.getName()
+                        + " doesn't implement the get method.\n");
                     passed = false;
                 }
                 if (!hasSetMethod(fieldNode, entityNode)) {
-                    this.report += "The field <" + fieldNode.getName() + "> of the class <" + fieldNode.getName()
-                    + " doesn't implement the set method.\n";
+                    this.addReport("The field <" + fieldNode.getName() + "> of the class <"
+                        + fieldNode.getName()
+                        + " doesn't implement the set method.\n");
                     passed = false;
                 }
             }
@@ -70,6 +72,6 @@ public class ProvideGetsSetsFieldsRule extends AbstractDesignRule implements Rul
                 addResultTrue(entityNode);
             }
         }
-        return this.report.equals("") ? true : false;
+        return this.isEmptyReport();
     }
 }

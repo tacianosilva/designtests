@@ -18,12 +18,16 @@ import br.edu.ufcg.splab.designtests.util.TypesOfCollections;
  */
 public class UseInterfaceSetOrListRule extends AbstractDesignRule {
 
-    public UseInterfaceSetOrListRule(DesignWizard dw) {
+    /**
+     * Initiates rule properties for software design in instance of the {@link DesignWizard}.
+     * @param dw The instance of the {@link DesignWizard} with the software design.
+     */
+    public UseInterfaceSetOrListRule(final DesignWizard dw) {
         super(dw);
     }
 
     @Override
-    public boolean checkRule() {
+    public final boolean checkRule() {
         Collection<ClassNode> allModelClasses = getClassNodes();
 
         for (ClassNode entityNode : allModelClasses) {
@@ -34,9 +38,13 @@ public class UseInterfaceSetOrListRule extends AbstractDesignRule {
             for (FieldNode fieldNode : declaredFields) {
                 ClassNode type = fieldNode.getType();
 
-                if (isCollection(type) && !type.equals(TypesOfCollections.SET) && !type.equals(TypesOfCollections.LIST)) {
-                    this.report += "The field <" + fieldNode.getName() + "> of the class <" + entityNode.getName()
-                            + " implements interface Collection but it doesn't implements interface Set or interface List.\n";
+                if (isCollection(type) && !type.equals(TypesOfCollections.SET)
+                            && !type.equals(TypesOfCollections.LIST)) {
+                    this.addReport("The field <"
+                        + fieldNode.getName()
+                        + "> of the class <" + entityNode.getName()
+                        + " implements interface Collection but it "
+                        + "doesn't implements interface Set or interface List.\n");
                     passed = false;
                     addResultFalse(entityNode);
                 }
@@ -48,6 +56,6 @@ public class UseInterfaceSetOrListRule extends AbstractDesignRule {
                 addResultTrue(entityNode);
             }
         }
-        return this.report.equals("") ? true : false;
+        return this.isEmptyReport();
     }
 }

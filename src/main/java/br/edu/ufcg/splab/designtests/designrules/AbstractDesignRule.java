@@ -56,13 +56,13 @@ public abstract class AbstractDesignRule implements Rule {
     /**
      * The Report with errors messages.
      */
-    protected String report;
+    private String report;
 
     /**
      * Initiates rule properties for software design in instance of the {@link DesignWizard}.
      * @param dw The instance of the {@link DesignWizard} with the software design.
      */
-    public AbstractDesignRule(DesignWizard dw) {
+    public AbstractDesignRule(final DesignWizard dw) {
         this.name = this.getClass().getSimpleName();
         this.designWizard = dw;
         this.classNodes = null;
@@ -77,7 +77,7 @@ public abstract class AbstractDesignRule implements Rule {
      * @param dw The instance of the {@link DesignWizard} with the software design.
      * @param classes The set of {@link ClassNode} that the rule will be executing.
      */
-    public AbstractDesignRule(DesignWizard dw, Set<ClassNode> classes) {
+    public AbstractDesignRule(final DesignWizard dw, final Set<ClassNode> classes) {
         this(dw);
         this.setClassNodes(classes);
     }
@@ -86,7 +86,7 @@ public abstract class AbstractDesignRule implements Rule {
      * Returns the rule's name.
      * @return The rule's name.
      */
-    public String getName() {
+    public final String getName() {
         return this.name;
     }
 
@@ -94,7 +94,7 @@ public abstract class AbstractDesignRule implements Rule {
      * ClassNode for represents the {@link Object} class.
      * @return A ClassNode for <code>java.lang.Object</code>.
      */
-    public ClassNode getObjectClass() {
+    public final ClassNode getObjectClass() {
         return this.objectClass;
     }
 
@@ -102,12 +102,13 @@ public abstract class AbstractDesignRule implements Rule {
      * Returns a DesignWizard's instance with the design.
      * @return A DesignWizard's instance with the design.
      */
-    protected DesignWizard getDesignWizard() {
+    protected final DesignWizard getDesignWizard() {
         return this.designWizard;
     }
 
     /**
      * Checks if the set {@link AbstractDesignRule#getClassNodes()} attends the rule.
+     * @return True if all classNodes attends the rule.
      * @see org.designwizard.designrules.Rule#checkRule()
      */
     public abstract boolean checkRule();
@@ -116,7 +117,7 @@ public abstract class AbstractDesignRule implements Rule {
      * Returns the set of <code>ClassNode</code> objects that passed the rule.
      * @return A set of <code>ClassNode</code> objects or set empty.
      */
-    public Set<ClassNode> getResultsTrue() {
+    public final Set<ClassNode> getResultsTrue() {
         return resultsTrue;
     }
 
@@ -124,7 +125,7 @@ public abstract class AbstractDesignRule implements Rule {
      * Returns the set of <code>ClassNode</code> objects that did not pass the rule.
      * @return A set of <code>ClassNode</code> objects or set empty.
      */
-    public Set<ClassNode> getResultsFalse() {
+    public final Set<ClassNode> getResultsFalse() {
         return resultsFalse;
     }
 
@@ -178,12 +179,13 @@ public abstract class AbstractDesignRule implements Rule {
      * @param entityNode Entity that contains the field.
      * @return True if exists get method in the entity for the field.
      */
-    protected boolean hasGetMethod(FieldNode fieldNode, ClassNode entityNode) {
-        String name = fieldNode.getShortName();
+    protected final boolean hasGetMethod(final FieldNode fieldNode, final ClassNode entityNode) {
+        String shortFieldName = fieldNode.getShortName();
         ClassNode type = fieldNode.getType();
-        String getName = "get" + name.substring(0, 1).toUpperCase() + name.substring(1)+"()";
+        String methodGetField = "get" + shortFieldName.substring(0, 1).toUpperCase()
+                + shortFieldName.substring(1) + "()";
 
-        MethodNode methodNode = entityNode.getDeclaredMethod(getName);
+        MethodNode methodNode = entityNode.getDeclaredMethod(methodGetField);
 
         if (methodNode == null) {
             return false;
@@ -192,7 +194,7 @@ public abstract class AbstractDesignRule implements Rule {
         String methodName = methodNode.getShortName();
         ClassNode methodType = methodNode.getReturnType();
 
-        if (methodName.equals(getName) && methodType.equals(type)) {
+        if (methodName.equals(methodGetField) && methodType.equals(type)) {
             return true;
         }
 
@@ -203,15 +205,15 @@ public abstract class AbstractDesignRule implements Rule {
      * Returns the set of <code>ClassNode</code> objects where this design rule will be executed.
      * @return A set of <code>ClassNode</code> objects or set empty.
      */
-    public Set<ClassNode> getClassNodes() {
+    public final Set<ClassNode> getClassNodes() {
         return classNodes;
     }
 
     /**
      * Put a set of <code>ClassNode</code> objects where this design rule will be executed.
-     * @param classes A set of <code>ClassNode</code> objects where this design rule will be executed.
+     * @param classes A set of <code>ClassNode</code> objects.
      */
-    public void setClassNodes(Set<ClassNode> classes) {
+    public final void setClassNodes(final Set<ClassNode> classes) {
         resetCollections();
         if (checkClassNodes(classes)) {
             this.classNodes = classes;
@@ -264,12 +266,31 @@ public abstract class AbstractDesignRule implements Rule {
     }
 
     /**
+     * Checks if the report is empty.
+     * @return True if it's empty.
+     */
+    public final boolean isEmptyReport() {
+        if (this.getReport().equals("")) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Add new errors messages at the report.
+     * @param messages A string with errors messages.
+     */
+    protected final void addReport(final String messages) {
+        this.report += messages;
+    }
+
+    /**
      * Checks if the classNode implements or inherits from the Collection type of
      * the Java Collection Framework.
      * @param node A classNode.
      * @return True if the classNode implements or inherits from the Collection type.
      */
-    public boolean isCollection(ClassNode node) {
+    public final boolean isCollection(final ClassNode node) {
         if (collections.isCollection(node)) {
             return true;
         }
@@ -282,7 +303,7 @@ public abstract class AbstractDesignRule implements Rule {
      * @param node A classNode.
      * @return True if the classNode implements or inherits from the Set type.
      */
-    public boolean isSet(ClassNode node) {
+    public final boolean isSet(final ClassNode node) {
         if (collections.isSet(node)) {
             return true;
         }
@@ -295,7 +316,7 @@ public abstract class AbstractDesignRule implements Rule {
      * @param node A classNode.
      * @return True if the classNode implements or inherits from the List type.
      */
-    public boolean isList(ClassNode node) {
+    public final boolean isList(final ClassNode node) {
         if (collections.isList(node)) {
             return true;
         }
@@ -313,14 +334,23 @@ public abstract class AbstractDesignRule implements Rule {
      * @return  the <code>MethodNode</code> object of this class specified by
      * <code>name</code> or <code>null</code> if a method with the specified name is not found.
      */
-    protected MethodNode getMethod(ClassNode classNode, String methodName) {
+    protected final MethodNode getMethod(final ClassNode classNode, final String methodName) {
         for (MethodNode method: classNode.getAllMethods()) {
-            if (method.getShortName().equals(methodName)) return method;
+            if (method.getShortName().equals(methodName)) {
+                return method;
+            }
         }
         return null;
     }
 
-    protected MethodNode getEqualsMethod(ClassNode classNode) {
+    /**
+     * Returns a <code>MethodNode</code> object that reflects the specified equals method
+     * of the class or superClass represented by <code>ClassNode</code> object.
+     * @param classNode the <code>ClassNode</code> object that reflects the specified method.
+     * @return the <code>MethodNode</code> object of this class specified by
+     * <code>name</code> or <code>null</code> if a method with the specified name is not found.
+     */
+    protected final MethodNode getEqualsMethod(final ClassNode classNode) {
         MethodNode equalsMethod = classNode.getDeclaredMethod("equals(java.lang.Object)");
         ClassNode superClass = classNode.getSuperClass();
         if (equalsMethod == null && !getObjectClass().equals(superClass)) {
@@ -329,7 +359,14 @@ public abstract class AbstractDesignRule implements Rule {
         return equalsMethod;
     }
 
-    protected MethodNode getHashCodeMethod(ClassNode classNode) {
+    /**
+     * Returns a <code>MethodNode</code> object that reflects the specified hashCode method
+     * of the class or superClass represented by <code>ClassNode</code> object.
+     * @param classNode the <code>ClassNode</code> object that reflects the specified method.
+     * @return the <code>MethodNode</code> object of this class specified by
+     * <code>name</code> or <code>null</code> if a method with the specified name is not found.
+     */
+    protected final MethodNode getHashCodeMethod(final ClassNode classNode) {
         MethodNode hashCodeMethod = classNode.getDeclaredMethod("hashCode()");
         ClassNode superClass = classNode.getSuperClass();
         if (hashCodeMethod == null && !getObjectClass().equals(superClass)) {

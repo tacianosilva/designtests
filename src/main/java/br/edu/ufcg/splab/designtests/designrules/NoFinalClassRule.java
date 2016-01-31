@@ -24,7 +24,7 @@ public class NoFinalClassRule extends AbstractDesignRule implements Rule {
      * Builds the rule for the designwizard instance.
      * @param dw A {@link DesignWizard} instance.
      */
-    public NoFinalClassRule(DesignWizard dw) {
+    public NoFinalClassRule(final DesignWizard dw) {
         super(dw);
     }
 
@@ -34,7 +34,7 @@ public class NoFinalClassRule extends AbstractDesignRule implements Rule {
      * @see br.edu.ufcg.splab.designtests.designrules.AbstractDesignRule#checkRule()
      */
     @Override
-    public boolean checkRule() {
+    public final boolean checkRule() {
         Collection<ClassNode> classes = getClassNodes();
 
         for (ClassNode entityNode : classes) {
@@ -42,12 +42,13 @@ public class NoFinalClassRule extends AbstractDesignRule implements Rule {
             Collection<Modifier> modifiers = entityNode.getModifiers();
 
             if (modifiers.contains(Modifier.FINAL)) {
-                this.report += "The class <" + entityNode.getName() + "> can't to be a final class.\n";
+                this.addReport("The class <" + entityNode.getName()
+                    + "> can't to be a final class.\n");
                 addResultFalse(entityNode);
             } else {
                 addResultTrue(entityNode);
             }
         }
-        return this.report.equals("") ? true : false;
+        return this.isEmptyReport();
     }
 }

@@ -15,7 +15,8 @@ import org.designwizard.designrules.Rule;
  *
  * JPA requires that this constructor be defined as public or protected.
  *
- * See more on section 2.1.1 in <a href="https://docs.jboss.org/hibernate/orm/5.0/userGuide/en-US/html/ch02.html">
+ * See more on section 2.1.1 in
+ * <a href="https://docs.jboss.org/hibernate/orm/5.0/userGuide/en-US/html/ch02.html">
  * Hibernate Docs</a>.
  *
  * @author Taciano Morais Silva - tacianosilva@gmail.com
@@ -26,7 +27,7 @@ public class NoArgumentConstructorRule extends AbstractDesignRule implements Rul
      * Builds the rule for the designwizard instance.
      * @param dw A {@link DesignWizard} instance.
      */
-    public NoArgumentConstructorRule(DesignWizard dw) {
+    public NoArgumentConstructorRule(final DesignWizard dw) {
         super(dw);
     }
 
@@ -36,7 +37,7 @@ public class NoArgumentConstructorRule extends AbstractDesignRule implements Rul
      * @see br.edu.ufcg.splab.designtests.designrules.AbstractDesignRule#checkRule()
      */
     @Override
-    public boolean checkRule() {
+    public final boolean checkRule() {
         Collection<ClassNode> classes = getClassNodes();
 
         for (ClassNode entityNode : classes) {
@@ -54,12 +55,13 @@ public class NoArgumentConstructorRule extends AbstractDesignRule implements Rul
             }
 
             if (!passed) {
-                this.report += "The class <" + entityNode.getName() + "> doesn't contain a default constructor.\n";
+                this.addReport("The class <" + entityNode.getName()
+                    + "> doesn't contain a default constructor.\n");
                 addResultFalse(entityNode);
             } else {
                 addResultTrue(entityNode);
             }
         }
-        return this.report.equals("") ? true : false;
+        return this.isEmptyReport();
     }
 }

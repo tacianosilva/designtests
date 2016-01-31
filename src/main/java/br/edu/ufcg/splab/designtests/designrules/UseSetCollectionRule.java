@@ -16,12 +16,16 @@ import org.designwizard.design.FieldNode;
  */
 public class UseSetCollectionRule extends AbstractDesignRule {
 
-    public UseSetCollectionRule(DesignWizard dw) {
+    /**
+     * Initiates rule properties for software design in instance of the {@link DesignWizard}.
+     * @param dw The instance of the {@link DesignWizard} with the software design.
+     */
+    public UseSetCollectionRule(final DesignWizard dw) {
         super(dw);
     }
 
     @Override
-    public boolean checkRule() {
+    public final boolean checkRule() {
         Collection<ClassNode> allModelClasses = getClassNodes();
 
         for (ClassNode entityNode : allModelClasses) {
@@ -33,8 +37,10 @@ public class UseSetCollectionRule extends AbstractDesignRule {
                 ClassNode type = fieldNode.getType();
 
                 if (isCollection(type) && !isSet(type)) {
-                    this.report += "The field <" + fieldNode.getName() + "> of the class <" + fieldNode.getName()
-                            + " implements interface Collection but it doesn't implements interface Set.\n";
+                    this.addReport("The field <" + fieldNode.getName()
+                        + "> of the class <" + fieldNode.getName()
+                        + " implements interface Collection but "
+                        + "it doesn't implements interface Set.\n");
                     passed = false;
                     addResultFalse(entityNode);
                 }
@@ -46,6 +52,6 @@ public class UseSetCollectionRule extends AbstractDesignRule {
                 addResultTrue(entityNode);
             }
         }
-        return this.report.equals("") ? true : false;
+        return this.isEmptyReport();
     }
 }

@@ -30,7 +30,7 @@ public class ProvideIdentifierPropertyRule extends AbstractDesignRule implements
      * Builds the rule for the designwizard instance.
      * @param dw A {@link DesignWizard} instance.
      */
-    public ProvideIdentifierPropertyRule(DesignWizard dw) {
+    public ProvideIdentifierPropertyRule(final DesignWizard dw) {
         super(dw);
         this.util = new PersistenceRuleUtil();
     }
@@ -42,7 +42,7 @@ public class ProvideIdentifierPropertyRule extends AbstractDesignRule implements
      * @see br.edu.ufcg.splab.designtests.designrules.AbstractDesignRule#checkRule()
      */
     @Override
-    public boolean checkRule() {
+    public final boolean checkRule() {
         Collection<ClassNode> classes = getClassNodes();
 
         for (ClassNode entityNode : classes) {
@@ -50,13 +50,13 @@ public class ProvideIdentifierPropertyRule extends AbstractDesignRule implements
             FieldNode field = util.getIdentifierProperty(entityNode);
 
             if (field == null) {
-                this.report += "The class <" + entityNode.getName()
-                            + " doesn't provide identifier property.\n";
+                this.addReport("The class <" + entityNode.getName()
+                            + " doesn't provide identifier property.\n");
                 addResultFalse(entityNode);
             } else {
                 addResultTrue(entityNode);
             }
         }
-        return this.report.equals("") ? true : false;
+        return this.isEmptyReport();
     }
 }

@@ -19,21 +19,31 @@ import br.edu.ufcg.splab.designtests.util.PersistenceRuleUtil;
  *
  * @author Taciano Morais Silva - tacianosilva@gmail.com
  */
-public class HashCodeAndEqualsNotUseIdentifierPropertyRule extends AbstractDesignRule implements Rule {
+public class HashCodeAndEqualsNotUseIdentifierPropertyRule extends AbstractDesignRule
+    implements Rule {
 
+    /**
+     * Class with functions for extracting information of persistent classes.
+     */
     private PersistenceRuleUtil util;
 
-    public HashCodeAndEqualsNotUseIdentifierPropertyRule(DesignWizard dw) {
+    /**
+     * Initiates rule properties for software design in instance of the {@link DesignWizard}.
+     * @param dw The instance of the {@link DesignWizard} with the software design.
+     */
+    public HashCodeAndEqualsNotUseIdentifierPropertyRule(final DesignWizard dw) {
         super(dw);
         this.util = new PersistenceRuleUtil();
     }
 
     /**
-     * Check if the equals(java.lang.Object) method and hashCode() method access the identifier field.
-     * @return True if exists methods and if it doesn't access the identifier field. Otherwise, returns false.
+     * Check if the equals(java.lang.Object) method and hashCode() method access
+     * the identifier field.
+     * @return True if exists methods and if it doesn't access the identifier field.
+     * Otherwise, returns false.
      */
     @Override
-    public boolean checkRule() {
+    public final boolean checkRule() {
         Set<ClassNode> classes = getClassNodes();
 
         for (ClassNode entityNode : classes) {
@@ -55,26 +65,28 @@ public class HashCodeAndEqualsNotUseIdentifierPropertyRule extends AbstractDesig
 
             boolean contem = false;
             if (accessedFieldsEquals != null && accessedFieldsEquals.contains(field)) {
-                this.report += "The class <" + entityNode.getName() + "> contains the identifier property <"
-                        + field.getShortName() + "> in the equals method.\n";
+                this.addReport("The class <" + entityNode.getName()
+                    + "> contains the identifier property <"
+                    + field.getShortName() + "> in the equals method.\n");
                 contem = true;
             }
 
             if (accessedFieldsHash != null && accessedFieldsHash.contains(field)) {
-                this.report += "The class <" + entityNode.getName() + "> contains the identifier property <"
-                        + field.getShortName() + "> in the hashCode method.\n";
+                this.addReport("The class <" + entityNode.getName()
+                    + "> contains the identifier property <"
+                    + field.getShortName() + "> in the hashCode method.\n");
                 contem = true;
             }
             // Verificar a presença dos métodos hashCode e Equals
             HashCodeAndEqualsRule rule = new HashCodeAndEqualsRule(getDesignWizard());
             rule.setClassNode(entityNode);
             if (contem || !rule.checkRule()) {
-                this.report += rule.getReport();
+                this.addReport(rule.getReport());
                 addResultFalse(entityNode);
             } else {
                 addResultTrue(entityNode);
             }
         }
-        return this.report.equals("") ? true : false;
+        return this.isEmptyReport();
     }
 }
