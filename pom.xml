@@ -11,7 +11,7 @@
 
     <groupId>br.edu.ufcg.splab</groupId>
     <artifactId>designtests</artifactId>
-    <version>0.9.0</version>
+    <version>0.9.1</version>
 
     <name>${project.groupId}:${project.artifactId}</name>
     <description>API for Automatic verification with Design Rules for Java and Hibernate</description>
@@ -162,7 +162,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.6</version>
             </plugin>
-            <plugin>
+            <!-- plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>1.6</version>
@@ -175,7 +175,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
