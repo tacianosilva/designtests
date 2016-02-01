@@ -22,7 +22,7 @@ public class PersistenceRuleUtil {
      * @param entity A classNode instance.
      * @return The identifier field or <code>Null</code>.
      */
-    public FieldNode getIdentifierProperty(ClassNode entity) {
+    public final FieldNode getIdentifierProperty(final ClassNode entity) {
         Set<FieldNode> declaredFields = entity.getAllFields();
         for (FieldNode fieldNode : declaredFields) {
             Set<ClassNode> annotations = fieldNode.getAnnotations();
@@ -43,12 +43,13 @@ public class PersistenceRuleUtil {
      * parameter wasn't an annotation.
      * @throws InexistentEntityException if the annotation cannot be located.
      */
-    public Set<ClassNode> getClassesAnnotated(DesignWizard dw, String annotationName) throws InexistentEntityException {
+    public final Set<ClassNode> getClassesAnnotated(final DesignWizard dw, final String annotationName)
+            throws InexistentEntityException {
         Set<ClassNode> classes = new HashSet<ClassNode>();
         Set<Entity> entities = dw.getEntitiesAnnotatedBy(annotationName);
         for (Entity entity : entities) {
             if (entity.getTypeOfEntity().equals(TypesOfEntities.CLASS)) {
-                classes.add((ClassNode)entity);
+                classes.add((ClassNode) entity);
             }
         }
         return classes;
