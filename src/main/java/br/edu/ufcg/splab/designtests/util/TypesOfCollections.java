@@ -5,15 +5,41 @@ import java.util.Set;
 
 import org.designwizard.design.ClassNode;
 
+/**
+ * Utility class with functions related to collections to facilitate
+ * the implementation of design rules.
+ * @author Taciano Morais Silva - tacianosilva@gmail.com
+ */
 public class TypesOfCollections {
 
+    /**
+     * ClassNode for represents the {@link java.util.Set} interface.
+     */
     public static final ClassNode SET = new ClassNode("java.util.Set");
+
+    /**
+     * ClassNode for represents the {@link java.util.List} interface.
+     */
     public static final ClassNode LIST = new ClassNode("java.util.List");
 
+    /**
+     * A Set with all names of collections classes.
+     */
     private Set<String> collections;
+
+    /**
+     * A Set with all classes names of the type <code>Set</code>.
+     */
     private Set<String> sets;
+
+    /**
+     * A Set with all classes names of the type <code>List</code>.
+     */
     private Set<String> lists;
 
+    /**
+     * Extract all informations of the collections classes.
+     */
     public TypesOfCollections() {
         this.collections = new HashSet<String>();
         this.sets = new HashSet<String>();
@@ -73,42 +99,72 @@ public class TypesOfCollections {
         this.collections.addAll(lists);
     }
 
-    public boolean isCollection(ClassNode node) {
+    /**
+     * Checks if the classNode represents a java collection.
+     * @param node A classNode.
+     * @return True if if the classNode is a java collection.
+     */
+    public final boolean isCollection(final ClassNode node) {
         if (node != null && collections.contains(node.getName())) {
             return true;
         }
         return false;
     }
 
-    public boolean isCollection(String name) {
+    /**
+     * Checks if the class name represents a java collection.
+     * @param name A complete class name with your package.
+     * @return True if if the class is a java collection.
+     */
+    public final boolean isCollection(final String name) {
         if (name != null && collections.contains(name)) {
             return true;
         }
         return false;
     }
 
-    public boolean isSet(ClassNode node) {
+    /**
+     * Checks if the classNode represents a collection of the Set type.
+     * @param node A classNode.
+     * @return True if if the classNode is a Set.
+     */
+    public final boolean isSet(final ClassNode node) {
         if (node != null && sets.contains(node.getName())) {
             return true;
         }
         return false;
     }
 
-    public boolean isSet(String name) {
+    /**
+     * Checks if the class name represents a collection of the Set type.
+     * @param  name A complete class name with your package.
+     * @return True if if the class name is a Set.
+     */
+    public final boolean isSet(final String name) {
         if (name != null && sets.contains(name)) {
             return true;
         }
         return false;
     }
 
-    public boolean isList(ClassNode node) {
+    /**
+     * Checks if the classNode represents a collection of the List type.
+     * @param node A classNode.
+     * @return True if if the classNode is a List.
+     */
+    public final boolean isList(final ClassNode node) {
         if (node != null && lists.contains(node.getName())) {
             return true;
         }
         return false;
     }
 
-    public boolean isList(String name) {
+    /**
+     * Checks if the class name represents a collection of the List type.
+     * @param  name A complete class name with your package.
+     * @return True if if the class name is a List.
+     */
+    public final boolean isList(final String name) {
         if (name != null && lists.contains(name)) {
             return true;
         }

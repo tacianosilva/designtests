@@ -43,8 +43,8 @@ public class PersistenceRuleUtil {
      * parameter wasn't an annotation.
      * @throws InexistentEntityException if the annotation cannot be located.
      */
-    public final Set<ClassNode> getClassesAnnotated(final DesignWizard dw, final String annotationName)
-            throws InexistentEntityException {
+    public final Set<ClassNode> getClassesAnnotated(final DesignWizard dw,
+            final String annotationName) throws InexistentEntityException {
         Set<ClassNode> classes = new HashSet<ClassNode>();
         Set<Entity> entities = dw.getEntitiesAnnotatedBy(annotationName);
         for (Entity entity : entities) {
