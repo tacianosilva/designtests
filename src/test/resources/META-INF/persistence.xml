@@ -20,10 +20,6 @@
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/designtests_db" />
 
-            <!-- Dev Local Database -->
-            <!-- property name="javax.persistence.jdbc.user" value="designtests" / -->
-            <!-- property name="javax.persistence.jdbc.password" value="12345" / -->
-
             <property name="javax.persistence.jdbc.user" value="travis" />
             <property name="javax.persistence.jdbc.password" value="" />
 
