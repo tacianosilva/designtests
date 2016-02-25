@@ -41,7 +41,8 @@ public class HibernateDesignTests {
     @BeforeClass
     public void setUp() throws Exception {
         // Design for all classes in the project.
-        dw = new DesignWizard("target/classes/");
+        // Add here binary code or jar file of the project.
+        dw = new DesignWizard("target/test-classes/");
         // Persistence classes of the model package of the project.
         entities = util.getClassesAnnotated(dw, "javax.persistence.Entity");
     }
@@ -60,12 +61,13 @@ public class HibernateDesignTests {
     /**
      * The test verifies all entities if they follows the Rule:
      * Override both equals(java.lang.Object) and hashCode().
+     * @see HashCodeAndEqualsRule
      */
     public void testHashCodeAndEqualsRuleAll() {
         rule = new HashCodeAndEqualsRule(dw);
         rule.setClassNodes(entities);
-        softAssert.assertTrue(rule.checkRule(), "\ncheckRule Failed");
-        softAssert.assertEquals("", rule.getReport(), "\nreport: \n" + rule.getReport());
+        softAssert.assertTrue(rule.checkRule(), "\ncheckRule Failed: ");
+        softAssert.assertEquals(rule.getReport(), "", "\nreport: ");
 
         softAssert.assertAll();
     }
@@ -73,13 +75,14 @@ public class HibernateDesignTests {
     /**
      * The test verifies each persistence entity if they follows the Rule:
      * Override both equals(java.lang.Object) and hashCode().
+     * @see HashCodeAndEqualsRule
      */
     public void testHashCodeAndEqualsRule() {
         rule = new HashCodeAndEqualsRule(dw);
         for (ClassNode entity : entities) {
             rule.setClassNode(entity);
-            softAssert.assertTrue(rule.checkRule(), "\nEntityFailed: " + entity.getShortName());
-            softAssert.assertEquals("", rule.getReport(), "\nreport: \n" + rule.getReport());
+            softAssert.assertTrue(rule.checkRule(), "\nEntity <" + entity.getShortName() + "> Failed: ");
+            softAssert.assertEquals(rule.getReport(), "", "\nreport: ");
         }
         softAssert.assertAll();
     }
@@ -94,8 +97,8 @@ public class HibernateDesignTests {
         rule = new NoFinalClassRule(dw);
         for (ClassNode entity : entities) {
             rule.setClassNode(entity);
-            softAssert.assertTrue(rule.checkRule(), "\nEntityFailed: " + entity.getShortName());
-            softAssert.assertEquals("", rule.getReport(), "\nreport: \n" + rule.getReport());
+            softAssert.assertTrue(rule.checkRule(), "\nEntity <" + entity.getShortName() + "> Failed: ");
+            softAssert.assertEquals(rule.getReport(), "", "\nreport: ");
         }
         softAssert.assertAll();
     }
@@ -111,8 +114,8 @@ public class HibernateDesignTests {
         rule = new NoArgumentConstructorRule(dw);
         for (ClassNode entity : entities) {
             rule.setClassNode(entity);
-            softAssert.assertTrue(rule.checkRule(), "\nEntityFailed: " + entity.getShortName());
-            softAssert.assertEquals("", rule.getReport(), "\nreport: \n" + rule.getReport());
+            softAssert.assertTrue(rule.checkRule(), "\nEntity <" + entity.getShortName() + "> Failed: ");
+            softAssert.assertEquals(rule.getReport(), "", "\nreport: ");
         }
         softAssert.assertAll();
     }
@@ -126,8 +129,8 @@ public class HibernateDesignTests {
         rule = new ImplementsSerializableRule(dw);
         for (ClassNode entity : entities) {
             rule.setClassNode(entity);
-            softAssert.assertTrue(rule.checkRule(), "\nEntityFailed: " + entity.getShortName());
-            softAssert.assertEquals("", rule.getReport(), "\nreport: \n" + rule.getReport());
+            softAssert.assertTrue(rule.checkRule(), "\nEntity <" + entity.getShortName() + "> Failed: ");
+            softAssert.assertEquals(rule.getReport(), "", "\nreport: ");
         }
         softAssert.assertAll();
     }
@@ -141,8 +144,8 @@ public class HibernateDesignTests {
         rule = new ProvideGetsSetsFieldsRule(dw);
         for (ClassNode entity : entities) {
             rule.setClassNode(entity);
-            softAssert.assertTrue(rule.checkRule(), "\nEntityFailed: " + entity.getShortName());
-            softAssert.assertEquals("", rule.getReport(), "\nreport: \n" + rule.getReport());
+            softAssert.assertTrue(rule.checkRule(), "\nEntity <" + entity.getShortName() + "> Failed: ");
+            softAssert.assertEquals(rule.getReport(), "", "\nreport: ");
         }
         softAssert.assertAll();
     }
@@ -156,8 +159,8 @@ public class HibernateDesignTests {
         rule = new ProvideIdentifierPropertyRule(dw);
         for (ClassNode entity : entities) {
             rule.setClassNode(entity);
-            softAssert.assertTrue(rule.checkRule(), "\nEntityFailed: " + entity.getShortName());
-            softAssert.assertEquals("", rule.getReport(), "\nreport: \n" + rule.getReport());
+            softAssert.assertTrue(rule.checkRule(), "\nEntity <" + entity.getShortName() + "> Failed: ");
+            softAssert.assertEquals(rule.getReport(), "", "\nreport: ");
         }
         softAssert.assertAll();
     }
@@ -171,8 +174,8 @@ public class HibernateDesignTests {
         rule = new UseInterfaceSetOrListRule(dw);
         for (ClassNode entity : entities) {
             rule.setClassNode(entity);
-            softAssert.assertTrue(rule.checkRule(), "\nEntityFailed: " + entity.getShortName());
-            softAssert.assertEquals("", rule.getReport(), "\nreport: \n" + rule.getReport());
+            softAssert.assertTrue(rule.checkRule(), "\nEntity <" + entity.getShortName() + "> Failed: ");
+            softAssert.assertEquals(rule.getReport(), "", "\nreport: ");
         }
         softAssert.assertAll();
     }
@@ -180,13 +183,14 @@ public class HibernateDesignTests {
     /**
      * The test verifies each persistence entity if they follows the Rule:
      * Declaration of Collection of the type List in classes of the Model Package.
+     * @see UseListCollectionRule
      */
     public void testUseListCollectionRule() {
         rule = new UseListCollectionRule(dw);
         for (ClassNode entity : entities) {
             rule.setClassNode(entity);
-            softAssert.assertTrue(rule.checkRule(), "\nEntityFailed: " + entity.getShortName());
-            softAssert.assertEquals("", rule.getReport(), "\nreport: \n" + rule.getReport());
+            softAssert.assertTrue(rule.checkRule(), "\nEntity <" + entity.getShortName() + "> Failed: ");
+            softAssert.assertEquals(rule.getReport(), "", "\nreport: ");
         }
         softAssert.assertAll();
     }
@@ -194,13 +198,14 @@ public class HibernateDesignTests {
     /**
      * The test verifies each persistence entity if they follows the Rule:
      * Declaration of Collection of the type Set in classes of the Model Package.
+     * @see UseSetCollectionRule
      */
     public void testUseSetCollectionRule() {
         rule = new UseSetCollectionRule(dw);
         for (ClassNode entity : entities) {
             rule.setClassNode(entity);
-            softAssert.assertTrue(rule.checkRule(), "\nEntityFailed: " + entity.getShortName());
-            softAssert.assertEquals("", rule.getReport(), "\nreport: \n" + rule.getReport());
+            softAssert.assertTrue(rule.checkRule(), "\nEntity <" + entity.getShortName() + "> Failed: ");
+            softAssert.assertEquals(rule.getReport(), "", "\nreport: ");
         }
         softAssert.assertAll();
     }

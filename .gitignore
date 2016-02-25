@@ -3,3 +3,4 @@
 /jars/
 /scripts/repos/
 /.travis.yml~
+/test-output/
