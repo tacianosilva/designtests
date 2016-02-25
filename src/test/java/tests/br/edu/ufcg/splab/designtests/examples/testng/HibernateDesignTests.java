@@ -24,6 +24,7 @@ import br.edu.ufcg.splab.designtests.util.PersistenceRuleUtil;
 
 /**
  * Test class with the verification of design rules recommended by the hibernate for persistent classes.
+ * This Unit Test Example use TestNG Framework.
  * @author Taciano Morais Silva - tacianosilva@gmail.com
  */
 @Test
