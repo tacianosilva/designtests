@@ -200,6 +200,9 @@ public class PersistenceCollectionTest {
         EntityE e1 = createEntityE("E1");
         EntityE e2 = createEntityE("E2");
 
+        EntityB b1 = createEntityB("B1");
+        EntityB b2 = createEntityB("B2");
+
         // TODO Deveria ser diferente (retornar False)
         assertTrue("0", e1.equals(e2));
 
@@ -208,12 +211,22 @@ public class PersistenceCollectionTest {
         // has id=null, too so overwrites last added object.
         entity.getEntityESet().add(e2);
 
+        entity.getCollectionB().add(b1);
+        entity.getCollectionB().add(b2);
+
         System.out.println("e1.id:>>>>>>> " + e1.getId());
         System.out.println("e1.hash:>>>>>>> " + e1.hashCode());
         System.out.println("e2.id:>>>>>>> " + e2.getId());
         System.out.println("e2.hash:>>>>>>> " + e2.hashCode());
 
         manager.getTransaction().commit();
+
+      //Para verificar o tipo de Persist Collection usada pelo Hibernate
+        Object tipo = entity.getEntityESet().getClass();
+        System.out.println("Tipo Set ==> " + tipo);
+
+        tipo = entity.getCollectionB().getClass();
+        System.out.println("Tipo Collection ==> " + tipo);
 
         System.out.println("e1.id:>>>>>>> " + e1.getId());
         System.out.println("e1.hash:>>>>>>> " + e1.hashCode());

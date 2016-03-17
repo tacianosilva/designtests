@@ -42,6 +42,9 @@ public class EntityD implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
     private Set<EntityE> entityESet = new HashSet<EntityE>();
 
+    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+    private Collection<EntityB> collectionB = new HashSet<EntityB>();
+
     public EntityD(String name) {
         this.name = name;
     }
@@ -68,5 +71,13 @@ public class EntityD implements Serializable {
 
     public void setEntityESet(Set<EntityE> entityESet) {
         this.entityESet = entityESet;
+    }
+
+    public Collection<EntityB> getCollectionB() {
+        return this.collectionB;
+    }
+
+    public void setCollectionB(Collection<EntityB> collection) {
+        this.collectionB = collection;
     }
 }
