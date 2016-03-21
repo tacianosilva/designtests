@@ -21,7 +21,17 @@ public abstract class AbstractDesignRule implements Rule {
     /**
      * ClassNode for represents the {@link Object} class.
      */
-    private final ClassNode objectClass = new ClassNode("java.lang.Object");
+    private final ClassNode OBJECT_CLASS = new ClassNode("java.lang.Object");
+
+    /**
+     * ClassNode for represents the boolean primitive type.
+     */
+    private final ClassNode BOOLEAN_PRIMITIVE = new ClassNode("boolean");
+
+    /**
+     * ClassNode for represents the {@link Boolean} class.
+     */
+    private final ClassNode BOOLEAN_CLASS = new ClassNode("java.lang.Boolean");
 
     /**
      * Facts of the Software Design.
@@ -95,7 +105,7 @@ public abstract class AbstractDesignRule implements Rule {
      * @return A ClassNode for <code>java.lang.Object</code>.
      */
     public final ClassNode getObjectClass() {
-        return this.objectClass;
+        return this.OBJECT_CLASS;
     }
 
     /**
@@ -182,7 +192,15 @@ public abstract class AbstractDesignRule implements Rule {
     protected final boolean hasGetMethod(final FieldNode fieldNode, final ClassNode entityNode) {
         String shortFieldName = fieldNode.getShortName();
         ClassNode type = fieldNode.getType();
-        String methodGetField = "get" + shortFieldName.substring(0, 1).toUpperCase()
+        String strGetOrIs = "";
+
+        if (type != null && (type.equals(BOOLEAN_PRIMITIVE) || type.equals(BOOLEAN_CLASS))) {
+            strGetOrIs = "is";
+        } else {
+            strGetOrIs = "get";
+        }
+
+        String methodGetField = strGetOrIs + shortFieldName.substring(0, 1).toUpperCase()
                 + shortFieldName.substring(1) + "()";
 
         MethodNode methodNode = entityNode.getDeclaredMethod(methodGetField);

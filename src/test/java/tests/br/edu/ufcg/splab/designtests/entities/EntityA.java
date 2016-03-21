@@ -36,6 +36,12 @@ public class EntityA implements Serializable {
     @Column
     private String name;
 
+    @Column
+    private Boolean verified;
+
+    @Column
+    private boolean confirmed;
+
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
     private Set<EntityB> entityBSet = new HashSet<EntityB>();
 
@@ -108,5 +114,21 @@ public class EntityA implements Serializable {
 
     public void setEntityESortedSet(SortedSet<EntityE> entityESortedSet) {
         this.entityESortedSet = entityESortedSet;
+    }
+
+    public void setVerified(Boolean bool) {
+        this.verified = bool;
+    }
+
+    public Boolean isVerified() {
+        return this.verified;
+    }
+
+    public void setConfirmed(boolean bool) {
+        this.verified = bool;
+    }
+
+    public boolean isConfirmed() {
+        return this.verified;
     }
 }

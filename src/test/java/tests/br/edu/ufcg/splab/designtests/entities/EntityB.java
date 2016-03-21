@@ -27,6 +27,12 @@ public class EntityB implements Serializable {
     private String name;
 
     @Column
+    private Boolean verified;
+
+    @Column
+    private boolean confirmed;
+
+    @Column
     @ElementCollection(fetch=FetchType.EAGER)
     private List<String> collectionList;
 
