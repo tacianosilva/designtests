@@ -10,7 +10,7 @@
 
     <groupId>br.edu.ufcg.splab</groupId>
     <artifactId>designtests</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <name>${project.groupId}:${project.artifactId}</name>
     <description>API for Automatic verification with Design Rules for Java and Hibernate</description>
