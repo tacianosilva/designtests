@@ -262,6 +262,11 @@ public class PersistenceCollectionTest {
 
         EntityA entity = manager.find(EntityA.class, a.getId());
 
+        EntityB b1 = createEntityB("Set-B1");
+        EntityB b2 = createEntityB("Set-B2");
+        EntityB b3 = createEntityB("Set-B3");
+        EntityB b4 = createEntityB("Set-B4");
+
         // EntityE implemententa hashCode/Equals usando HashCodeBuilder
         EntityE e1 = createEntityE("List-E1");
         EntityE e2 = createEntityE("List-E2");
@@ -272,6 +277,11 @@ public class PersistenceCollectionTest {
         assertTrue("Equals-0", e1.equals(e2));
         // São iguais, id = null e mesmo nome.
         assertTrue("Equals-1", e3.equals(e4));
+
+        entity.getEntityBSet().add(b1);
+        entity.getEntityBSet().add(b2);
+        entity.getEntityBSet().add(b3);
+        entity.getEntityBSet().add(b4);
 
         // adds a new EntityB with id = null or id = 0
         entity.getEntityEList().add(e1);
@@ -309,8 +319,14 @@ public class PersistenceCollectionTest {
         assertTrue("test-5", conjuntoE.contains(e3));
         assertTrue("test-6", conjuntoE.contains(e4));
 
+        // Exemplo de remoção de uma coleção do Tipo List
         manager.getTransaction().begin();
-        a.getEntityEList().remove(0);
+        a.getEntityEList().remove(e2);
+        manager.getTransaction().commit();
+
+        // Exemplo de remoção de uma coleção do Tipo Set
+        manager.getTransaction().begin();
+        a.getEntityBSet().remove(b2);
         manager.getTransaction().commit();
 
         manager.getTransaction().begin();
