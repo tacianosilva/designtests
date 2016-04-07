@@ -21,17 +21,17 @@ public abstract class AbstractDesignRule implements Rule {
     /**
      * ClassNode for represents the {@link Object} class.
      */
-    private final ClassNode OBJECT_CLASS = new ClassNode("java.lang.Object");
+    private static final ClassNode OBJECT_CLASS = new ClassNode("java.lang.Object");
 
     /**
      * ClassNode for represents the boolean primitive type.
      */
-    private final ClassNode BOOLEAN_PRIMITIVE = new ClassNode("boolean");
+    private static final ClassNode BOOLEAN_PRIMITIVE = new ClassNode("boolean");
 
     /**
      * ClassNode for represents the {@link Boolean} class.
      */
-    private final ClassNode BOOLEAN_CLASS = new ClassNode("java.lang.Boolean");
+    private static final ClassNode BOOLEAN_CLASS = new ClassNode("java.lang.Boolean");
 
     /**
      * Facts of the Software Design.
@@ -78,8 +78,8 @@ public abstract class AbstractDesignRule implements Rule {
         this.classNodes = null;
         this.report = "";
         this.collections = new TypesOfCollections();
-        this.resultsTrue = new HashSet<ClassNode>();
-        this.resultsFalse = new HashSet<ClassNode>();
+        this.resultsTrue = new HashSet<>();
+        this.resultsFalse = new HashSet<>();
     }
 
     /**
@@ -105,7 +105,7 @@ public abstract class AbstractDesignRule implements Rule {
      * @return A ClassNode for <code>java.lang.Object</code>.
      */
     public final ClassNode getObjectClass() {
-        return this.OBJECT_CLASS;
+        return OBJECT_CLASS;
     }
 
     /**
@@ -192,7 +192,7 @@ public abstract class AbstractDesignRule implements Rule {
     protected final boolean hasGetMethod(final FieldNode fieldNode, final ClassNode entityNode) {
         String shortFieldName = fieldNode.getShortName();
         ClassNode type = fieldNode.getType();
-        String strGetOrIs = "";
+        String strGetOrIs;
 
         if (type != null && (type.equals(BOOLEAN_PRIMITIVE) || type.equals(BOOLEAN_CLASS))) {
             strGetOrIs = "is";
@@ -242,9 +242,9 @@ public abstract class AbstractDesignRule implements Rule {
      * Resets collections fields.
      */
     private void resetCollections() {
-        this.classNodes = new HashSet<ClassNode>();
-        this.resultsTrue = new HashSet<ClassNode>();
-        this.resultsFalse = new HashSet<ClassNode>();
+        this.classNodes = new HashSet<>();
+        this.resultsTrue = new HashSet<>();
+        this.resultsFalse = new HashSet<>();
         this.report = "";
     }
 
@@ -254,7 +254,7 @@ public abstract class AbstractDesignRule implements Rule {
     */
     public final void setClassNode(final ClassNode classe) {
         resetCollections();
-        Set<ClassNode> classes = new HashSet<ClassNode>();
+        Set<ClassNode> classes = new HashSet<>();
         classes.add(classe);
         if (checkClassNodes(classes)) {
             this.classNodes = classes;
@@ -288,7 +288,7 @@ public abstract class AbstractDesignRule implements Rule {
      * @return True if it's empty.
      */
     public final boolean isEmptyReport() {
-        if (this.getReport().equals("")) {
+        if ("".equals(this.getReport())) {
             return true;
         }
         return false;

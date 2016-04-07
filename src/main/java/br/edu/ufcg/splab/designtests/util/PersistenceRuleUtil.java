@@ -45,7 +45,7 @@ public class PersistenceRuleUtil {
      */
     public final Set<ClassNode> getClassesAnnotated(final DesignWizard dw,
             final String annotationName) throws InexistentEntityException {
-        Set<ClassNode> classes = new HashSet<ClassNode>();
+        Set<ClassNode> classes = new HashSet<>();
         Set<Entity> entities = dw.getEntitiesAnnotatedBy(annotationName);
         for (Entity entity : entities) {
             if (entity.getTypeOfEntity().equals(TypesOfEntities.CLASS)) {

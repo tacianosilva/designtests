@@ -41,9 +41,9 @@ public class TypesOfCollections {
      * Extract all informations of the collections classes.
      */
     public TypesOfCollections() {
-        this.collections = new HashSet<String>();
-        this.sets = new HashSet<String>();
-        this.lists = new HashSet<String>();
+        this.collections = new HashSet<>();
+        this.sets = new HashSet<>();
+        this.lists = new HashSet<>();
 
         // Hierarquia de Interfaces do Collection
         this.collections.add("java.util.Collection");
