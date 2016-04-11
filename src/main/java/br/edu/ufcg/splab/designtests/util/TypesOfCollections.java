@@ -13,9 +13,14 @@ import org.designwizard.design.ClassNode;
 public class TypesOfCollections {
 
     /**
+     * String for represents the {@link java.util.Set} name interface.
+     */
+    public static final String SET_NAME = "java.util.Set";
+
+    /**
      * ClassNode for represents the {@link java.util.Set} interface.
      */
-    public static final ClassNode SET = new ClassNode("java.util.Set");
+    public static final ClassNode SET = new ClassNode(SET_NAME);
 
     /**
      * ClassNode for represents the {@link java.util.List} interface.
@@ -55,8 +60,8 @@ public class TypesOfCollections {
         this.lists.add("java.util.List");
         this.sets.add("java.util.NavigableSet");
         this.collections.add("java.util.Queue");
-        this.collections.add("java.util.Set");
-        this.sets.add("java.util.Set");
+        this.collections.add(SET_NAME);
+        this.sets.add(SET_NAME);
         this.sets.add("java.util.SortedSet");
         this.collections.add("java.util.TransferQueue");
 
