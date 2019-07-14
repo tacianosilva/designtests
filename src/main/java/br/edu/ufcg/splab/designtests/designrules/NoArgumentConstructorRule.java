@@ -16,7 +16,7 @@ import org.designwizard.designrules.Rule;
  * JPA requires that this constructor be defined as public or protected.
  *
  * See more on section 2.1.1 in
- * <a href="https://docs.jboss.org/hibernate/orm/5.0/userGuide/en-US/html/ch02.html">
+ * <a href="https://docs.jboss.org/hibernate/orm/5.0/userguide/en-US/html/ch02.html#domainmodel-pojo">
  * Hibernate Docs</a>.
  *
  * @author Taciano Morais Silva - tacianosilva@gmail.com
